@@ -10,19 +10,28 @@
   </view>
 
   <view class="about-item">
+
     <view class="item-left">
-      <label>项目地址: </label>
-       <text>{{shopInfo.address}}</text> 
+      <label>公司名称: </label>
+       <text>{{shopInfo.companyName}}</text> 
     </view>
 
-    <view class="item-right" bindtap="showLocation">
-      <image src="/static/images/ico-addr.png" class="right-icon"></image>
-    </view>
   </view>
 
   <view class="about-item">
     <view class="item-left">
-      <label>电话号码:    </label>
+      <label>官方网站: </label>
+       <text>{{shopInfo.website}}</text> 
+    </view>
+
+    <!-- <view class="item-right" bindtap="showLocation">
+      <image src="/static/images/ico-addr.png" class="right-icon"></image>
+    </view> -->
+  </view>
+
+  <view class="about-item">
+    <view class="item-left">
+      <label>联系电话:    </label>
        <text>{{shopInfo.linkPhone}}</text> 
     </view>
     <view class="item-right" bindtap="callPhone">
@@ -32,25 +41,8 @@
 
   <view class="about-item">
     <view class="item-left">
-      <label>QQ交流群: </label>
-       <text>{{shopInfo.qqNumber}}</text> 
-    </view>
-    <view class="item-right">
-      <image src="/static/images/mobile.png" class="right-icon"></image>
-    </view>
-  </view>
-
-  <view class="about-item">
-    <view class="item-left">
       <label>当前版本: </label>
-       <text>1.0.0</text> 
-    </view>
-  </view>
-
-  <view class="about-item">
-    <view class="item-left">
-      <label>开源协议: </label>
-       <text>MIT</text> 
+       <text>{{shopInfo.version}}</text> 
     </view>
   </view>
 

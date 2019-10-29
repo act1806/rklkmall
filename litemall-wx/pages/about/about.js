@@ -12,12 +12,13 @@ Page({
   data: {
     load_statue: true,
     shopInfo: {
-      name: 'litemall',
-      address: 'https://github.com/linlinjava/litemall',
+      name: '荣科利康小程序商城',
+      companyName:'北京荣科利康科技有限公司',
+      website: 'https://www.bj-rklk.com',
       latitude: 31.201900,
       longitude: 121.587839,
-      linkPhone: '021-xxxx-xxxx',
-      qqNumber: '738696120'
+      linkPhone: 'xxx-xxxx-xxxx',
+      version: '1.0.0'
     },
   },
 
