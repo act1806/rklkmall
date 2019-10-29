@@ -206,6 +206,11 @@ Page({
       url: '/pages/help/help'
     });
   },  
+  goThirdCheck: function () {
+    wx.navigateTo({
+      url: '/pages/thirdCheck/thirdCheck'
+    });
+  },  
   exitLogin: function() {
     wx.showModal({
       title: '',
