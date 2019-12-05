@@ -81,4 +81,14 @@ public class CouponVerifyService {
         return coupon;
     }
 
+    /**
+     * 检测用户可用的活动
+     *
+     * @param userId
+     * @param goodsId
+     * @return
+     */
+    public LitemallCoupon checkCoupon(Integer userId, Integer goodsId) {
+        return couponService.checkCoupon(userId, goodsId);
+    }
 }

@@ -149,4 +149,6 @@ public interface LitemallCouponMapper {
      * @mbg.generated
      */
     int logicalDeleteByPrimaryKey(Integer id);
+
+    LitemallCoupon checkCoupon(Integer userId, Integer goodsId);
 }

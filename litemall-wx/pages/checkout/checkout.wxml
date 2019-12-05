@@ -26,16 +26,16 @@
   <view class="coupon-box">
     <view class="coupon-item" bindtap="selectCoupon">
       <view class="l" wx:if="{{couponId == 0}}">
-        <text class="name">没有可用的优惠券</text>
-        <text class="txt">0张</text>
+        <text class="name">没有可用的活动</text>
+        <text class="txt">0个</text>
       </view>
       <view class="l" wx:elif="{{couponId == -1}}">
-        <text class="name">优惠券</text>
-        <text class="txt">{{availableCouponLength}}张</text>
+        <text class="name">活动</text>
+        <text class="txt">{{availableCouponLength}}个</text>
       </view>
       <view class="l" wx:else>
-        <text class="name">优惠券</text>
-        <text class="txt">-￥{{couponPrice}}元</text>
+        <text class="name">活动</text>
+        <text class="txt">{{availableCouponLength}}个</text>
       </view>      
       <view class="r">
         <image src="/static/images/address_right.png"></image>
@@ -64,14 +64,6 @@
         <text class="txt">￥{{freightPrice}}元</text>
       </view>
     </view>
-    <view class="order-item no-border">
-      <view class="l">
-        <text class="name">优惠券</text>
-      </view>
-      <view class="r">
-        <text class="txt">-￥{{couponPrice}}元</text>
-      </view>
-    </view>
   </view>
 
   <view class="goods-items">
@@ -86,12 +78,13 @@
         </view>
         <view class="m">{{item.specifications}}</view>
         <view class="b">￥{{item.price}}</view>
+        <view class="s">【活动】十送二,送{{item.presentNum}}盒，共计{{item.presentNum+item.number}}盒</view>
       </view>
     </view>
   </view>
 
   <view class="order-total">
     <view class="l">实付：￥{{actualPrice}}</view>
-    <view class="r" bindtap="submitOrder">去付款</view>
+    <view class="r" bindtap="submitOrder">下单</view>
   </view>
 </view>

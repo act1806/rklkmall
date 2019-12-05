@@ -434,12 +434,10 @@ public class WxCartController {
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
         for (LitemallCart cart : checkedGoodsList) {
-            //  只有当团购规格商品ID符合才进行团购优惠
-            if (grouponRules != null && grouponRules.getGoodsId().equals(cart.getGoodsId())) {
-                checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().subtract(grouponPrice).multiply(new BigDecimal(cart.getNumber())));
-            } else {
-                checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
-            }
+            checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
+            //符合活动的赠品数量
+            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cart.getGoodsId());
+            cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP));
         }
 
         // 计算优惠券可用情况
@@ -500,9 +498,9 @@ public class WxCartController {
         BigDecimal integralPrice = new BigDecimal(0.00);
 
         // 订单费用
-        BigDecimal orderTotalPrice = checkedGoodsPrice.add(freightPrice).subtract(couponPrice).max(new BigDecimal(0.00));
+        BigDecimal orderTotalPrice = checkedGoodsPrice.add(freightPrice);
 
-        BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
+        BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice).max(new BigDecimal(0.00));
 
         Map<String, Object> data = new HashMap<>();
         data.put("addressId", addressId);

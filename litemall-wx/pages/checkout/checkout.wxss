@@ -237,7 +237,7 @@ page {
 
 .goods-items .info {
   flex: 1;
-  height: 145.83rpx;
+  height: 165.83rpx;
   padding-top: 5rpx;
 }
 
@@ -276,6 +276,14 @@ page {
   line-height: 41rpx;
   font-size: 30rpx;
   color: #333;
+}
+
+.goods-items .s {
+  height: 41rpx;
+  overflow: hidden;
+  line-height: 41rpx;
+  font-size: 27rpx;
+  color: rgb(248, 115, 7);
 }
 
 .order-total {
