@@ -100,6 +100,16 @@ export const asyncRouterMap = [
         }
       },
       {
+        path: 'userConpon',
+        component: () => import('@/views/user/userCouponDetail'),
+        name: 'userConpon',
+        meta: {
+          perms: ['GET /admin/user/list'],
+          title: '会员活动管理',
+          noCache: true
+        }
+      },
+      {
         path: 'address',
         component: () => import('@/views/user/address'),
         name: 'address',
