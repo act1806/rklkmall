@@ -675,6 +675,7 @@
     select
     <include refid="Base_Column_List" />
     from litemall_coupon
-    where id in (select coupon_id from litemall_coupon_user where user_id = #{userId} and goods_id = #{goodsId})
+    where id in (select coupon_id from litemall_coupon_user where user_id = #{userId})
+    and total = #{goodsId})
   </select>
 </mapper>

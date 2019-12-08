@@ -83,6 +83,22 @@ public class AdminCouponController {
         return ResponseUtil.ok(coupon);
     }
 
+    /**
+     * 给特定用户分配优惠券
+     */
+    @PostMapping("saveCouponUser")
+    public Object receive(@RequestParam Integer id, @RequestBody List<LitemallCoupon> coupons) {
+        couponUserService.deleteByUserId(id);
+        for(LitemallCoupon lc : coupons){
+            LitemallCouponUser lcu = new LitemallCouponUser();
+            lcu.setCouponId(lc.getId());
+            lcu.setUserId(id);
+            couponUserService.add(lcu);
+        }
+
+        return ResponseUtil.ok();
+    }
+
     @RequiresPermissions("admin:coupon:read")
     @RequiresPermissionsDesc(menu = {"推广管理", "优惠券管理"}, button = "详情")
     @GetMapping("/read")

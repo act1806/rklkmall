@@ -47,3 +47,12 @@ export function listCouponUser(query) {
     params: query
   })
 }
+
+export function saveCouponUser(id, data) {
+  return request({
+    url: '/coupon/saveCouponUser',
+    method: 'post',
+    params: { id },
+    data
+  })
+}
