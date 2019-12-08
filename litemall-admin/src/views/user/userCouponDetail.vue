@@ -9,7 +9,7 @@
     </div>
     <el-row>
       <el-col :span="8">
-        <el-table v-loading="listLoading" :data="listUser" @row-click="clickUser" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+        <el-table v-loading="listLoading" :data="listUser" element-loading-text="正在查询中。。。" border fit highlight-current-row @row-click="clickUser">
           <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable/>
 
           <el-table-column align="center" label="用户名" prop="username"/>
@@ -21,7 +21,7 @@
         <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
       </el-col>
       <el-col :span="16" style="padding:0 0 0 40px">
-        <el-table v-loading="listLoading" :data="list" ref="checkTable" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+        <el-table v-loading="listLoading" ref="checkTable" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
 
           <el-table-column type="selection" width="55"/>
 
@@ -127,15 +127,15 @@ export default {
       })
     },
     // 处理表格数据,选择用户优惠券
-    clickUser (row) {
+    clickUser(row) {
       this.$refs.checkTable.clearSelection()
       this.userQuery.userId = row.id
       listCouponUser(this.userQuery).then(response => {
-        let couponIds = []   
-        response.data.data.list.forEach(item=> {
+        const couponIds = []
+        response.data.data.list.forEach(item => {
           couponIds.push(item.couponId)
         })
-        let table = this.list // 从后台获取到的数据
+        const table = this.list // 从后台获取到的数据
         table.forEach(item => {
           if (couponIds.indexOf(item.id) > -1) {
             // toggleRowSelection可以切换表格行的选中状态,接收两个参数第一个是要切换的行,这里需要的对象格式,
@@ -143,16 +143,16 @@ export default {
             // 方法调用要等元素挂载才后才能执行,这里加一个判断,这个方法要放在数据获取后
             this.$refs.checkTable && this.$refs.checkTable.toggleRowSelection(item, true)
           }
-        }) 
+        })
       })
     },
-    handleSave(){
-      let rows = this.$refs.checkTable.selection
+    handleSave() {
+      const rows = this.$refs.checkTable.selection
       saveCouponUser(this.userQuery.userId, rows).then(response => {
         this.$notify.success({
           title: '成功',
           message: '保存成功'
-        })        
+        })
       }).catch(response => {
         this.$notify.error({
           title: '失败',

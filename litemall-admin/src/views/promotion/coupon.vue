@@ -18,40 +18,22 @@
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
 
-      <el-table-column align="center" label="优惠券ID" prop="id" sortable/>
+      <el-table-column align="center" label="活动ID" prop="id" sortable/>
 
-      <el-table-column align="center" label="优惠券名称" prop="name"/>
+      <el-table-column align="center" label="活动名称" prop="name"/>
 
       <el-table-column align="center" label="介绍" prop="desc"/>
 
-      <el-table-column align="center" label="标签" prop="tag"/>
-
-      <el-table-column align="center" label="最低消费" prop="min">
-        <template slot-scope="scope">满{{ scope.row.min }}元可用</template>
+      <el-table-column align="center" label="最低件数" prop="min">
+        <template slot-scope="scope">满{{ scope.row.min }}件可用</template>
       </el-table-column>
 
-      <el-table-column align="center" label="满减金额" prop="discount">
-        <template slot-scope="scope">减免{{ scope.row.discount }}元</template>
+      <el-table-column align="center" label="满赠件数" prop="discount">
+        <template slot-scope="scope">赠送{{ scope.row.discount }}件</template>
       </el-table-column>
 
-      <el-table-column align="center" label="每人限领" prop="limit">
-        <template slot-scope="scope">{{ scope.row.limit != 0 ? scope.row.limit : "不限" }}</template>
-      </el-table-column>
-
-      <el-table-column align="center" label="商品使用范围" prop="goodsType">
-        <template slot-scope="scope">{{ scope.row.goodsType | formatGoodsType }}</template>
-      </el-table-column>
-
-      <el-table-column align="center" label="优惠券类型" prop="type">
-        <template slot-scope="scope">{{ scope.row.type | formatType }}</template>
-      </el-table-column>
-
-      <el-table-column align="center" label="优惠券数量" prop="total">
-        <template slot-scope="scope">{{ scope.row.total != 0 ? scope.row.total : "不限" }}</template>
-      </el-table-column>
-
-      <el-table-column align="center" label="状态" prop="status">
-        <template slot-scope="scope">{{ scope.row.status | formatStatus }}</template>
+      <el-table-column align="center" label="商品ID" prop="total">
+        <template slot-scope="scope">{{ scope.row.total }}</template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
@@ -68,76 +50,24 @@
     <!-- 添加或修改对话框 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="dataForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="优惠券名称" prop="name">
+        <el-form-item label="活动名称" prop="name">
           <el-input v-model="dataForm.name"/>
         </el-form-item>
         <el-form-item label="介绍" prop="desc">
           <el-input v-model="dataForm.desc"/>
         </el-form-item>
-        <el-form-item label="标签" prop="tag">
-          <el-input v-model="dataForm.tag"/>
-        </el-form-item>
-        <el-form-item label="最低消费" prop="min">
+        <el-form-item label="最低件数" prop="min">
           <el-input v-model="dataForm.min">
-            <template slot="append">元</template>
+            <template slot="append">件</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="满减金额" prop="discount">
+        <el-form-item label="满赠件数" prop="discount">
           <el-input v-model="dataForm.discount">
-            <template slot="append">元</template>
+            <template slot="append">件</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="每人限领" prop="limit">
-          <el-input v-model="dataForm.limit">
-            <template slot="append">张</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="分发类型" prop="type">
-          <el-select v-model="dataForm.type">
-            <el-option
-              v-for="type in typeOptions"
-              :key="type.value"
-              :label="type.label"
-              :value="type.value"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="优惠券数量" prop="total">
-          <el-input v-model="dataForm.total">
-            <template slot="append">张</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="有效期">
-          <el-radio-group v-model="dataForm.timeType">
-            <el-radio-button :label="0">领券相对天数</el-radio-button>
-            <el-radio-button :label="1">指定绝对时间</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-show="dataForm.timeType === 0">
-          <el-input v-model="dataForm.days">
-            <template slot="append">天</template>
-          </el-input>
-        </el-form-item>
-        <el-form-item v-show="dataForm.timeType === 1">
-          <el-col :span="11">
-            <el-date-picker v-model="dataForm.startTime" type="datetime" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
-          </el-col>
-          <el-col :span="2" class="line">至</el-col>
-          <el-col :span="11">
-            <el-date-picker v-model="dataForm.endTime" type="datetime" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="商品限制范围">
-          <el-radio-group v-model="dataForm.goodsType">
-            <el-radio-button :label="0">全场通用</el-radio-button>
-            <el-radio-button :label="1">指定分类</el-radio-button>
-            <el-radio-button :label="2">指定商品</el-radio-button>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-show="dataForm.goodsType === 1">
-          目前不支持
-        </el-form-item>
-        <el-form-item v-show="dataForm.goodsType === 2">
-          目前不支持
+        <el-form-item label="商品ID" prop="total">
+          <el-input v-model="dataForm.total"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
