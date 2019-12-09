@@ -585,7 +585,7 @@ Page({
         //找不到对应的product信息，提示没有库存
         wx.showToast({
           image: '/static/images/icon_error.png',
-          title: '没有库存'
+          title: '没有库存1'
         });
         return false;
       }
@@ -595,7 +595,7 @@ Page({
       if (checkedProduct.number <= 0) {
         wx.showToast({
           image: '/static/images/icon_error.png',
-          title: '没有库存'
+          title: '没有库存2'
         });
         return false;
       }

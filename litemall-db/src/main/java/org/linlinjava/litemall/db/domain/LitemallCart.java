@@ -150,12 +150,22 @@ public class LitemallCart {
 
     private BigDecimal presentNum;
 
+    private String couponName;
+
     public BigDecimal getPresentNum() {
         return presentNum;
     }
 
     public void setPresentNum(BigDecimal presentNum) {
         this.presentNum = presentNum;
+    }
+
+    public String getCouponName() {
+        return couponName;
+    }
+
+    public void setCouponName(String couponName) {
+        this.couponName = couponName;
     }
 
     /**

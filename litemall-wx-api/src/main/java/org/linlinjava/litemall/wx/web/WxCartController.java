@@ -437,7 +437,11 @@ public class WxCartController {
             checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
             //符合活动的赠品数量
             LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cart.getGoodsId());
-            cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP));
+            cart.setPresentNum(new BigDecimal(0));
+            if(coupon != null) {
+                cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP));
+                cart.setCouponName(coupon.getName());
+            }
         }
 
         // 计算优惠券可用情况

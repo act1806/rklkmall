@@ -78,7 +78,7 @@
         </view>
         <view class="m">{{item.specifications}}</view>
         <view class="b">￥{{item.price}}</view>
-        <view class="s">【活动】十送二,送{{item.presentNum}}盒，共计{{item.presentNum+item.number}}盒</view>
+        <view class="s" wx:if="{{item.presentNum > 0}}">【活动】{{item.couponName}},送{{item.presentNum}}盒，共计{{item.presentNum+item.number}}盒</view>
       </view>
     </view>
   </view>
