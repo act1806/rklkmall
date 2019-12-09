@@ -389,38 +389,6 @@ public class WxOrderService {
             }
         }
 
-        // 如果使用了优惠券，设置优惠券使用状态
-        if (couponId != 0 && couponId != -1) {
-            LitemallCouponUser couponUser = couponUserService.findById(userCouponId);
-            couponUser.setStatus(CouponUserConstant.STATUS_USED);
-            couponUser.setUsedTime(LocalDateTime.now());
-            couponUser.setOrderId(orderId);
-            couponUserService.update(couponUser);
-        }
-
-        //如果是团购项目，添加团购信息
-        if (grouponRulesId != null && grouponRulesId > 0) {
-            LitemallGroupon groupon = new LitemallGroupon();
-            groupon.setOrderId(orderId);
-            groupon.setPayed(false);
-            groupon.setUserId(userId);
-            groupon.setRulesId(grouponRulesId);
-
-            //参与者
-            if (grouponLinkId != null && grouponLinkId > 0) {
-                //参与的团购记录
-                LitemallGroupon baseGroupon = grouponService.queryById(grouponLinkId);
-                groupon.setCreatorUserId(baseGroupon.getCreatorUserId());
-                groupon.setGrouponId(grouponLinkId);
-                groupon.setShareUrl(baseGroupon.getShareUrl());
-            } else {
-                groupon.setCreatorUserId(userId);
-                groupon.setGrouponId(0);
-            }
-
-            grouponService.createGroupon(groupon);
-        }
-
         Map<String, Object> data = new HashMap<>();
         data.put("orderId", orderId);
         return ResponseUtil.ok(data);
