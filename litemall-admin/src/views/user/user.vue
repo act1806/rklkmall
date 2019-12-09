@@ -7,13 +7,16 @@
       <el-input v-model="listQuery.mobile" clearable class="filter-item" style="width: 200px;" placeholder="请输入手机号"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleModify">修改</el-button>
     </div>
 
     <!-- 查询结果 -->
-    <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
+    <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @row-click="openDetails">
       <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable/>
 
       <el-table-column align="center" label="用户名" prop="username"/>
+
+      <el-table-column align="center" label="微信名" prop="nickname"/>
 
       <el-table-column align="center" label="手机号码" prop="mobile"/>
 
@@ -23,7 +26,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="生日" prop="birthday"/>
+      <el-table-column align="center" label="余额" prop="amount" />>
 
       <el-table-column align="center" label="用户等级" prop="userLevel">
         <template slot-scope="scope">
@@ -67,7 +70,8 @@ export default {
       downloadLoading: false,
       genderDic: ['未知', '男', '女'],
       levelDic: ['普通用户', 'VIP用户', '高级VIP用户'],
-      statusDic: ['可用', '禁用', '注销']
+      statusDic: ['可用', '禁用', '注销'],
+      thisSelectedRow: undefined
     }
   },
   created() {
@@ -98,6 +102,14 @@ export default {
         excel.export_json_to_excel2(tHeader, this.list, filterVal, '用户信息')
         this.downloadLoading = false
       })
+    },
+    // 打开详情页弹窗
+    openDetails(val) {
+      console.log(val)
+      this.thisSelectedRow = val
+    },
+    handleModify() {
+      console.log(this.thisSelectedRow)
     }
   }
 }

@@ -1,0 +1,24 @@
+<!--pages/ucenter/balance/balance.wxml-->
+<view class="container">
+
+  <view class="about-item">
+
+    <view class="item-left">
+      <label>当前用户: </label>
+       <text>{{userinfo.nickname}}</text> 
+    </view>
+
+  </view>
+
+  <view class="about-item">
+
+    <view class="item-left">
+      <label>现有余额: </label>
+       <text>{{userinfo.amount}}</text> 
+    </view>
+
+  </view>
+
+  
+
+</view>

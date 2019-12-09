@@ -30,12 +30,16 @@
         <image class='user_column_item_image' src='/static/images/receive.png'></image>
         <view class='user_column_item_text'>待收货</view>
       </view>
-      <view class='user_column_item'>
+    <view class='user_column_item'>
       <contact-button style="opacity:0;position:absolute;" type="default-dark" session-from="weapp" size="27">
       </contact-button>
       <image class='user_column_item_image' src='/static/images/customer.png'></image>
       <view class='user_column_item_text'>联系客服</view>
     </view>
+    <view class='user_column_item' bindtap='goBalance' >
+        <image class='user_column_item_image' src='/static/images/balance.png'></image>
+        <view class='user_column_item_text'>查询余额</view>
+      </view>
       <!-- <view class='user_column_item' bindtap='goOrderIndex' data-index='4' data-route='/pages/ucenter/order/order'>
         <text class="user_column_item_badge" wx:if="{{order.uncomment != 0}}">{{order.uncomment}}</text>
         <image class='user_column_item_image' src='/static/images/comment.png'></image>

@@ -97,4 +97,6 @@ module.exports = {
   UserIndex: WxApiRoot + 'user/index', //个人页面用户相关信息
   IssueList: WxApiRoot + 'issue/list', //帮助信息
 
+  UserInfo: WxApiRoot + 'user/info' //个人信息
+
 };
