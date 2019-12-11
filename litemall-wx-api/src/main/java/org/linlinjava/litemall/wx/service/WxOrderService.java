@@ -326,7 +326,7 @@ public class WxOrderService {
                presentNum = new BigDecimal(cartGoods.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP);
                couponName = coupon.getName();
             }
-            orderGoods.setPresentNum(presentNum);
+            orderGoods.setPresentNumber(presentNum);
             orderGoods.setCouponName(couponName);
 
             orderGoodsService.add(orderGoods);
