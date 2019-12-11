@@ -476,6 +476,9 @@
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=VARCHAR},
+      </if>
       <if test="avatar != null">
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
@@ -515,6 +518,7 @@
       user_level = #{userLevel,jdbcType=TINYINT},
       nickname = #{nickname,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       weixin_openid = #{weixinOpenid,jdbcType=VARCHAR},
       session_key = #{sessionKey,jdbcType=VARCHAR},

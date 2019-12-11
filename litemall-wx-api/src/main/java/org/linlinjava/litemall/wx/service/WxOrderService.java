@@ -245,19 +245,6 @@ public class WxOrderService {
         Integer grouponRulesId = JacksonUtil.parseInteger(body, "grouponRulesId");
         Integer grouponLinkId = JacksonUtil.parseInteger(body, "grouponLinkId");
 
-        //如果是团购项目,验证活动是否有效
-        if (grouponRulesId != null && grouponRulesId > 0) {
-            LitemallGrouponRules rules = grouponRulesService.queryById(grouponRulesId);
-            //找不到记录
-            if (rules == null) {
-                return ResponseUtil.badArgument();
-            }
-            //团购活动已经过期
-            if (grouponRulesService.isExpired(rules)) {
-                return ResponseUtil.fail(GROUPON_EXPIRED, "团购活动已过期!");
-            }
-        }
-
         if (cartId == null || addressId == null || couponId == null) {
             return ResponseUtil.badArgument();
         }
@@ -266,13 +253,6 @@ public class WxOrderService {
         LitemallAddress checkedAddress = addressService.query(userId, addressId);
         if (checkedAddress == null) {
             return ResponseUtil.badArgument();
-        }
-
-        // 团购优惠
-        BigDecimal grouponPrice = new BigDecimal(0.00);
-        LitemallGrouponRules grouponRules = grouponRulesService.queryById(grouponRulesId);
-        if (grouponRules != null) {
-            grouponPrice = grouponRules.getDiscount();
         }
 
         // 货品价格
@@ -289,38 +269,14 @@ public class WxOrderService {
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
         for (LitemallCart checkGoods : checkedGoodsList) {
-            //  只有当团购规格商品ID符合才进行团购优惠
-            if (grouponRules != null && grouponRules.getGoodsId().equals(checkGoods.getGoodsId())) {
-                checkedGoodsPrice = checkedGoodsPrice.add(checkGoods.getPrice().subtract(grouponPrice).multiply(new BigDecimal(checkGoods.getNumber())));
-            } else {
-                checkedGoodsPrice = checkedGoodsPrice.add(checkGoods.getPrice().multiply(new BigDecimal(checkGoods.getNumber())));
-            }
-        }
-
-        // 获取可用的优惠券信息
-        // 使用优惠券减免的金额
-        BigDecimal couponPrice = new BigDecimal(0.00);
-        // 如果couponId=0则没有优惠券，couponId=-1则不使用优惠券
-        if (couponId != 0 && couponId != -1) {
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, couponId, userCouponId, checkedGoodsPrice);
-            if (coupon == null) {
-                return ResponseUtil.badArgumentValue();
-            }
-            couponPrice = coupon.getDiscount();
-        }
-
-
-        // 根据订单商品总价计算运费，满足条件（例如88元）则免运费，否则需要支付运费（例如8元）；
-        BigDecimal freightPrice = new BigDecimal(0.00);
-        if (checkedGoodsPrice.compareTo(SystemConfig.getFreightLimit()) < 0) {
-            freightPrice = SystemConfig.getFreight();
+            checkedGoodsPrice = checkedGoodsPrice.add(checkGoods.getPrice().multiply(new BigDecimal(checkGoods.getNumber())));
         }
 
         // 可以使用的其他钱，例如用户积分
         BigDecimal integralPrice = new BigDecimal(0.00);
 
         // 订单费用
-        BigDecimal orderTotalPrice = checkedGoodsPrice.add(freightPrice).subtract(couponPrice).max(new BigDecimal(0.00));
+        BigDecimal orderTotalPrice = checkedGoodsPrice;
         // 最终支付费用
         BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
 
@@ -337,18 +293,12 @@ public class WxOrderService {
         String detailedAddress = checkedAddress.getProvince() + checkedAddress.getCity() + checkedAddress.getCounty() + " " + checkedAddress.getAddressDetail();
         order.setAddress(detailedAddress);
         order.setGoodsPrice(checkedGoodsPrice);
-        order.setFreightPrice(freightPrice);
-        order.setCouponPrice(couponPrice);
         order.setIntegralPrice(integralPrice);
         order.setOrderPrice(orderTotalPrice);
         order.setActualPrice(actualPrice);
-
-        // 有团购活动
-        if (grouponRules != null) {
-            order.setGrouponPrice(grouponPrice);    //  团购价格
-        } else {
-            order.setGrouponPrice(new BigDecimal(0.00));    //  团购价格
-        }
+        order.setFreightPrice(new BigDecimal(0));
+        order.setCouponPrice(new BigDecimal(0));
+        order.setGrouponPrice(new BigDecimal(0));
 
         // 添加订单表项
         orderService.add(order);
@@ -368,12 +318,32 @@ public class WxOrderService {
             orderGoods.setNumber(cartGoods.getNumber());
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setAddTime(LocalDateTime.now());
+            //赠品数量
+            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cartGoods.getGoodsId());
+            BigDecimal presentNum = new BigDecimal(0);
+            String couponName = "未符合活动";
+            if(coupon != null) {
+               presentNum = new BigDecimal(cartGoods.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP);
+               couponName = coupon.getName();
+            }
+            orderGoods.setPresentNum(presentNum);
+            orderGoods.setCouponName(couponName);
 
             orderGoodsService.add(orderGoods);
         }
 
+        //扣除用户预付款
+        LitemallUser lu = userService.findById(userId);
+        BigDecimal amountBig = new BigDecimal(lu.getAmount());
+        if(amountBig.compareTo(new BigDecimal(0)) == 1) {
+            amountBig = amountBig.subtract(orderTotalPrice);
+            lu.setAmount(amountBig.toString());
+            userService.updateById(lu);
+        }
+
         // 删除购物车里面的商品信息
         cartService.clearGoods(userId);
+
 
         // 商品货品数量减少
         for (LitemallCart checkGoods : checkedGoodsList) {
