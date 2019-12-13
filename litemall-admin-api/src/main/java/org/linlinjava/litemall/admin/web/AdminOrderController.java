@@ -7,6 +7,7 @@ import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
 import org.linlinjava.litemall.admin.service.AdminOrderService;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
+import org.linlinjava.litemall.db.domain.LitemallOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,19 +62,6 @@ public class AdminOrderController {
     }
 
     /**
-     * 订单退款
-     *
-     * @param body 订单信息，{ orderId：xxx }
-     * @return 订单退款操作结果
-     */
-    @RequiresPermissions("admin:order:refund")
-    @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "订单退款")
-    @PostMapping("/refund")
-    public Object refund(@RequestBody String body) {
-        return adminOrderService.refund(body);
-    }
-
-    /**
      * 发货
      *
      * @param body 订单信息，{ orderId：xxx, shipSn: xxx, shipChannel: xxx }
@@ -98,6 +86,18 @@ public class AdminOrderController {
     @PostMapping("/reply")
     public Object reply(@RequestBody String body) {
         return adminOrderService.reply(body);
+    }
+
+    /**
+     * 订单状态确认
+     *
+     * @param body 订单信息，{ orderId：xxx }
+     * @return 订单操作结果
+     */
+    @RequiresPermissions("admin:order:confirm")
+    @PostMapping("/confirm")
+    public Object confirm(@RequestBody LitemallOrder litemallOrder) {
+        return adminOrderService.confirm(litemallOrder);
     }
 
 }

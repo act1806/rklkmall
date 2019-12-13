@@ -31,6 +31,10 @@ public class LitemallOrderService {
         return litemallOrderMapper.insertSelective(order);
     }
 
+    public int update(LitemallOrder order){
+        return litemallOrderMapper.updateByPrimaryKeySelective(order);
+    }
+
     public int count(Integer userId) {
         LitemallOrderExample example = new LitemallOrderExample();
         example.or().andUserIdEqualTo(userId).andDeletedEqualTo(false);

@@ -28,9 +28,9 @@ export function shipOrder(data) {
   })
 }
 
-export function refundOrder(data) {
+export function confirmOrder(data) {
   return request({
-    url: '/order/refund',
+    url: '/order/confirm',
     method: 'post',
     data
   })

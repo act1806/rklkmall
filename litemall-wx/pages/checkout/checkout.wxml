@@ -58,7 +58,7 @@
     </view>
     <view class="order-item">
       <view class="l">
-        <text class="name">运费</text>
+        <text class="name">预付款余额</text>
       </view>
       <view class="r">
         <text class="txt">￥{{freightPrice}}元</text>
