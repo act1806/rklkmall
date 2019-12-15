@@ -4,8 +4,10 @@ import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.qiniu.util.Json;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.admin.dto.OrderDetail;
 import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.notify.NotifyType;
 import org.linlinjava.litemall.core.util.JacksonUtil;
@@ -74,6 +76,19 @@ public class AdminOrderService {
         orderService.update(litemallOrder);
 
         logHelper.logOrderSucceed(OrderUtil.orderStatusText(litemallOrder), "订单编号 " + litemallOrder.getId());
+        return ResponseUtil.ok();
+    }
+
+    public Object save(OrderDetail orderDetail) {
+        LitemallOrder litemallOrder = orderDetail.getOrder();
+        List<LitemallOrderGoods> orderGoods = orderDetail.getOrderGoods();
+
+        orderService.update(litemallOrder);
+        for(LitemallOrderGoods litemallOrderGoods : orderGoods) {
+            orderGoodsService.updateById(litemallOrderGoods);
+        }
+
+        logHelper.logOrderSucceed("保存订单", "订单编号 " + litemallOrder.getId());
         return ResponseUtil.ok();
     }
 

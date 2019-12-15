@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
+import org.linlinjava.litemall.admin.dto.OrderDetail;
 import org.linlinjava.litemall.admin.service.AdminOrderService;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
@@ -98,6 +99,18 @@ public class AdminOrderController {
     @PostMapping("/confirm")
     public Object confirm(@RequestBody LitemallOrder litemallOrder) {
         return adminOrderService.confirm(litemallOrder);
+    }
+
+    /**
+     * 订单保存
+     *
+     * @param body 订单信息，{ orderId：xxx }
+     * @return 订单操作结果
+     */
+    @RequiresPermissions("admin:order:save")
+    @PostMapping("/save")
+    public Object save(@RequestBody OrderDetail orderDetail) {
+        return adminOrderService.save(orderDetail);
     }
 
 }

@@ -73,18 +73,17 @@
             <span>（地址）{{ orderDetail.order.address }}</span>
           </el-form-item>
           <el-form-item label="商品信息">
-            <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
-              <el-table-column align="center" label="商品名称" prop="goodsName" />
-              <el-table-column align="center" label="商品编号" prop="goodsSn" />
-              <el-table-column align="center" label="货品规格" prop="specifications" />
-              <el-table-column align="center" label="货品价格" prop="price" />
-              <el-table-column align="center" label="货品数量" prop="number" />
-              <el-table-column align="center" label="货品图片" prop="picUrl">
-                <template slot-scope="scope">
-                  <img :src="scope.row.picUrl" width="40">
-                </template>
-              </el-table-column>
-            </el-table>
+            <br>
+            <div v-for="(goods,i) in orderDetail.orderGoods" :key="i">
+              <span style="width:300px">{{ i+1 }}.{{ goods.goodsName }}</span>
+              <el-input v-model="goods.number" style="width: 100px; margin-left:10px;">{{ goods.number }}</el-input>
+              <el-input v-model="goods.presentNumber" style="width: 100px; margin-left:10px;">{{ goods.presentNumber }}</el-input>
+              <el-input v-model="goods.price" style="width: 100px; margin-left:10px;">{{ goods.price }}</el-input>
+              {{ goods.number*goods.price }}
+            </div>
+          </el-form-item>
+          <el-form-item label="订单金额">
+            <el-input v-model="orderDetail.order.orderPrice" style="width: 200px;">{{ orderDetail.order.orderPrice }}</el-input>
           </el-form-item>
           <el-form-item label="快递信息">
             <span>（快递公司）{{ orderDetail.order.shipChannel }}</span>
@@ -98,6 +97,7 @@
       </section>
       <span slot="footer" class="dialog-footer">
         <el-button @click="orderDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveOrder">保 存</el-button>
         <el-button type="primary" @click="printOrder">打 印</el-button>
       </span>
     </el-dialog>
@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import { detailOrder, listOrder, confirmOrder, shipOrder } from '@/api/order'
+import { detailOrder, listOrder, confirmOrder, shipOrder, saveOrder } from '@/api/order'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
 
@@ -235,6 +235,21 @@ export default {
         this.$notify.success({
           title: '成功',
           message: '订单提交成功'
+        })
+        this.getList()
+      }).catch(response => {
+        this.$notify.error({
+          title: '失败',
+          message: response.data.errmsg
+        })
+      })
+    },
+    saveOrder() {
+      saveOrder(this.orderDetail).then(response => {
+        this.orderDialogVisible = false
+        this.$notify.success({
+          title: '成功',
+          message: '订单保存成功'
         })
         this.getList()
       }).catch(response => {

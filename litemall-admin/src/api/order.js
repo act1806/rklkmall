@@ -36,6 +36,14 @@ export function confirmOrder(data) {
   })
 }
 
+export function saveOrder(data) {
+  return request({
+    url: '/order/save',
+    method: 'post',
+    data
+  })
+}
+
 export function replyComment(data) {
   return request({
     url: '/order/reply',
