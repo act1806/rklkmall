@@ -25,51 +25,25 @@ public class OrderUtil {
     public static final Short STATUS_PAY = 201;
     public static final Short STATUS_SHIP = 301;
     public static final Short STATUS_CONFIRM = 401;
-    public static final Short STATUS_CANCEL = 102;
-    public static final Short STATUS_AUTO_CANCEL = 103;
-    public static final Short STATUS_REFUND = 202;
-    public static final Short STATUS_REFUND_CONFIRM = 203;
     public static final Short STATUS_AUTO_CONFIRM = 402;
-    public static final Short STATUS_PAY_GROUPON = 200;
-    public static final Short STATUS_TIMEOUT_GROUPON = 204;
-
+    public static final Short STATUS_CANCEL = 102;
 
     public static String orderStatusText(LitemallOrder order) {
         int status = order.getOrderStatus().intValue();
 
         if (status == 101) {
-            return "未付款";
-        }
-
-        if (status == 102) {
-            return "已取消";
-        }
-
-        if (status == 103) {
-            return "已取消(系统)";
-        }
-
-        if (status == 200) {
-            return "已付款团购";
+            return "待销售经理确认";
         }
 
         if (status == 201) {
-            return "已付款";
-        }
-
-        if (status == 202) {
-            return "订单取消，退款中";
-        }
-
-        if (status == 203) {
-            return "已退款";
-        }
-
-        if (status == 204) {
-            return "已超时团购";
+            return "待市场部确认";
         }
 
         if (status == 301) {
+            return "待发货";
+        }
+
+        if (status == 302) {
             return "已发货";
         }
 
@@ -84,6 +58,27 @@ public class OrderUtil {
         throw new IllegalStateException("orderStatus不支持");
     }
 
+    public static Short orderStatusNext(Short orderStatus) {
+        int status = orderStatus.intValue();
+
+        if (status == 101) {
+            return 201;
+        }
+
+        if (status == 201) {
+            return 301;
+        }
+
+        if (status == 301) {
+            return 302;
+        }
+
+        if (status == 302) {
+            return 401;
+        }
+
+        throw new IllegalStateException("orderStatus不支持");
+    }
 
     public static OrderHandleOption build(LitemallOrder order) {
         int status = order.getOrderStatus().intValue();
@@ -154,12 +149,6 @@ public class OrderUtil {
         return OrderUtil.STATUS_CREATE == litemallOrder.getOrderStatus().shortValue();
     }
 
-    public static boolean hasPayed(LitemallOrder order) {
-        return OrderUtil.STATUS_CREATE != order.getOrderStatus().shortValue()
-                && OrderUtil.STATUS_CANCEL != order.getOrderStatus().shortValue()
-                && OrderUtil.STATUS_AUTO_CANCEL != order.getOrderStatus().shortValue();
-    }
-
     public static boolean isPayStatus(LitemallOrder litemallOrder) {
         return OrderUtil.STATUS_PAY == litemallOrder.getOrderStatus().shortValue();
     }
@@ -170,22 +159,6 @@ public class OrderUtil {
 
     public static boolean isConfirmStatus(LitemallOrder litemallOrder) {
         return OrderUtil.STATUS_CONFIRM == litemallOrder.getOrderStatus().shortValue();
-    }
-
-    public static boolean isCancelStatus(LitemallOrder litemallOrder) {
-        return OrderUtil.STATUS_CANCEL == litemallOrder.getOrderStatus().shortValue();
-    }
-
-    public static boolean isAutoCancelStatus(LitemallOrder litemallOrder) {
-        return OrderUtil.STATUS_AUTO_CANCEL == litemallOrder.getOrderStatus().shortValue();
-    }
-
-    public static boolean isRefundStatus(LitemallOrder litemallOrder) {
-        return OrderUtil.STATUS_REFUND == litemallOrder.getOrderStatus().shortValue();
-    }
-
-    public static boolean isRefundConfirmStatus(LitemallOrder litemallOrder) {
-        return OrderUtil.STATUS_REFUND_CONFIRM == litemallOrder.getOrderStatus().shortValue();
     }
 
     public static boolean isAutoConfirmStatus(LitemallOrder litemallOrder) {

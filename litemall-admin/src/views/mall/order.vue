@@ -27,19 +27,24 @@
 
       <el-table-column align="center" label="订单金额" prop="orderPrice"/>
 
-      <el-table-column align="center" label="支付金额" prop="actualPrice"/>
-
-      <el-table-column align="center" label="支付时间" prop="payTime"/>
+      <el-table-column align="center" label="下单时间" width="155" prop="addTime"/>
 
       <el-table-column align="center" label="物流单号" prop="shipSn"/>
 
       <el-table-column align="center" label="物流渠道" prop="shipChannel"/>
 
+      <el-table-column align="center" label="详情" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDetail(scope.row)">详情</el-button>
-          <el-button v-permission="['POST /admin/order/ship']" v-if="scope.row.orderStatus==201" type="primary" size="mini" @click="handleShip(scope.row)">发货</el-button>
-          <el-button v-permission="['POST /admin/order/refund']" v-if="scope.row.orderStatus==202||scope.row.orderStatus==204" type="primary" size="mini" @click="handleRefund(scope.row)">退款</el-button>
+          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDetail(scope.row)">编辑</el-button>
+          <el-button v-if="scope.row.orderStatus==101" type="primary" size="mini" @click="confirmOrder(scope.row)">确认</el-button>
+          <el-button v-if="scope.row.orderStatus==201" type="primary" size="mini" @click="confirmOrder(scope.row)">确认</el-button>
+          <el-button v-if="scope.row.orderStatus==301" type="primary" size="mini" @click="handleShip(scope.row)">发货</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,31 +73,17 @@
             <span>（地址）{{ orderDetail.order.address }}</span>
           </el-form-item>
           <el-form-item label="商品信息">
-            <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
-              <el-table-column align="center" label="商品名称" prop="goodsName" />
-              <el-table-column align="center" label="商品编号" prop="goodsSn" />
-              <el-table-column align="center" label="货品规格" prop="specifications" />
-              <el-table-column align="center" label="货品价格" prop="price" />
-              <el-table-column align="center" label="货品数量" prop="number" />
-              <el-table-column align="center" label="货品图片" prop="picUrl">
-                <template slot-scope="scope">
-                  <img :src="scope.row.picUrl" width="40">
-                </template>
-              </el-table-column>
-            </el-table>
+            <br>
+            <div v-for="(goods,i) in orderDetail.orderGoods" :key="i">
+              <span style="width:300px">{{ i+1 }}.{{ goods.goodsName }}</span>
+              <el-input v-model="goods.number" style="width: 100px; margin-left:10px;">{{ goods.number }}</el-input>
+              <el-input v-model="goods.presentNumber" style="width: 100px; margin-left:10px;">{{ goods.presentNumber }}</el-input>
+              <el-input v-model="goods.price" style="width: 100px; margin-left:10px;">{{ goods.price }}</el-input>
+              {{ goods.number*goods.price }}
+            </div>
           </el-form-item>
-          <el-form-item label="费用信息">
-            <span>
-              (实际费用){{ orderDetail.order.actualPrice }}元 =
-              (商品总价){{ orderDetail.order.goodsPrice }}元 +
-              (快递费用){{ orderDetail.order.freightPrice }}元 -
-              (优惠减免){{ orderDetail.order.couponPrice }}元 -
-              (积分减免){{ orderDetail.order.integralPrice }}元
-            </span>
-          </el-form-item>
-          <el-form-item label="支付信息">
-            <span>（支付渠道）微信支付</span>
-            <span>（支付时间）{{ orderDetail.order.payTime }}</span>
+          <el-form-item label="订单金额">
+            <el-input v-model="orderDetail.order.orderPrice" style="width: 200px;">{{ orderDetail.order.orderPrice }}</el-input>
           </el-form-item>
           <el-form-item label="快递信息">
             <span>（快递公司）{{ orderDetail.order.shipChannel }}</span>
@@ -106,6 +97,7 @@
       </section>
       <span slot="footer" class="dialog-footer">
         <el-button @click="orderDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveOrder">保 存</el-button>
         <el-button type="primary" @click="printOrder">打 印</el-button>
       </span>
     </el-dialog>
@@ -126,39 +118,21 @@
       </div>
     </el-dialog>
 
-    <!-- 退款对话框 -->
-    <el-dialog :visible.sync="refundDialogVisible" title="退款">
-      <el-form ref="refundForm" :model="refundForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="退款金额" prop="refundMoney">
-          <el-input v-model="refundForm.refundMoney" :disabled="true"/>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="refundDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="confirmRefund">确定</el-button>
-      </div>
-    </el-dialog>
-
   </div>
 </template>
 
 <script>
-import { detailOrder, listOrder, refundOrder, shipOrder } from '@/api/order'
+import { detailOrder, listOrder, confirmOrder, shipOrder, saveOrder } from '@/api/order'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
 
 const statusMap = {
-  101: '未付款',
-  102: '用户取消',
-  103: '系统取消',
-  200: '已付款团购',
-  201: '已付款',
-  202: '申请退款',
-  203: '已退款',
-  204: '已超时团购',
-  301: '已发货',
-  401: '用户收货',
-  402: '系统收货'
+  101: '待销售经理确认',
+  201: '待市场部确认',
+  301: '待发货',
+  302: '已发货',
+  401: '已收货',
+  402: '已收货(系统)'
 }
 
 export default {
@@ -196,11 +170,6 @@ export default {
         shipSn: undefined
       },
       shipDialogVisible: false,
-      refundForm: {
-        orderId: undefined,
-        refundMoney: undefined
-      },
-      refundDialogVisible: false,
       downloadLoading: false
     }
   },
@@ -260,32 +229,34 @@ export default {
         }
       })
     },
-    handleRefund(row) {
-      this.refundForm.orderId = row.id
-      this.refundForm.refundMoney = row.actualPrice
-
-      this.refundDialogVisible = true
-      this.$nextTick(() => {
-        this.$refs['refundForm'].clearValidate()
+    confirmOrder(data) {
+      confirmOrder(data).then(response => {
+        this.refundDialogVisible = false
+        this.$notify.success({
+          title: '成功',
+          message: '订单提交成功'
+        })
+        this.getList()
+      }).catch(response => {
+        this.$notify.error({
+          title: '失败',
+          message: response.data.errmsg
+        })
       })
     },
-    confirmRefund() {
-      this.$refs['refundForm'].validate((valid) => {
-        if (valid) {
-          refundOrder(this.refundForm).then(response => {
-            this.refundDialogVisible = false
-            this.$notify.success({
-              title: '成功',
-              message: '确认退款成功'
-            })
-            this.getList()
-          }).catch(response => {
-            this.$notify.error({
-              title: '失败',
-              message: response.data.errmsg
-            })
-          })
-        }
+    saveOrder() {
+      saveOrder(this.orderDetail).then(response => {
+        this.orderDialogVisible = false
+        this.$notify.success({
+          title: '成功',
+          message: '订单保存成功'
+        })
+        this.getList()
+      }).catch(response => {
+        this.$notify.error({
+          title: '失败',
+          message: response.data.errmsg
+        })
       })
     },
     handleDownload() {

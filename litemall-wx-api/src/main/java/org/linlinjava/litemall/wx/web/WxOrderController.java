@@ -91,33 +91,6 @@ public class WxOrderController {
     }
 
     /**
-     * 微信付款成功或失败回调接口
-     * <p>
-     *  TODO
-     *  注意，这里pay-notify是示例地址，建议开发者应该设立一个隐蔽的回调地址
-     *
-     * @param request 请求内容
-     * @param response 响应内容
-     * @return 操作结果
-     */
-    @PostMapping("pay-notify")
-    public Object payNotify(HttpServletRequest request, HttpServletResponse response) {
-        return wxOrderService.payNotify(request, response);
-    }
-
-    /**
-     * 订单申请退款
-     *
-     * @param userId 用户ID
-     * @param body   订单信息，{ orderId：xxx }
-     * @return 订单退款操作结果
-     */
-    @PostMapping("refund")
-    public Object refund(@LoginUser Integer userId, @RequestBody String body) {
-        return wxOrderService.refund(userId, body);
-    }
-
-    /**
      * 确认收货
      *
      * @param userId 用户ID

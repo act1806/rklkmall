@@ -53,7 +53,7 @@
 
 <script>
 import { fetchList } from '@/api/user'
-import { listCoupon, createCoupon, updateCoupon, deleteCoupon, listCouponUser, saveCouponUser } from '@/api/coupon'
+import { listCoupon, listCouponUser, saveCouponUser } from '@/api/coupon'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
@@ -102,7 +102,7 @@ export default {
         this.listUser = []
         this.total = 0
         this.listLoading = false
-      }),
+      })
       listCoupon(this.listQuery).then(response => {
         this.list = response.data.data.list
         this.total = response.data.data.total

@@ -88,7 +88,7 @@ public class LitemallOrderGoods {
     /**
      * 赠送数量
      */
-    private BigDecimal presentNum;
+    private BigDecimal presentNumber;
 
     /**
      * 符合活动名
@@ -182,12 +182,12 @@ public class LitemallOrderGoods {
         this.id = id;
     }
 
-    public BigDecimal getPresentNum() {
-        return presentNum;
+    public BigDecimal getPresentNumber() {
+        return presentNumber;
     }
 
-    public void setPresentNum(BigDecimal presentNum) {
-        this.presentNum = presentNum;
+    public void setPresentNumber(BigDecimal presentNumber) {
+        this.presentNumber = presentNumber;
     }
 
     public String getCouponName() {
