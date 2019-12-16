@@ -158,6 +158,16 @@ export const asyncRouterMap = [
           title: '意见反馈',
           noCache: true
         }
+      },
+      {
+        path: 'thirdcheck',
+        component: () => import('@/views/user/thirdcheck'),
+        name: 'thirdcheck',
+        meta: {
+          perms: ['GET /admin/thirdCheck/list'],
+          title: '第三方检测',
+          noCache: true
+        }
       }
     ]
   },

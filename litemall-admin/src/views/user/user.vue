@@ -44,6 +44,21 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
+    <el-dialog :visible.sync="dialogVisible" title="用户信息">
+      <el-button type="text" @click="dialogTableVisible = true">确定</el-button>
+      <el-button type="text" @click="dialogVisible = false">取消</el-button>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="终端类型:" prop="terminalType"/>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="功能模块:" prop="moduleType"/>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="功能细分:" prop="problemType"/>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 
@@ -71,7 +86,8 @@ export default {
       genderDic: ['未知', '男', '女'],
       levelDic: ['普通用户', 'VIP用户', '高级VIP用户'],
       statusDic: ['可用', '禁用', '注销'],
-      thisSelectedRow: undefined
+      thisSelectedRow: undefined,
+      dialogVisible: false
     }
   },
   created() {
@@ -110,6 +126,7 @@ export default {
     },
     handleModify() {
       console.log(this.thisSelectedRow)
+      this.dialogVisible = true
     }
   }
 }

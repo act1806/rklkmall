@@ -39,7 +39,9 @@
     "pages/coupon/coupon",
     "pages/help/help",
     "pages/thirdCheck/thirdCheck",
-    "pages/ucenter/balance/balance"
+    "pages/ucenter/balance/balance",
+    "pages/thirdCheck/submission/submission",
+    "pages/thirdCheck/pathSubmission/pathSubmission"
   ],
   "window": {
     "navigationBarBackgroundColor": "#FFFFFF",

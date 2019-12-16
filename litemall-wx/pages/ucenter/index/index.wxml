@@ -103,7 +103,7 @@
     <view class='user_column_item' bindtap='goFeedback'>
       <image class='user_column_item_image' src='/static/images/feedback.png'></image>
       <view class='user_column_item_text'>意见反馈</view>
-    </view>
+    </view> 
     
     <view class='user_column_item' bindtap='aboutUs'>
       <image class='user_column_item_image' src='/static/images/about_us.png'></image>

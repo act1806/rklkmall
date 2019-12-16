@@ -1,0 +1,21 @@
+<view class="container">
+
+  <view class="about-item">
+
+    <view class="item-left" bindtap='goSubmission'>
+      <label >佰基检测送检单 </label>
+    </view>
+
+  </view>
+
+  <view class="about-item">
+
+    <view class="item-left" bindtap='goPathSubmission'>
+      <label >佰基病理学检测送检单</label>
+    </view>
+
+  </view>
+
+ 
+
+</view>
