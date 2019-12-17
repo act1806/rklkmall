@@ -81,7 +81,7 @@ public class ExpressService {
 
         String requestData = "{'OrderCode':'','ShipperCode':'" + expCode + "','LogisticCode':'" + expNo + "'}";
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("RequestData", URLEncoder.encode(requestData, "UTF-8"));
         params.put("EBusinessID", properties.getAppId());
         params.put("RequestType", "1002");

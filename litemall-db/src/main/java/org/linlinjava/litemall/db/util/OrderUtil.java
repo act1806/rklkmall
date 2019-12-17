@@ -23,7 +23,7 @@ public class OrderUtil {
 
     public static final Short STATUS_CREATE = 101;
     public static final Short STATUS_PAY = 201;
-    public static final Short STATUS_SHIP = 301;
+    public static final Short STATUS_SHIP = 302;
     public static final Short STATUS_CONFIRM = 401;
     public static final Short STATUS_AUTO_CONFIRM = 402;
     public static final Short STATUS_CANCEL = 102;
@@ -99,7 +99,7 @@ public class OrderUtil {
         } else if (status == 203) {
             // 如果订单已经退款，则可删除
             handleOption.setDelete(true);
-        } else if (status == 301) {
+        } else if (status == 302) {
             // 如果订单已经发货，没有收货，则可收货操作,
             // 此时不能取消订单
             handleOption.setConfirm(true);

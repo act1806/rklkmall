@@ -7,7 +7,7 @@ Page({
     orderInfo: {},
     orderGoods: [],
     expressInfo: {},
-    flag: false,
+    flag: true,
     handleOption: {}
   },
   onLoad: function(options) {

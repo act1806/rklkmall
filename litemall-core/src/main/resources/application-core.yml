@@ -53,9 +53,9 @@ litemall:
 
   # 快鸟物流查询配置
   express:
-    enable: false
-    appId: "XXXXXXXXX"
-    appKey: "XXXXXXXXXXXXXXXXXXXXXXXXX"
+    enable: true
+    appId: "1609803"
+    appKey: "7818f040-ad60-43dd-9017-69d94ddf7ca8"
     vendors:
     - code: "ZTO"
       name: "中通快递"
@@ -83,6 +83,8 @@ litemall:
       name: "FEDEX联邦(国内件)"
     - code: "FEDEX_GJ"
       name: "FEDEX联邦(国际件)"
+    - code: "SF"
+      name: "顺丰速运"
 
   # 对象存储配置
   storage:
