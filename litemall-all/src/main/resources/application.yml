@@ -9,6 +9,8 @@ server:
   ssl.key-store: classpath:3234611_www.bj-rklk.com.pfx
   ssl.key-store-password: 96wcRO3G
   ssl.keyStoreType: PKCS12
+  tomcat:
+    max-connections: 50000
 
 logging:
   config: classpath:logback-spring.xml

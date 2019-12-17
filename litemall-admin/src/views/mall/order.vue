@@ -17,7 +17,7 @@
 
       <el-table-column align="center" min-width="100" label="订单编号" prop="orderSn"/>
 
-      <el-table-column align="center" label="用户ID" prop="userId"/>
+      <el-table-column align="center" label="用户" prop="userName"/>
 
       <el-table-column align="center" label="订单状态" prop="orderStatus">
         <template slot-scope="scope">
@@ -35,7 +35,7 @@
 
       <el-table-column align="center" label="详情" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
+          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="listDetail(scope.row)">查看</el-button>
         </template>
       </el-table-column>
 
@@ -62,7 +62,7 @@
             <el-tag>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-tag>
           </el-form-item>
           <el-form-item label="订单用户">
-            <span>{{ orderDetail.user.nickname }}</span>
+            <el-input v-model="orderDetail.order.userId" style="width: 200px;">{{ orderDetail.order.userId }}</el-input>
           </el-form-item>
           <el-form-item label="用户留言">
             <span>{{ orderDetail.order.message }}</span>
@@ -98,6 +98,61 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="orderDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="saveOrder">保 存</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 订单详情对话框 -->
+    <el-dialog :visible.sync="orderDetailVisible" title="订单详情" width="800">
+      <section ref="print">
+        <el-form :data="orderDetail" label-position="left">
+          <el-form-item label="订单编号">
+            <span>{{ orderDetail.order.orderSn }}</span>
+          </el-form-item>
+          <el-form-item label="订单状态">
+            <el-tag>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-tag>
+          </el-form-item>
+          <el-form-item label="订单用户">
+            <span>{{ orderDetail.user.nickname }}</span>
+          </el-form-item>
+          <el-form-item label="用户留言">
+            <span>{{ orderDetail.order.message }}</span>
+          </el-form-item>
+          <el-form-item label="收货信息">
+            <span>（收货人）{{ orderDetail.order.consignee }}</span>
+            <span>（手机号）{{ orderDetail.order.mobile }}</span>
+            <span>（地址）{{ orderDetail.order.address }}</span>
+          </el-form-item>
+          <el-form-item label="商品信息">
+            <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
+              <el-table-column align="center" label="商品名称" prop="goodsName" />
+              <el-table-column align="center" label="商品编号" prop="goodsSn" />
+              <el-table-column align="center" label="货品规格" prop="specifications" />
+              <el-table-column align="center" label="货品价格" prop="price" />
+              <el-table-column align="center" label="货品数量" prop="number" />
+              <el-table-column align="center" label="货品图片" prop="picUrl">
+                <template slot-scope="scope">
+                  <img :src="scope.row.picUrl" width="40">
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-form-item>
+          <el-form-item label="费用信息">
+            <span>
+              (实际费用){{ orderDetail.order.orderPrice }}元
+            </span>
+          </el-form-item>
+          <el-form-item label="快递信息">
+            <span>（快递公司）{{ orderDetail.order.shipChannel }}</span>
+            <span>（快递单号）{{ orderDetail.order.shipSn }}</span>
+            <span>（发货时间）{{ orderDetail.order.shipTime }}</span>
+          </el-form-item>
+          <el-form-item label="收货信息">
+            <span>（确认收货时间）{{ orderDetail.order.confirmTime }}</span>
+          </el-form-item>
+        </el-form>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="orderDetailVisible = false">取 消</el-button>
         <el-button type="primary" @click="printOrder">打 印</el-button>
       </span>
     </el-dialog>
@@ -159,6 +214,7 @@ export default {
       },
       statusMap,
       orderDialogVisible: false,
+      orderDetailVisible: false,
       orderDetail: {
         order: {},
         user: {},
@@ -199,6 +255,12 @@ export default {
         this.orderDetail = response.data.data
       })
       this.orderDialogVisible = true
+    },
+    listDetail(row) {
+      detailOrder(row.id).then(response => {
+        this.orderDetail = response.data.data
+      })
+      this.orderDetailVisible = true
     },
     handleShip(row) {
       this.shipForm.orderId = row.id

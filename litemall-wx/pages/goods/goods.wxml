@@ -38,12 +38,6 @@
         <view class="counterPrice">原价：￥{{goods.counterPrice}}</view>
         <view class="retailPrice">现价：￥{{checkedSpecPrice}}</view>
       </view>
-
-      <view class="brand" wx:if="{{brand.name}}">
-        <navigator url="../brandDetail/brandDetail?id={{brand.id}}">
-          <text>{{brand.name}}</text>
-        </navigator>
-      </view>
     </view>
   </view>
   <view class="section-nav section-attr" bindtap="switchAttrPop">

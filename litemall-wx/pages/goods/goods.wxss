@@ -59,7 +59,7 @@
 
 .goods-info {
   width: 750rpx;
-  height: 306rpx;
+  height: 206rpx;
   overflow: hidden;
   background: #fff;
 }

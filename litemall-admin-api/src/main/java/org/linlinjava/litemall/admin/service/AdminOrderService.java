@@ -1,10 +1,5 @@
 package org.linlinjava.litemall.admin.service;
 
-import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
-import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
-import com.github.binarywang.wxpay.exception.WxPayException;
-import com.github.binarywang.wxpay.service.WxPayService;
-import com.qiniu.util.Json;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.linlinjava.litemall.admin.dto.OrderDetail;
@@ -55,6 +50,10 @@ public class AdminOrderService {
                        Integer page, Integer limit, String sort, String order) {
         List<LitemallOrder> orderList = orderService.querySelective(userId, orderSn, orderStatusArray, page, limit,
                 sort, order);
+        for(LitemallOrder litemallOrder : orderList){
+            UserVo user = userService.findUserVoById(litemallOrder.getUserId());
+            litemallOrder.setUserName(user.getNickname());
+        }
         return ResponseUtil.okList(orderList);
     }
 

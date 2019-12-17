@@ -124,19 +124,19 @@ public class OrderUtil {
         List<Short> status = new ArrayList<Short>(2);
 
         if (showType.equals(1)) {
-            // 待付款订单
+            // 待确认订单
             status.add((short) 101);
+            status.add((short) 201);
         } else if (showType.equals(2)) {
             // 待发货订单
-            status.add((short) 201);
+            status.add((short) 301);
         } else if (showType.equals(3)) {
             // 待收货订单
-            status.add((short) 301);
+            status.add((short) 302);
         } else if (showType.equals(4)) {
             // 待评价订单
             status.add((short) 401);
-//            系统超时自动取消，此时应该不支持评价
-//            status.add((short)402);
+            status.add((short) 402);
         } else {
             return null;
         }
