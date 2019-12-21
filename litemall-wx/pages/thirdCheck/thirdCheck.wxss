@@ -40,3 +40,31 @@ page{
   width: 40rpx;
    height: 40rpx;
 }
+
+.title {
+  font-size: 40rpx;
+  text-align: center;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  padding-top: 60rpx;
+}
+
+.info {
+  height: 182rpx;
+  flex: 1;
+  padding: 8rpx 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #efefef;
+  padding: 20rpx 30rpx;
+  background: #fff;
+}

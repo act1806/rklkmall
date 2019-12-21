@@ -40,11 +40,11 @@ Page({
     sampleItems: ["全血", "美国", "英国"],
     sampleItemsIndex: 0,
     sampleCheckboxItems: [
-      { name: '多处性病变', value: '0' },
-      { name: '侵袭性生长', value: '1' },
-      { name: '扩张性生长', value: '2' },
-      { name: '复发', value: '3' },
-      { name: '有转移性病变 ', value: '4' }
+      { name: '多处性病变', value: '多处性病变' },
+      { name: '侵袭性生长', value: '侵袭性生长' },
+      { name: '扩张性生长', value: '扩张性生长' },
+      { name: '复发', value: '复发' },
+      { name: '有转移性病变 ', value: '有转移性病变' }
     ],
     hasPicture: false,
     picUrls: [],
