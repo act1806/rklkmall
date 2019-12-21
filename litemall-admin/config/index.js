@@ -8,7 +8,8 @@ module.exports = {
   dev: {
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/rklkmall-admin',
+    //assetsPublicPath: '/rklkmall-admin',
+    assetsPublicPath: '/',
     proxyTable: {},
 
     // Various Dev Server settings
