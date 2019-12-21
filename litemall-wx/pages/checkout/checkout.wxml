@@ -24,17 +24,9 @@
   </view>
 
   <view class="coupon-box">
-    <view class="coupon-item" bindtap="selectCoupon">
-      <view class="l" wx:if="{{couponId == 0}}">
-        <text class="name">没有可用的活动</text>
-        <text class="txt">0个</text>
-      </view>
-      <view class="l" wx:elif="{{couponId == -1}}">
-        <text class="name">活动</text>
-        <text class="txt">{{availableCouponLength}}个</text>
-      </view>
-      <view class="l" wx:else>
-        <text class="name">活动</text>
+    <view class="coupon-item">
+      <view class="l">
+        <text class="name">可用活动</text>
         <text class="txt">{{availableCouponLength}}个</text>
       </view>      
       <view class="r">
