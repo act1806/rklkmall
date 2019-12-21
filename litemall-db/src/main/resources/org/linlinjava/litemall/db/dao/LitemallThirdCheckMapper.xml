@@ -9,6 +9,7 @@
         <result column="userweid" jdbcType="VARCHAR" property="userweid" />
         <result column="in_charge_person" jdbcType="VARCHAR" property="inChargePerson" />
         <result column="cls" jdbcType="VARCHAR" property="cls" />
+        <result column="clinical" jdbcType="VARCHAR" property="clinical" />
         <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
         <result column="email" jdbcType="VARCHAR" property="email" />
         <result column="examine" jdbcType="VARCHAR" property="examine" />
@@ -32,7 +33,7 @@
         <result column="texture" jdbcType="VARCHAR" property="texture" />
     </resultMap>
     <sql id="Base_Column_List">
-        id,create_time, update_time, status, userweid, in_charge_person, cls
+        id,create_time, update_time, status, userweid, in_charge_person, cls, clinical
         , doctor_name, email, examine, example_project, gender, history, hospital_name, is_stered, is_diolame, is_rupture, is_stick
         , pet_name, phone, sample_addr, sample_area, sample_condition, sample_date, sample_feature, sample_project,
         sample_size, texture
@@ -45,12 +46,12 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into litemall_thirdcheck (create_time, update_time, status, userweid, in_charge_person, cls
+        insert into litemall_thirdcheck (create_time, update_time, status, userweid, in_charge_person, cls, clinical
         , doctor_name, email, examine, example_project, gender, history, hospital_name, is_stered, is_diolame, is_rupture, is_stick
         , pet_name, phone, sample_addr, sample_area, sample_condition, sample_date, sample_feature, sample_project,
         sample_size, texture)
         values (#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{userweid,jdbcType=VARCHAR}
-        , #{inChargePerson,jdbcType=VARCHAR}, #{cls,jdbcType=VARCHAR}, #{doctorName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
+        , #{inChargePerson,jdbcType=VARCHAR}, #{cls,jdbcType=VARCHAR}, #{clinical,jdbcType=VARCHAR}, #{doctorName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
         , #{examine,jdbcType=VARCHAR}, #{exampleProject,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{history,jdbcType=VARCHAR}
         , #{hospitalName,jdbcType=VARCHAR}, #{isStered,jdbcType=VARCHAR}, #{isDiolame,jdbcType=VARCHAR}, #{isRupture,jdbcType=VARCHAR}
         , #{isStick,jdbcType=VARCHAR}, #{petName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{sampleAddr,jdbcType=VARCHAR}

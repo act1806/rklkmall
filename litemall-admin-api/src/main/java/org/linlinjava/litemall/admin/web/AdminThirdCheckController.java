@@ -34,7 +34,8 @@ public class AdminThirdCheckController {
     public Object list(
                        @RequestParam(defaultValue = "1") Integer page,
                        @RequestParam(defaultValue = "10") Integer limit) {
-        PageInfo<LitemallThirdCheck> userList = thirdCheckService.querySelective(page, limit);
-        return userList;
+        PageInfo userList = thirdCheckService.querySelective(page, limit);
+       // return userList;
+        return ResponseUtil.okPageInfo(userList);
     }
 }

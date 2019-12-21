@@ -128,14 +128,6 @@
               </view>
             </view>
             <view class="weui-cell">
-              <view class="weui-cell__hd">
-                <label>*检测项目: </label>
-              </view>
-              <view class="weui-cell__bd">
-                <input type="text"  name="exampleProject" value=''/>
-              </view>
-            </view>
-            <view class="weui-cell">
                 <view class="weui-cell__hd">
                   <label>*质地: </label>
                 </view>
