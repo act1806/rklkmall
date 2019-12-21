@@ -158,16 +158,6 @@ export const asyncRouterMap = [
           title: '意见反馈',
           noCache: true
         }
-      },
-      {
-        path: 'thirdcheck',
-        component: () => import('@/views/user/thirdcheck'),
-        name: 'thirdcheck',
-        meta: {
-          perms: ['GET /admin/thirdCheck/list'],
-          title: '第三方检测',
-          noCache: true
-        }
       }
     ]
   },
@@ -183,25 +173,6 @@ export const asyncRouterMap = [
       icon: 'chart'
     },
     children: [
-      {
-        path: 'region',
-        component: () => import('@/views/mall/region'),
-        name: 'region',
-        meta: {
-          title: '行政区域',
-          noCache: true
-        }
-      },
-      {
-        path: 'brand',
-        component: () => import('@/views/mall/brand'),
-        name: 'brand',
-        meta: {
-          perms: ['GET /admin/brand/list', 'POST /admin/brand/create', 'GET /admin/brand/read', 'POST /admin/brand/update', 'POST /admin/brand/delete'],
-          title: '品牌制造商',
-          noCache: true
-        }
-      },
       {
         path: 'category',
         component: () => import('@/views/mall/category'),
@@ -233,12 +204,12 @@ export const asyncRouterMap = [
         }
       },
       {
-        path: 'keyword',
-        component: () => import('@/views/mall/keyword'),
-        name: 'keyword',
+        path: 'thirdcheck',
+        component: () => import('@/views/user/thirdcheck'),
+        name: 'thirdcheck',
         meta: {
-          perms: ['GET /admin/keyword/list', 'POST /admin/keyword/create', 'GET /admin/keyword/read', 'POST /admin/keyword/update', 'POST /admin/keyword/delete'],
-          title: '关键词',
+          perms: ['GET /admin/thirdCheck/list'],
+          title: '第三方检测',
           noCache: true
         }
       }

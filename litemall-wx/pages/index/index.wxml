@@ -25,7 +25,7 @@
       </view>
     </view>
     <view wx:if="{{coupon.length>0}}" class="b">
-      <view class="item" wx:for="{{coupon}}" wx:for-index="index" wx:for-item="item" wx:key="id" bindtap="getCoupon" data-index="{{item.id}}">
+      <view class="item" wx:for="{{coupon}}" wx:for-index="index" wx:for-item="item" wx:key="id" data-index="{{item.id}}">
         <view class="tag">{{item.tag}}</view>
         <view class="content">
           <view class="left">
