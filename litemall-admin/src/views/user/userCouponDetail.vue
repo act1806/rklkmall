@@ -17,8 +17,6 @@
           <el-table-column align="center" label="微信号" prop="nickname"/>
 
         </el-table>
-
-        <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
       </el-col>
       <el-col :span="16" style="padding:0 0 0 40px">
         <el-table v-loading="listLoading" ref="checkTable" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
@@ -31,7 +29,7 @@
 
           <el-table-column align="center" label="介绍" prop="desc" sortable/>
 
-          <el-table-column align="center" label="最少件数" prop="min">
+          <el-table-column align="center" label="满足件数" prop="min">
             <template slot-scope="scope">满{{ scope.row.min }}件可用</template>
           </el-table-column>
 
@@ -94,13 +92,11 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
+      fetchList().then(response => {
         this.listUser = response.data.data.list
-        this.total = response.data.data.total
         this.listLoading = false
       }).catch(() => {
         this.listUser = []
-        this.total = 0
         this.listLoading = false
       })
       listCoupon(this.listQuery).then(response => {

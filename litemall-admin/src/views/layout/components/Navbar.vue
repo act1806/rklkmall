@@ -28,7 +28,7 @@
               首页
             </el-dropdown-item>
           </router-link>
-          <el-dropdown-item divided>
+          <!-- <el-dropdown-item divided>
             <a target="_blank" href="https://github.com/linlinjava/litemall">
               GitHub
             </a>
@@ -37,7 +37,7 @@
             <a target="_blank" href="https://gitee.com/linlinjava/litemall">
               码云
             </a>
-          </el-dropdown-item>
+          </el-dropdown-item> -->
           <el-dropdown-item divided>
             <router-link to="/profile/password">
               密码修改
