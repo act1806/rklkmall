@@ -50,9 +50,6 @@ public class WxGoodsController {
 	private LitemallBrandService brandService;
 
 	@Autowired
-	private LitemallCommentService commentService;
-
-	@Autowired
 	private LitemallUserService userService;
 
 	@Autowired
@@ -118,35 +115,16 @@ public class WxGoodsController {
 			return brand;
 		};
 
-		// 评论
-		Callable<Map> commentsCallable = () -> {
-			List<LitemallComment> comments = commentService.queryGoodsByGid(id, 0, 2);
-			List<Map<String, Object>> commentsVo = new ArrayList<>(comments.size());
-			long commentCount = PageInfo.of(comments).getTotal();
-			for (LitemallComment comment : comments) {
-				Map<String, Object> c = new HashMap<>();
-				c.put("id", comment.getId());
-				c.put("addTime", comment.getAddTime());
-				c.put("content", comment.getContent());
-				LitemallUser user = userService.findById(comment.getUserId());
-				c.put("nickname", user == null ? "" : user.getNickname());
-				c.put("avatar", user == null ? "" : user.getAvatar());
-				c.put("picList", comment.getPicUrls());
-				commentsVo.add(c);
-			}
-			Map<String, Object> commentList = new HashMap<>();
-			commentList.put("count", commentCount);
-			commentList.put("data", commentsVo);
-			return commentList;
-		};
-
-		//团购信息
-		Callable<List> grouponRulesCallable = () ->rulesService.queryByGoodsId(id);
-
 		// 用户收藏
 		int userHasCollect = 0;
 		if (userId != null) {
 			userHasCollect = collectService.count(userId, id);
+		}
+
+		//用户是否有权限下单
+		String userLevel = "0";
+		if (userId != null) {
+			userLevel = userService.findById(userId).getLevel();
 		}
 
 		// 记录用户的足迹 异步处理
@@ -162,30 +140,25 @@ public class WxGoodsController {
 		FutureTask<Object> objectCallableTask = new FutureTask<>(objectCallable);
 		FutureTask<List> productListCallableTask = new FutureTask<>(productListCallable);
 		FutureTask<List> issueCallableTask = new FutureTask<>(issueCallable);
-		FutureTask<Map> commentsCallableTsk = new FutureTask<>(commentsCallable);
 		FutureTask<LitemallBrand> brandCallableTask = new FutureTask<>(brandCallable);
-        FutureTask<List> grouponRulesCallableTask = new FutureTask<>(grouponRulesCallable);
 
 		executorService.submit(goodsAttributeListTask);
 		executorService.submit(objectCallableTask);
 		executorService.submit(productListCallableTask);
 		executorService.submit(issueCallableTask);
-		executorService.submit(commentsCallableTsk);
 		executorService.submit(brandCallableTask);
-		executorService.submit(grouponRulesCallableTask);
 
 		Map<String, Object> data = new HashMap<>();
 
 		try {
 			data.put("info", info);
 			data.put("userHasCollect", userHasCollect);
+			data.put("userLevel", userLevel);
 			data.put("issue", issueCallableTask.get());
-			data.put("comment", commentsCallableTsk.get());
 			data.put("specificationList", objectCallableTask.get());
 			data.put("productList", productListCallableTask.get());
 			data.put("attribute", goodsAttributeListTask.get());
 			data.put("brand", brandCallableTask.get());
-			data.put("groupon", grouponRulesCallableTask.get());
 			//SystemConfig.isAutoCreateShareImage()
 			data.put("share", SystemConfig.isAutoCreateShareImage());
 

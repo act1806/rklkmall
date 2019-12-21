@@ -417,6 +417,7 @@ public class WxCartController {
 
         // 商品价格
         List<LitemallCart> checkedGoodsList = null;
+        int availableCouponLength = 0;
         if (cartId == null || cartId.equals(0)) {
             checkedGoodsList = cartService.queryByUidAndChecked(userId);
         } else {
@@ -436,26 +437,7 @@ public class WxCartController {
             if(coupon != null) {
                 cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP));
                 cart.setCouponName(coupon.getName());
-            }
-        }
-
-        // 计算优惠券可用情况
-        BigDecimal tmpCouponPrice = new BigDecimal(0.00);
-        Integer tmpCouponId = 0;
-        Integer tmpUserCouponId = 0;
-        int tmpCouponLength = 0;
-        List<LitemallCouponUser> couponUserList = couponUserService.queryAll(userId);
-        for(LitemallCouponUser couponUser : couponUserList){
-            tmpUserCouponId = couponUser.getId();
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, couponUser.getCouponId(), tmpUserCouponId, checkedGoodsPrice);
-            if(coupon == null){
-                continue;
-            }
-
-            tmpCouponLength++;
-            if(tmpCouponPrice.compareTo(coupon.getDiscount()) == -1){
-                tmpCouponPrice = coupon.getDiscount();
-                tmpCouponId = coupon.getId();
+                availableCouponLength++;
             }
         }
 
@@ -482,7 +464,7 @@ public class WxCartController {
         data.put("grouponRulesId", grouponRulesId);
         data.put("grouponPrice", new BigDecimal(0));
         data.put("checkedAddress", checkedAddress);
-        data.put("availableCouponLength", 0);
+        data.put("availableCouponLength", availableCouponLength);
         data.put("goodsTotalPrice", checkedGoodsPrice);
         data.put("freightPrice", freightPrice);
         data.put("couponPrice", new BigDecimal(0));

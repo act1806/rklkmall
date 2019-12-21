@@ -160,14 +160,13 @@ Page({
           goods: res.data.info,
           attribute: res.data.attribute,
           issueList: res.data.issue,
-          comment: res.data.comment,
           brand: res.data.brand,
           specificationList: res.data.specificationList,
           productList: res.data.productList,
           userHasCollect: res.data.userHasCollect,
+          userLevel: res.data.userLevel,
           shareImage: res.data.shareImage,
           checkedSpecPrice: res.data.info.retailPrice,
-          groupon: res.data.groupon,
           canShare: res.data.share,
         });
 
