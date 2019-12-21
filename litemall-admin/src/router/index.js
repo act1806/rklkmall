@@ -212,6 +212,10 @@ export const asyncRouterMap = [
           title: '第三方检测',
           noCache: true
         }
+      },
+      {
+        path: 'https://mpkf.weixin.qq.com/',
+        meta: { title: '小程序客服' }
       }
     ]
   },
@@ -259,12 +263,12 @@ export const asyncRouterMap = [
         hidden: true
       },
       {
-        path: 'comment',
-        component: () => import('@/views/goods/comment'),
-        name: 'goodsComment',
+        path: 'coupon',
+        component: () => import('@/views/promotion/coupon'),
+        name: 'coupon',
         meta: {
-          perms: ['GET /admin/comment/list', 'POST /admin/comment/delete'],
-          title: '商品评论',
+          perms: ['GET /admin/coupon/list', 'POST /admin/coupon/create', 'POST /admin/coupon/update', 'POST /admin/coupon/delete'],
+          title: '活动管理',
           noCache: true
         }
       }
@@ -275,6 +279,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'noredirect',
     alwaysShow: true,
+    hidden: true,
     name: 'promotionManage',
     meta: {
       title: '推广管理',
@@ -288,16 +293,6 @@ export const asyncRouterMap = [
         meta: {
           perms: ['GET /admin/ad/list', 'POST /admin/ad/create', 'GET /admin/ad/read', 'POST /admin/ad/update', 'POST /admin/ad/delete'],
           title: '广告管理',
-          noCache: true
-        }
-      },
-      {
-        path: 'coupon',
-        component: () => import('@/views/promotion/coupon'),
-        name: 'coupon',
-        meta: {
-          perms: ['GET /admin/coupon/list', 'POST /admin/coupon/create', 'POST /admin/coupon/update', 'POST /admin/coupon/delete'],
-          title: '优惠券管理',
           noCache: true
         }
       },
@@ -446,6 +441,7 @@ export const asyncRouterMap = [
         path: 'express',
         component: () => import('@/views/config/express'),
         name: 'configExpress',
+        hidden: true,
         meta: {
           perms: ['GET /admin/config/express', 'POST /admin/config/express'],
           title: '运费配置',
@@ -524,6 +520,7 @@ export const asyncRouterMap = [
     redirect: 'noredirect',
     alwaysShow: true,
     name: 'externalLink',
+    hidden: true,
     meta: {
       title: '外链',
       icon: 'link'
@@ -540,10 +537,6 @@ export const asyncRouterMap = [
       {
         path: 'https://pay.weixin.qq.com/index.php/core/home/login',
         meta: { title: '微信支付', icon: 'link' }
-      },
-      {
-        path: 'https://mpkf.weixin.qq.com/',
-        meta: { title: '小程序客服', icon: 'link' }
       },
       {
         path: 'https://www.alibabacloud.com/zh/product/oss',
