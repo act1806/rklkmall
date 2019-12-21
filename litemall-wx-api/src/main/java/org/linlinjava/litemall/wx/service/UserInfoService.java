@@ -20,6 +20,7 @@ public class UserInfoService {
         userInfo.setNickName(user.getNickname());
         userInfo.setAvatarUrl(user.getAvatar());
         userInfo.setAmount(user.getAmount());
+        userInfo.setLevel(user.getLevel());
         return userInfo;
     }
 }

@@ -9,6 +9,7 @@ public class UserInfo {
     private String language;
     private Byte gender;
     private String amount;
+    private String level;
 
     public String getCountry() {
         return country;
@@ -72,5 +73,13 @@ public class UserInfo {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

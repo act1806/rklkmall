@@ -26,13 +26,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="余额" prop="amount" />>
+      <el-table-column align="center" label="余额" prop="amount" />
 
-      <el-table-column align="center" label="用户等级" prop="userLevel">
+      <!-- <el-table-column align="center" label="用户等级" prop="userLevel">
         <template slot-scope="scope">
           <el-tag >{{ levelDic[scope.row.userLevel] }}</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
       <el-table-column align="center" label="状态" prop="status">
         <template slot-scope="scope">
@@ -40,31 +40,41 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="消费者等级" prop="level" >
+        <template slot-scope="scope">
+          <el-tag >{{ levelDic[scope.row.level] }}</el-tag>
+        </template>
+      </el-table-column>
+
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :visible.sync="dialogVisible" title="用户信息">
-      <el-button type="text" @click="dialogTableVisible = true">确定</el-button>
-      <el-button type="text" @click="dialogVisible = false">取消</el-button>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="终端类型:" prop="terminalType"/>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="功能模块:" prop="moduleType"/>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="功能细分:" prop="problemType"/>
-        </el-col>
-      </el-row>
+    <el-dialog :visible="dialogVisible" title="用户信息">
+      <el-button class="filter-item" type="primary" @click="handleConfirm">确定</el-button>
+      <el-button class="filter-item" type="primary" @click="dialogVisible = false">取消</el-button>
+      <el-form >
+        <!-- <el-form-item label="用户id">
+          <el-input v-model="userItem.id" readonly= "true" />
+        </el-form-item>
+        <el-form-item label="用户名">
+          <el-input v-model="userItem.username" readonly= "true" />
+        </el-form-item> -->
+        <el-form-item label="余额">
+          <el-input v-model="userItem.amount" />
+        </el-form-item>
+        <el-form-item label="消费者等级">
+          <el-input v-model="userItem.level" />
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { fetchList } from '@/api/user'
+import { fetchList, updateAmountLevel } from '@/api/user'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import { MessageBox } from 'element-ui'
 
 export default {
   name: 'User',
@@ -84,10 +94,16 @@ export default {
       },
       downloadLoading: false,
       genderDic: ['未知', '男', '女'],
-      levelDic: ['普通用户', 'VIP用户', '高级VIP用户'],
+      levelDic: ['不可下单', '可下单'],
       statusDic: ['可用', '禁用', '注销'],
       thisSelectedRow: undefined,
-      dialogVisible: false
+      dialogVisible: false,
+      userItem: {
+        id: undefined,
+        username: '',
+        amount: '',
+        level: ''
+      }
     }
   },
   created() {
@@ -126,7 +142,25 @@ export default {
     },
     handleModify() {
       console.log(this.thisSelectedRow)
+      this.userItem = this.thisSelectedRow
       this.dialogVisible = true
+    },
+    handleConfirm() {
+      updateAmountLevel(this.userItem)
+        .then(response => {
+          console.log(response)
+          this.$notify.success({
+            title: '成功',
+            message: '修改成功'
+          })
+          this.dialogVisible = false
+        })
+        .catch(response => {
+          MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
+            confirmButtonText: '确定',
+            type: 'error'
+          })
+        })
     }
   }
 }

@@ -48,3 +48,11 @@ export function listHistory(query) {
   })
 }
 
+export function updateAmountLevel(data) {
+  return request({
+    url: '/user/updateAmountLevel',
+    method: 'post',
+    data
+  })
+}
+

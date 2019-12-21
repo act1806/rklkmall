@@ -11,10 +11,7 @@ import org.linlinjava.litemall.db.domain.LitemallUser;
 import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,5 +34,12 @@ public class AdminUserController {
                        @Order @RequestParam(defaultValue = "desc") String order) {
         List<LitemallUser> userList = userService.querySelective(username, mobile, page, limit, sort, order);
         return ResponseUtil.okList(userList);
+    }
+
+    @PostMapping("/updateAmountLevel")
+    public Object updateAmountLevel(@RequestBody LitemallUser user) {
+
+        int result = userService.updateById(user);
+        return ResponseUtil.ok(result);
     }
 }
