@@ -64,7 +64,7 @@
               <label>*报告接收邮箱: </label>
             </view>
             <view class="weui-cell__bd">
-              <input type="text"  name="email" value=''/>
+              <input type="text"  name="email" bindchange="inputemail" value=''/>
             </view>
           </view>
       </view>
@@ -99,7 +99,7 @@
           </view>
           <view class="weui-cell">
             <view class="weui-cell__hd">
-              <label>*性别: </label>
+              <label>性别: </label>
             </view>
             <view class="weui-cell__bd">
               <radio-group bindchange="genderRadioChange" name="gender">
@@ -117,7 +117,7 @@
         </view>
         <view class="weui-cell">
             <view class="weui-cell__hd">
-              <label>*是否绝育: </label>
+              <label>是否绝育: </label>
             </view>
             <view class="weui-cell__bd">
               <radio-group bindchange="isSteredRadioChange" name="isStered">
@@ -153,7 +153,7 @@
                 <input type="text"  name="exampleProject" value=''/>
               </view>
             </view>
-            <view class="weui-cells__title">样本项目</view>
+            <view class="weui-cells__title">*样本项目</view>
             <view class="weui-cells weui-cells_checkbox weui-cells_after-title">
                 <checkbox-group bindchange="sampleCheckboxChange" name="sampleProject">
                     <label class="weui-cell weui-check__label" wx:for="{{sampleCheckboxItems}}" wx:key="value">

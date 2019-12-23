@@ -16,6 +16,8 @@
       highlight-current-row
       @row-click="rowSelcted"
     >
+      <el-table-column type="index" width="50" />
+
       <el-table-column align="center" width="180px" label="检测单类型" prop="examine">
         <template slot-scope="scope">
           <el-tag>{{ examineDic[scope.row.examine] }}</el-tag>

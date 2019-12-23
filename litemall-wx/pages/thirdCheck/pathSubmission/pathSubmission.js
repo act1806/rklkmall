@@ -77,18 +77,31 @@ Page({
     let data = e.detail.value;
     let that = this;
 
-    util.request(api.ThirdCheck, 
-      data
-    , 'POST').then(function (res) {
-      if (res.errno === 0) {
-        wx.showToast({
-          title: '提交成功',
-          complete: function () {
-            wx.navigateBack();
+    if (e.detail.value.hospitalName == "" || e.detail.value.phone == "" || e.detail.value.sampleAddr == "" || e.detail.value.sampleDate == "" || e.detail.value.email == "" || e.detail.value.cls == "" || e.detail.value.sampleArea == "" || e.detail.value.texture == "" || e.detail.value.sampleSize == "" || e.detail.value.isDiolame == "" || e.detail.value.isRupture == "" || e.detail.value.isStick == "" || e.detail.value.clinical == "" || e.detail.value.history == "") {
+      wx.showModal({
+        title: '提示',
+        content: '请输入完整信息！',
+        success: function (res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
           }
-        })
-      }
-    });
+        }
+      })
+    } else {
+
+      util.request(api.ThirdCheck, 
+        data
+      , 'POST').then(function (res) {
+        if (res.errno === 0) {
+          wx.showToast({
+            title: '提交成功',
+            complete: function () {
+              wx.navigateBack();
+            }
+          })
+        }
+      });
+    }
   },
 
   /**
@@ -330,5 +343,22 @@ Page({
     this.setData({
       isRadioItems3: isRadioItems3
     });
+  },
+  // 邮箱验证部分
+  inputemail: function (e) {
+    let email = e.detail.value
+    let checkedNum = this.checkEmail(email)
+
+  },
+  checkEmail: function (email) {
+    let str = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/
+    if (str.test(email)) {
+      return true
+    } else {
+      wx.showToast({
+        title: '请填写正确的邮箱号'
+      })
+      return false
+    }
   }
 })
