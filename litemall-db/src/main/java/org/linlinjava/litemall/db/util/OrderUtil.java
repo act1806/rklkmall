@@ -87,18 +87,9 @@ public class OrderUtil {
         if (status == 101) {
             // 如果订单没有被取消，且没有支付，则可支付，可取消
             handleOption.setCancel(true);
-            handleOption.setPay(true);
-        } else if (status == 102 || status == 103) {
-            // 如果订单已经取消或是已完成，则可删除
-            handleOption.setDelete(true);
-        } else if (status == 200 || status == 201) {
-            // 如果订单已付款，没有发货，则可退款
-            handleOption.setRefund(true);
-        } else if (status == 202 || status == 204) {
-            // 如果订单申请退款中，没有相关操作
-        } else if (status == 203) {
-            // 如果订单已经退款，则可删除
-            handleOption.setDelete(true);
+        } else if (status == 201 || status == 301) {
+            // 如果订单已经确认，则不能取消
+            handleOption.setCancel(false);
         } else if (status == 302) {
             // 如果订单已经发货，没有收货，则可收货操作,
             // 此时不能取消订单
