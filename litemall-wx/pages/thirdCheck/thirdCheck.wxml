@@ -1,19 +1,24 @@
 <view class="container">
-
-  <view class=" list">
-
-    <view class=" info" bindtap='goSubmission'>
-      <view class='title'>佰基检测送检单</view>
+  <view class="a-section a-coupon" >
+    <view  class="b" bindtap='goSubmission'>
+      <view class="item">
+        <view class="content">
+          <view class="right">
+            <view class="name">佰基检测送检单</view>
+          </view>
+        </view>
+      </view>
     </view>
 
-  </view>
-
-  <view class=" list">
-
-    <view class=" info" bindtap='goPathSubmission'>
-      <view class='title'>佰基病理学检测送检单</view>
+    <view  class="b" bindtap='goPathSubmission'>
+      <view class="item">
+        <view class="content">
+          <view class="right">
+            <view class="name">佰基病理学检测送检单</view>
+          </view>
+        </view>
+      </view>
     </view>
-
   </view>
 
  
