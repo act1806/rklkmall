@@ -17,17 +17,10 @@
       <view class="item {{ status == 0 ? 'active' : ''}}" wx:for="{{couponList}}" wx:for-index="index" wx:for-item="item" wx:key="id">
         <view class="tag">{{item.tag}}</view>
         <view class="content">
-          <view class="left">
-            <view class="discount">{{item.discount}}件</view>
-            <view class="min"> 满{{item.min}}件使用</view>
-          </view>
-          <view class="right">
-            <view class="name">{{item.name}}</view>
-            <view class="time"> 有效期：{{item.startTime}} - {{item.endTime}}</view>
-          </view>
+          <view class="name">{{item.name}}</view>
         </view>
         <view class="condition">
-          <text class="txt">{{item.desc}}</text>
+          <text class="txt">活动范围：{{item.desc}}</text>
           <image src="{{item.pic}}" class="icon"></image>
         </view>
       </view>

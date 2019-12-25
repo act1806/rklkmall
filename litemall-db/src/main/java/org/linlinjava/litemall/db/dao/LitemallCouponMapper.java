@@ -150,5 +150,5 @@ public interface LitemallCouponMapper {
      */
     int logicalDeleteByPrimaryKey(Integer id);
 
-    LitemallCoupon checkCoupon(Integer userId, Integer goodsId);
+    List<LitemallCoupon> checkCoupon(Integer userId, Integer goodsId);
 }

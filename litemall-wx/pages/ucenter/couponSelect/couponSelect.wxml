@@ -7,14 +7,7 @@
     <view class="item" wx:for="{{couponList}}" wx:for-index="index" wx:for-item="item" wx:key="id" bindtap="selectCoupon" data-id="{{item.id}}" data-cid="{{item.cid}}">
       <view class="tag">{{item.tag}}</view>
       <view class="content">
-        <view class="left">
-          <view class="discount">{{item.discount}}件</view>
-          <view class="min"> 满{{item.min}}件赠送</view>
-        </view>
-        <view class="right">
           <view class="name">{{item.name}}</view>
-          <view class="time"> 有效期：{{item.startTime}} - {{item.endTime}}</view>
-        </view>
       </view>
       <view class="condition">
         <text class="txt">{{item.desc}}</text>

@@ -137,7 +137,7 @@ page {
 }
 
 .container .b .item.active {
-  background: linear-gradient(to right, #cfa568, #e3bf79);
+  background: linear-gradient(to right, #f0454b, #ee4545);
 }
 
 .container .b .tag {

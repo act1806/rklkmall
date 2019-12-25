@@ -13,6 +13,7 @@ public class CouponVo {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private boolean available;
+    private Integer total;
 
     public Integer getId() {
         return id;
@@ -92,5 +93,13 @@ public class CouponVo {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 }

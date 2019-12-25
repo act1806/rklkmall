@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CouponVerifyService {
@@ -61,13 +62,6 @@ public class CouponVerifyService {
             return null;
         }
 
-        // 检测商品是否符合
-        // TODO 目前仅支持全平台商品，所以不需要检测
-        Short goodType = coupon.getGoodsType();
-        if (!goodType.equals(CouponConstant.GOODS_TYPE_ALL)) {
-            return null;
-        }
-
         // 检测订单状态
         Short status = coupon.getStatus();
         if (!status.equals(CouponConstant.STATUS_NORMAL)) {
@@ -88,7 +82,8 @@ public class CouponVerifyService {
      * @param goodsId
      * @return
      */
-    public LitemallCoupon checkCoupon(Integer userId, Integer goodsId) {
-        return couponService.checkCoupon(userId, goodsId);
+    public List<LitemallCoupon> checkCoupon(Integer userId) {
+        return null;
+        //return couponService.checkCoupon(userId);
     }
 }

@@ -23,10 +23,10 @@
     </view>
   </view>
 
-  <view class="coupon-box">
+  <view class="coupon-box" bindtap="selectCoupon">
     <view class="coupon-item">
       <view class="l">
-        <text class="name">可用活动</text>
+        <text class="name">选择活动</text>
         <text class="txt">{{availableCouponLength}}个</text>
       </view>      
       <view class="r">
@@ -69,7 +69,10 @@
           <text class="number">x{{item.number}}</text>
         </view>
         <view class="m">{{item.specifications}}</view>
-        <view class="b">￥{{item.price}}</view>
+        <view class="price">
+          <view class="retailPrice">￥{{item.retailPrice}}</view>
+          <view class="counterPrice" wx:if="{{item.price != item.retailPrice}}">￥{{item.price}}</view>
+        </view>
         <view class="s" wx:if="{{item.presentNum > 0}}">【活动】{{item.couponName}},送{{item.presentNum}}盒，共计{{item.presentNum+item.number}}盒</view>
       </view>
     </view>

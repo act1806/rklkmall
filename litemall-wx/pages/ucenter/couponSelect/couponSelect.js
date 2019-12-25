@@ -119,8 +119,7 @@ Page({
     });
 
     util.request(api.CouponSelectList, {
-      cartId: that.data.cartId,
-      grouponRulesId: that.data.grouponRulesId,
+      cartId: that.data.cartId
     }).then(function (res) {
       if (res.errno === 0) {
         let list = [];

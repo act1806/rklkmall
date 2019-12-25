@@ -283,7 +283,26 @@ page {
   overflow: hidden;
   line-height: 41rpx;
   font-size: 27rpx;
+  padding-left: 0;
   color: rgb(248, 115, 7);
+}
+
+.goods-items .price {
+  height: 41rpx;
+}
+
+.goods-items .counterPrice {
+  padding-left: 5%;
+  font-size: 28rpx;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.goods-items .retailPrice {
+  float: left;
+  padding-left: 0rpx;
+  font-size: 30rpx;
+  color: #a78845;
 }
 
 .order-total {

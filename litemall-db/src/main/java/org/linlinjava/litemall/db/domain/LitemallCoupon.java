@@ -92,7 +92,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    private Short limit;
+    private Integer limit;
 
     /**
      *
@@ -119,7 +119,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    private Short goodsType;
+    private Integer goodsType;
 
     /**
      *
@@ -128,7 +128,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    private Integer[] goodsValue;
+    private String goodsValue;
 
     /**
      *
@@ -378,7 +378,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    public Short getLimit() {
+    public Integer getLimit() {
         return limit;
     }
 
@@ -390,7 +390,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    public void setLimit(Short limit) {
+    public void setLimit(Integer limit) {
         this.limit = limit;
     }
 
@@ -450,7 +450,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    public Short getGoodsType() {
+    public Integer getGoodsType() {
         return goodsType;
     }
 
@@ -462,7 +462,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    public void setGoodsType(Short goodsType) {
+    public void setGoodsType(Integer goodsType) {
         this.goodsType = goodsType;
     }
 
@@ -474,7 +474,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    public Integer[] getGoodsValue() {
+    public String getGoodsValue() {
         return goodsValue;
     }
 
@@ -486,7 +486,7 @@ public class LitemallCoupon {
      *
      * @mbg.generated
      */
-    public void setGoodsValue(Integer[] goodsValue) {
+    public void setGoodsValue(String goodsValue) {
         this.goodsValue = goodsValue;
     }
 
@@ -759,7 +759,6 @@ public class LitemallCoupon {
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getGoodsType() == null ? other.getGoodsType() == null : this.getGoodsType().equals(other.getGoodsType()))
-            && (Arrays.equals(this.getGoodsValue(), other.getGoodsValue()))
             && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()))
             && (this.getTimeType() == null ? other.getTimeType() == null : this.getTimeType().equals(other.getTimeType()))
             && (this.getDays() == null ? other.getDays() == null : this.getDays().equals(other.getDays()))
@@ -791,7 +790,6 @@ public class LitemallCoupon {
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getGoodsType() == null) ? 0 : getGoodsType().hashCode());
-        result = prime * result + (Arrays.hashCode(getGoodsValue()));
         result = prime * result + ((getCode() == null) ? 0 : getCode().hashCode());
         result = prime * result + ((getTimeType() == null) ? 0 : getTimeType().hashCode());
         result = prime * result + ((getDays() == null) ? 0 : getDays().hashCode());

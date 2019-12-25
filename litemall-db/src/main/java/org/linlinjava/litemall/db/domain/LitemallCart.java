@@ -152,6 +152,8 @@ public class LitemallCart {
 
     private String couponName;
 
+    private BigDecimal retailPrice;
+
     public BigDecimal getPresentNum() {
         return presentNum;
     }
@@ -166,6 +168,14 @@ public class LitemallCart {
 
     public void setCouponName(String couponName) {
         this.couponName = couponName;
+    }
+
+    public BigDecimal getRetailPrice() {
+        return retailPrice;
+    }
+
+    public void setRetailPrice(BigDecimal retailPrice) {
+        this.retailPrice = retailPrice;
     }
 
     /**

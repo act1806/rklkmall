@@ -108,6 +108,7 @@ public class WxCouponController {
             couponVo.setDiscount(coupon.getDiscount().toPlainString());
             couponVo.setStartTime(couponUser.getStartTime());
             couponVo.setEndTime(couponUser.getEndTime());
+            couponVo.setTotal(coupon.getTotal());
 
             couponVoList.add(couponVo);
         }
@@ -125,19 +126,12 @@ public class WxCouponController {
      * @return
      */
     @GetMapping("selectlist")
-    public Object selectlist(@LoginUser Integer userId, Integer cartId, Integer grouponRulesId) {
+    public Object selectlist(@LoginUser Integer userId, Integer cartId) {
         if (userId == null) {
             return ResponseUtil.unlogin();
         }
 
-        // 团购优惠
-        BigDecimal grouponPrice = new BigDecimal(0.00);
-        LitemallGrouponRules grouponRules = grouponRulesService.queryById(grouponRulesId);
-        if (grouponRules != null) {
-            grouponPrice = grouponRules.getDiscount();
-        }
-
-        // 商品价格
+        // 是否有符合的优惠券
         List<LitemallCart> checkedGoodsList = null;
         if (cartId == null || cartId.equals(0)) {
             checkedGoodsList = cartService.queryByUidAndChecked(userId);
@@ -149,22 +143,20 @@ public class WxCouponController {
             checkedGoodsList = new ArrayList<>(1);
             checkedGoodsList.add(cart);
         }
-        BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
-        for (LitemallCart cart : checkedGoodsList) {
-            //  只有当团购规格商品ID符合才进行团购优惠
-            if (grouponRules != null && grouponRules.getGoodsId().equals(cart.getGoodsId())) {
-                checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().subtract(grouponPrice).multiply(new BigDecimal(cart.getNumber())));
-            } else {
-                checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
-            }
-        }
 
         // 计算优惠券可用情况
         List<LitemallCouponUser> couponUserList = couponUserService.queryAll(userId);
         List<CouponVo> couponVoList = change(couponUserList);
         for (CouponVo cv : couponVoList) {
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cv.getCid(), cv.getId(), checkedGoodsPrice);
-            cv.setAvailable(coupon != null);
+           for(LitemallCart litemallCart : checkedGoodsList){
+               int id = litemallCart.getGoodsId();
+               int total = cv.getTotal();
+               boolean cpvcdvGood = (id == 1 || id == 2 || id == 3 || id == 4) ? true : false;
+               boolean cpvcdvCoupon = (total == 111) ? true : false;
+               if(cpvcdvGood == cpvcdvCoupon){
+                   cv.setAvailable(true);
+               }
+           }
         }
 
         return ResponseUtil.okList(couponVoList);

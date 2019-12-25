@@ -24,16 +24,20 @@
 
       <el-table-column align="center" label="介绍" prop="desc"/>
 
-      <el-table-column align="center" label="最低件数" prop="min">
-        <template slot-scope="scope">满{{ scope.row.min }}件可用</template>
+      <el-table-column align="center" label="赠送比例/折扣" prop="min">
+        <template slot-scope="scope">{{ scope.row.min }}/{{ scope.row.discount }}</template>
       </el-table-column>
 
-      <el-table-column align="center" label="满赠件数" prop="discount">
-        <template slot-scope="scope">赠送{{ scope.row.discount }}件</template>
+      <el-table-column align="center" label="活动类型" prop="total">
+        <template slot-scope="scope">{{ scope.row.total | goodsGroupFilter }}</template>
       </el-table-column>
 
-      <el-table-column align="center" label="商品ID" prop="total">
-        <template slot-scope="scope">{{ scope.row.total }}</template>
+      <el-table-column align="center" label="大活动赠品" prop="total">
+        <template slot-scope="scope">{{ scope.row.goodsValue }}</template>
+      </el-table-column>
+
+      <el-table-column align="center" label="完成情况" prop="total">
+        <template slot-scope="scope">{{ scope.row.goodsType }} / {{ scope.row.limit }}</template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
@@ -54,20 +58,33 @@
           <el-input v-model="dataForm.name"/>
         </el-form-item>
         <el-form-item label="介绍" prop="desc">
-          <el-input v-model="dataForm.desc"/>
+          <el-input v-model="dataForm.desc" type="textarea"/>
         </el-form-item>
-        <el-form-item label="最低件数" prop="min">
+        <el-form-item label="赠送比例" prop="min">
           <el-input v-model="dataForm.min">
-            <template slot="append">件</template>
+            <template slot="append">小数</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="满赠件数" prop="discount">
+        <el-form-item label="折扣比例" prop="discount">
           <el-input v-model="dataForm.discount">
-            <template slot="append">件</template>
+            <template slot="append">小数</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="商品ID" prop="total">
-          <el-input v-model="dataForm.total"/>
+        <el-form-item label="活动类型" prop="total">
+          <el-select v-model="dataForm.total" placeholder="选择组合类型">
+            <el-option :value="111" label="CPV CDV" />
+            <el-option :value="222" label="除CPV CDV之外" />
+            <el-option :value="333" label="大活动 除CPV CDV之外" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="大活动赠品" prop="desc">
+          <el-input v-model="dataForm.goodsValue"/>
+        </el-form-item>
+        <el-form-item label="大活动金额" prop="desc">
+          <el-input v-model="dataForm.limit"/>
+        </el-form-item>
+        <el-form-item label="已完成金额" prop="desc">
+          <el-input v-model="dataForm.goodsType"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -152,11 +169,13 @@ export default {
       }
       return ''
     },
-    formatGoodsType(goodsType) {
-      if (goodsType === 0) {
-        return '全场通用'
-      } else if (goodsType === 1) {
-        return '指定分类'
+    goodsGroupFilter(goodsType) {
+      if (goodsType === 111) {
+        return 'CPV CDV'
+      } else if (goodsType === 222) {
+        return '除CPV CDV之外'
+      } else if (goodsType === 333) {
+        return '大活动 除CPV CDV之外'
       } else {
         return '指定商品'
       }

@@ -430,15 +430,17 @@ public class WxCartController {
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
         for (LitemallCart cart : checkedGoodsList) {
-            checkedGoodsPrice = checkedGoodsPrice.add(cart.getPrice().multiply(new BigDecimal(cart.getNumber())));
-            //符合活动的赠品数量
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cart.getGoodsId());
+            //符合的活动
             cart.setPresentNum(new BigDecimal(0));
-            if(coupon != null) {
-                cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP));
+            cart.setRetailPrice(cart.getPrice());
+            if(couponId != null && couponId != -1) {
+                LitemallCoupon coupon = couponService.findById(couponId);
+                cart.setRetailPrice(cart.getPrice().multiply(coupon.getDiscount()));
+                cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getMin()));
                 cart.setCouponName(coupon.getName());
                 availableCouponLength++;
             }
+            checkedGoodsPrice = checkedGoodsPrice.add(cart.getRetailPrice().multiply(new BigDecimal(cart.getNumber())));
         }
 
         // 将用户余额存入freightPreice字段；

@@ -181,6 +181,10 @@ public class LitemallCouponService {
     }
 
     public LitemallCoupon checkCoupon(Integer userId, Integer goodsId) {
-        return this.couponMapper.checkCoupon(userId, goodsId);
+        List<LitemallCoupon> coupons = this.couponMapper.checkCoupon(userId, goodsId);
+        if(coupons.size() > 0){
+            return coupons.get(0);
+        }
+        return null;
     }
 }

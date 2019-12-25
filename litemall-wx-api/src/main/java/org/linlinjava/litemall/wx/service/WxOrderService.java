@@ -319,7 +319,7 @@ public class WxOrderService {
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setAddTime(LocalDateTime.now());
             //赠品数量
-            LitemallCoupon coupon = couponVerifyService.checkCoupon(userId, cartGoods.getGoodsId());
+            LitemallCoupon coupon = couponService.checkCoupon(userId, cartGoods.getGoodsId());
             BigDecimal presentNum = new BigDecimal(0);
             String couponName = "未符合活动";
             if(coupon != null) {
