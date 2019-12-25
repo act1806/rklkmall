@@ -86,4 +86,19 @@ public class CouponVerifyService {
         return null;
         //return couponService.checkCoupon(userId);
     }
+
+    /**
+     * 检查当前产品是否符合活动
+     * @param total
+     * @param id
+     * @return
+     */
+    public Boolean checkGoodAndCoupon(int total, int id){
+        boolean cpvcdvGood = (id == 1 || id == 2 || id == 3 || id == 4) ? true : false;
+        boolean cpvcdvCoupon = (total == 111) ? true : false;
+        if(cpvcdvGood == cpvcdvCoupon){
+            return true;
+        }
+        return false;
+    }
 }

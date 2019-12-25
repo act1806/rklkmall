@@ -116,7 +116,6 @@ public class WxCouponController {
         return couponVoList;
     }
 
-
     /**
      * 当前购物车下单商品订单可用优惠券
      *
@@ -149,11 +148,7 @@ public class WxCouponController {
         List<CouponVo> couponVoList = change(couponUserList);
         for (CouponVo cv : couponVoList) {
            for(LitemallCart litemallCart : checkedGoodsList){
-               int id = litemallCart.getGoodsId();
-               int total = cv.getTotal();
-               boolean cpvcdvGood = (id == 1 || id == 2 || id == 3 || id == 4) ? true : false;
-               boolean cpvcdvCoupon = (total == 111) ? true : false;
-               if(cpvcdvGood == cpvcdvCoupon){
+               if(couponVerifyService.checkGoodAndCoupon(cv.getTotal(), litemallCart.getGoodsId())){
                    cv.setAvailable(true);
                }
            }

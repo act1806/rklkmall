@@ -429,16 +429,27 @@ public class WxCartController {
             checkedGoodsList.add(cart);
         }
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
+        BigDecimal couponPrice = new BigDecimal(0.00);
+        String couponName = "未选择";
+        int total = 111;
+        int limit = 0;
+        int goodsType = 0;
         for (LitemallCart cart : checkedGoodsList) {
             //符合的活动
             cart.setPresentNum(new BigDecimal(0));
             cart.setRetailPrice(cart.getPrice());
             if(couponId != null && couponId != -1) {
                 LitemallCoupon coupon = couponService.findById(couponId);
-                cart.setRetailPrice(cart.getPrice().multiply(coupon.getDiscount()));
-                cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getMin()));
-                cart.setCouponName(coupon.getName());
-                availableCouponLength++;
+                couponName = coupon.getName();
+                total = coupon.getTotal();
+                limit = coupon.getLimit();
+                goodsType = coupon.getGoodsType();
+                if(couponVerifyService.checkGoodAndCoupon(coupon.getTotal(), cart.getGoodsId())) {
+                    cart.setRetailPrice(cart.getPrice().multiply(coupon.getDiscount()));
+                    cart.setPresentNum(new BigDecimal(cart.getNumber()).multiply(coupon.getMin()));
+                    cart.setCouponName(coupon.getName());
+                    couponPrice = couponPrice.add(cart.getRetailPrice().multiply(new BigDecimal(cart.getNumber())));
+                }
             }
             checkedGoodsPrice = checkedGoodsPrice.add(cart.getRetailPrice().multiply(new BigDecimal(cart.getNumber())));
         }
@@ -461,6 +472,10 @@ public class WxCartController {
         Map<String, Object> data = new HashMap<>();
         data.put("addressId", addressId);
         data.put("couponId", couponId);
+        data.put("couponName", couponName);
+        data.put("total", total);
+        data.put("limit", limit);
+        data.put("goodsType", goodsType);
         data.put("userCouponId", userCouponId);
         data.put("cartId", cartId);
         data.put("grouponRulesId", grouponRulesId);
@@ -469,7 +484,7 @@ public class WxCartController {
         data.put("availableCouponLength", availableCouponLength);
         data.put("goodsTotalPrice", checkedGoodsPrice);
         data.put("freightPrice", freightPrice);
-        data.put("couponPrice", new BigDecimal(0));
+        data.put("couponPrice", couponPrice);
         data.put("orderTotalPrice", orderTotalPrice);
         data.put("actualPrice", actualPrice);
         data.put("checkedGoodsList", checkedGoodsList);

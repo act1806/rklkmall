@@ -244,6 +244,7 @@ public class WxOrderService {
         String message = JacksonUtil.parseString(body, "message");
         Integer grouponRulesId = JacksonUtil.parseInteger(body, "grouponRulesId");
         Integer grouponLinkId = JacksonUtil.parseInteger(body, "grouponLinkId");
+        Integer couponPrice = JacksonUtil.parseInteger(body, "couponPrice");
 
         if (cartId == null || addressId == null || couponId == null) {
             return ResponseUtil.badArgument();
@@ -345,18 +346,11 @@ public class WxOrderService {
         cartService.clearGoods(userId);
 
 
-        // 商品货品数量减少
-        for (LitemallCart checkGoods : checkedGoodsList) {
-            Integer productId = checkGoods.getProductId();
-            LitemallGoodsProduct product = productService.findById(productId);
-
-            Integer remainNumber = product.getNumber() - checkGoods.getNumber();
-            if (remainNumber < 0) {
-                throw new RuntimeException("下单的商品货品数量大于库存量");
-            }
-            if (productService.reduceStock(productId, checkGoods.getNumber()) == 0) {
-                throw new RuntimeException("商品货品库存减少失败");
-            }
+        // 如果参加大活动
+        if(couponPrice > 0){
+            LitemallCoupon litemallCoupon = couponService.findById(couponId);
+            litemallCoupon.setGoodsType(litemallCoupon.getGoodsType() + couponPrice);
+            couponService.updateById(litemallCoupon);
         }
 
         Map<String, Object> data = new HashMap<>();

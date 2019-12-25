@@ -24,10 +24,18 @@
   </view>
 
   <view class="coupon-box" bindtap="selectCoupon">
-    <view class="coupon-item">
+    <view class="coupon-item" wx:if="{{total != 333}}">
       <view class="l">
         <text class="name">选择活动</text>
-        <text class="txt">{{availableCouponLength}}个</text>
+        <text class="txt">{{couponName}}</text>
+      </view>     
+      <view class="r">
+        <image src="/static/images/address_right.png"></image>
+      </view>
+    </view>
+    <view class="coupon-item-lar" wx:if="{{total == 333}}">
+      <view class="lar">
+        <text class="txt">{{couponName}}已订购<text class="goodstype">{{goodsType}}</text>元，本次订购<text class="couponprice">{{couponPrice}}</text>元，累计订购<text class="couponprice">{{goodsType+couponPrice}}</text>元，还差<text class="last">{{limit-goodsType-couponPrice}}</text>元未订购</text>
       </view>      
       <view class="r">
         <image src="/static/images/address_right.png"></image>
@@ -73,7 +81,7 @@
           <view class="retailPrice">￥{{item.retailPrice}}</view>
           <view class="counterPrice" wx:if="{{item.price != item.retailPrice}}">￥{{item.price}}</view>
         </view>
-        <view class="s" wx:if="{{item.presentNum > 0}}">【活动】{{item.couponName}},送{{item.presentNum}}盒，共计{{item.presentNum+item.number}}盒</view>
+        <view class="s" wx:if="{{item.presentNum > 0}}">【活动】送{{item.presentNum}}盒，共计{{item.presentNum+item.number}}盒</view>
       </view>
     </view>
   </view>
