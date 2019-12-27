@@ -60,6 +60,8 @@ public class WxThirdCheckService {
         List<String> sampleProjectList = JacksonUtil.parseStringList(body, "sampleProject");
         String sampleSize = JacksonUtil.parseString(body, "sampleSize");
         String texture = JacksonUtil.parseString(body, "texture");
+        String expressCarrier = JacksonUtil.parseString(body, "expressCarrier");
+        String expressNo = JacksonUtil.parseString(body, "expressNo");
 
 
 
@@ -115,6 +117,9 @@ public class WxThirdCheckService {
 
         thirdCheck.setSampleSize(sampleSize);
         thirdCheck.setTexture(texture);
+        thirdCheck.setExpressCarrier(expressCarrier);
+        thirdCheck.setExpressNo(expressNo);
+
 
         // 添加送检单
         thirdCheckService.add(thirdCheck);

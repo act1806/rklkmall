@@ -40,9 +40,15 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="消费者等级" prop="level" >
+      <el-table-column align="center" label="消费等级" prop="level" >
         <template slot-scope="scope">
           <el-tag >{{ levelDic[scope.row.level] }}</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="付款状态" prop="paid" >
+        <template slot-scope="scope">
+          <el-tag >{{ paidDic[scope.row.paid] }}</el-tag>
         </template>
       </el-table-column>
 
@@ -63,8 +69,11 @@
         <el-form-item label="余额">
           <el-input v-model="userItem.amount" />
         </el-form-item>
-        <el-form-item label="消费者等级">
+        <el-form-item label="消费等级 0-不可下单 1-可下单">
           <el-input v-model="userItem.level" />
+        </el-form-item>
+        <el-form-item label="付款状态 0-未付款 1-已付款">
+          <el-input v-model="userItem.paid" />
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -96,6 +105,7 @@ export default {
       genderDic: ['未知', '男', '女'],
       levelDic: ['不可下单', '可下单'],
       statusDic: ['可用', '禁用', '注销'],
+      paidDic: ['未付款', '已付款'],
       thisSelectedRow: undefined,
       dialogVisible: false,
       userItem: {

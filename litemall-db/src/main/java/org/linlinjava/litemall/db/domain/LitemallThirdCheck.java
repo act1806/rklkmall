@@ -176,6 +176,12 @@ public class LitemallThirdCheck {
      */
     private String texture;
 
+    private String expressCarrier;
+
+    private String expressNo;
+
+    private String expressUrl;
+
     private String backUpString1;
 
     private String backUpString2;
@@ -464,6 +470,30 @@ public class LitemallThirdCheck {
 
     public void setBackUpInt1(Integer backUpInt1) {
         this.backUpInt1 = backUpInt1;
+    }
+
+    public String getExpressCarrier() {
+        return expressCarrier;
+    }
+
+    public void setExpressCarrier(String expressCarrier) {
+        this.expressCarrier = expressCarrier;
+    }
+
+    public String getExpressNo() {
+        return expressNo;
+    }
+
+    public void setExpressNo(String expressNo) {
+        this.expressNo = expressNo;
+    }
+
+    public String getExpressUrl() {
+        return expressUrl;
+    }
+
+    public void setExpressUrl(String expressUrl) {
+        this.expressUrl = expressUrl;
     }
 
     @Override

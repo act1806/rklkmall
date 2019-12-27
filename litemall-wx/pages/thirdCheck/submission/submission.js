@@ -63,6 +63,9 @@ Page({
 
     let that = this;
 
+    console.log(this.data.picUrls)
+    console.log(this.data.files)
+
     if (e.detail.value.hospitalName == "" || e.detail.value.phone == "" || e.detail.value.sampleAddr == "" || e.detail.value.sampleDate == "" || e.detail.value.email == "" || e.detail.value.cls == "" || e.detail.value.sampleArea == "" || e.detail.value.exampleProject == "" || e.detail.value.sampleProject == "" || e.detail.value.sampleProject == "") {
       wx.showModal({
         title: '提示',
@@ -229,8 +232,8 @@ Page({
     });
   },
   chooseImage: function (e) {
-    if (this.data.files.length >= 5) {
-      util.showErrorToast('只能上传五张图片')
+    if (this.data.files.length >= 7) {
+      util.showErrorToast('只能上传七张图片')
       return false;
     }
 
@@ -294,6 +297,28 @@ Page({
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       date: e.detail.value
+    })
+  },
+  // 删除图片
+  clearImg: function (e) {
+    console.log(e)
+    var nowList = [];//新数据
+    var picUrls = this.data.picUrls;//原数据
+
+    var newfiles = [];//新数据
+    var files = this.data.files;//原数据
+
+    for (let i = 0; i < picUrls.length; i++) {
+      if (i == e.currentTarget.dataset.index) {
+        continue;
+      } else {
+        nowList.push(picUrls[i])
+        newfiles.push(files[i])
+      }
+    }
+    this.setData({
+      picUrls: nowList,
+      files: newfiles
     })
   },
   // 邮箱验证部分

@@ -95,6 +95,10 @@
       <el-table-column align="center" label="临床表现" prop="clinical" />
 
       <el-table-column align="center" label="既往病史与用药经历" prop="history" />
+
+      <el-table-column align="center" label="快递公司" prop="expressCarrier" />
+
+      <el-table-column align="center" label="快递单号" prop="expressNo" />
     </el-table>
 
     <pagination
@@ -108,7 +112,7 @@
     <!-- Form -->
 
     <el-dialog :visible.sync="dialogVisible" title="详细信息">
-      <el-form :label-position="top" :model="checkForm">
+      <el-form :model="checkForm">
         <h2 v-if="checkForm.examine === '0'" class="text-center">佰基检测送检单</h2>
         <h2 v-if="checkForm.examine === '1'" class="text-center">佰基病理检测送检单</h2>
         <el-row>
