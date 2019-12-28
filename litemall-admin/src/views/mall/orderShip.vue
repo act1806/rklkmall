@@ -5,9 +5,6 @@
     <div class="filter-container">
       <el-input v-model="listQuery.userId" clearable class="filter-item" style="width: 200px;" placeholder="请输入用户ID"/>
       <el-input v-model="listQuery.orderSn" clearable class="filter-item" style="width: 200px;" placeholder="请输入订单编号"/>
-      <el-select v-model="listQuery.orderStatusArray" multiple style="width: 200px" class="filter-item" placeholder="请选择订单状态">
-        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value"/>
-      </el-select>
       <el-button v-permission="['GET /admin/order/list']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
@@ -41,68 +38,12 @@
 
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDetail(scope.row)">编辑</el-button>
-          <el-button v-if="scope.row.orderStatus==101" type="primary" size="mini" @click="confirmOrder(scope.row)">确认</el-button>
-          <el-button v-if="scope.row.orderStatus==201" type="primary" size="mini" @click="confirmOrder(scope.row)">确认</el-button>
           <el-button v-if="scope.row.orderStatus==301" type="primary" size="mini" @click="handleShip(scope.row)">发货</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-
-    <!-- 订单编辑对话框 -->
-    <el-dialog :visible.sync="orderDialogVisible" title="订单编辑" width="800">
-      <section ref="print">
-        <el-form :data="orderDetail" label-position="left">
-          <el-form-item label="订单编号">
-            <span>{{ orderDetail.order.orderSn }}</span>
-          </el-form-item>
-          <el-form-item label="订单状态">
-            <el-tag>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-tag>
-          </el-form-item>
-          <el-form-item label="订单用户">
-            <el-input v-model="orderDetail.order.userId" style="width: 200px;">{{ orderDetail.order.userId }}</el-input>
-          </el-form-item>
-          <el-form-item label="下单时间">
-            <el-date-picker v-model="orderDetail.order.addTime" type="datetime" placeholder="下单时间" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
-          </el-form-item>
-          <el-form-item label="用户留言">
-            <span>{{ orderDetail.order.message }}</span>
-          </el-form-item>
-          <el-form-item label="收货信息">
-            <span>（收货人）{{ orderDetail.order.consignee }}</span>
-            <span>（手机号）{{ orderDetail.order.mobile }}</span>
-            <span>（地址）{{ orderDetail.order.address }}</span>
-          </el-form-item>
-          <el-form-item label="商品信息">
-            <br>
-            <div v-for="(goods,i) in orderDetail.orderGoods" :key="i">
-              <span style="width:300px">{{ i+1 }}.{{ goods.goodsName }}</span>
-              <el-input v-model="goods.number" style="width: 100px; margin-left:10px;">{{ goods.number }}</el-input>
-              <el-input v-model="goods.presentNumber" style="width: 100px; margin-left:10px;">{{ goods.presentNumber }}</el-input>
-              <el-input v-model="goods.price" style="width: 100px; margin-left:10px;">{{ goods.price }}</el-input>
-              {{ goods.number*goods.price }}
-            </div>
-          </el-form-item>
-          <el-form-item label="订单金额">
-            <el-input v-model="orderDetail.order.orderPrice" style="width: 200px;">{{ orderDetail.order.orderPrice }}</el-input>
-          </el-form-item>
-          <el-form-item label="快递信息">
-            <span>（快递公司）{{ orderDetail.order.shipChannel }}</span>
-            <span>（快递单号）{{ orderDetail.order.shipSn }}</span>
-            <span>（发货时间）{{ orderDetail.order.shipTime }}</span>
-          </el-form-item>
-          <el-form-item label="收货信息">
-            <span>（确认收货时间）{{ orderDetail.order.confirmTime }}</span>
-          </el-form-item>
-        </el-form>
-      </section>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="orderDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="saveOrder">保 存</el-button>
-      </span>
-    </el-dialog>
 
     <!-- 订单详情对话框 -->
     <el-dialog :visible.sync="orderDetailVisible" title="订单详情" width="800">
@@ -211,7 +152,7 @@ export default {
         limit: 20,
         id: undefined,
         name: undefined,
-        orderStatusArray: [],
+        orderStatusArray: [301],
         sort: 'add_time',
         order: 'desc'
       },

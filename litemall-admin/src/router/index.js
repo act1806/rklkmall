@@ -174,22 +174,32 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: 'category',
-        component: () => import('@/views/mall/category'),
-        name: 'category',
-        meta: {
-          perms: ['GET /admin/category/list', 'POST /admin/category/create', 'GET /admin/category/read', 'POST /admin/category/update', 'POST /admin/category/delete'],
-          title: '商品类目',
-          noCache: true
-        }
-      },
-      {
         path: 'order',
         component: () => import('@/views/mall/order'),
         name: 'order',
         meta: {
           perms: ['GET /admin/order/list', 'GET /admin/order/detail', 'POST /admin/order/ordership', 'POST /admin/order/orderrefund', 'POST /admin/order/orderreply'],
           title: '订单管理',
+          noCache: true
+        }
+      },
+      {
+        path: 'orderShip',
+        component: () => import('@/views/mall/orderShip'),
+        name: 'orderShip',
+        meta: {
+          perms: ['GET /admin/order/list', 'GET /admin/order/detail', 'POST /admin/order/ordership', 'POST /admin/order/orderrefund', 'POST /admin/order/orderreply'],
+          title: '订单管理',
+          noCache: true
+        }
+      },
+      {
+        path: 'coupon',
+        component: () => import('@/views/promotion/coupon'),
+        name: 'coupon',
+        meta: {
+          perms: ['GET /admin/coupon/list', 'POST /admin/coupon/create', 'POST /admin/coupon/update', 'POST /admin/coupon/delete'],
+          title: '活动管理',
           noCache: true
         }
       },
@@ -219,7 +229,6 @@ export const asyncRouterMap = [
       }
     ]
   },
-
   {
     path: '/goods',
     component: Layout,
@@ -231,6 +240,16 @@ export const asyncRouterMap = [
       icon: 'chart'
     },
     children: [
+      {
+        path: 'category',
+        component: () => import('@/views/mall/category'),
+        name: 'category',
+        meta: {
+          perms: ['GET /admin/category/list', 'POST /admin/category/create', 'GET /admin/category/read', 'POST /admin/category/update', 'POST /admin/category/delete'],
+          title: '商品类目',
+          noCache: true
+        }
+      },
       {
         path: 'list',
         component: () => import('@/views/goods/list'),
@@ -261,16 +280,6 @@ export const asyncRouterMap = [
           noCache: true
         },
         hidden: true
-      },
-      {
-        path: 'coupon',
-        component: () => import('@/views/promotion/coupon'),
-        name: 'coupon',
-        meta: {
-          perms: ['GET /admin/coupon/list', 'POST /admin/coupon/create', 'POST /admin/coupon/update', 'POST /admin/coupon/delete'],
-          title: '活动管理',
-          noCache: true
-        }
       }
     ]
   },

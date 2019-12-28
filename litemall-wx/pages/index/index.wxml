@@ -34,33 +34,6 @@
     </view>
   </view>
 
-  <view class="a-section a-coupon" wx:if="{{coupon.length > 0}}">
-    <view class="h">
-      <view class="title">
-        <view>
-          <navigator url="/pages/coupon/coupon">
-            <text class="txt">可用活动</text>
-          </navigator>
-        </view>
-      </view>
-    </view>
-    <view wx:if="{{coupon.length>0}}" class="b">
-      <view class="item" wx:for="{{coupon}}" wx:for-index="index" wx:for-item="item" wx:key="id" data-index="{{item.id}}">
-        <view class="tag">{{item.tag}}</view>
-        <view class="content">
-          <view class="left">
-            <view class="discount">{{item.days}}天</view>
-            <view class="min"> 有效期 </view>
-          </view>
-          <view class="right">
-            <view class="name">{{item.name}}</view>
-            <view class="desc">{{item.desc}}</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
-
   <view class="a-section a-popular" wx:if="{{hotGoods.length > 0}}">
     <view class="h">
       <view>
