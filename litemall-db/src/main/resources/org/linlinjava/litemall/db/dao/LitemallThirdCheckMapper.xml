@@ -61,7 +61,7 @@
         , #{isStick,jdbcType=VARCHAR}, #{petName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{sampleAddr,jdbcType=VARCHAR}
         , #{sampleArea,jdbcType=VARCHAR}, #{sampleCondition,jdbcType=VARCHAR}, #{sampleDate,jdbcType=VARCHAR}, #{sampleFeature,jdbcType=VARCHAR},
         #{sampleProject,jdbcType=VARCHAR}, #{sampleSize,jdbcType=VARCHAR}, #{texture,jdbcType=VARCHAR} ,
-        #{express_carrier,jdbcType=VARCHAR}, #{express_no,jdbcType=VARCHAR}, #{express_url,jdbcType=VARCHAR})
+        #{expressCarrier,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, #{expressUrl,jdbcType=VARCHAR})
     </insert>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--

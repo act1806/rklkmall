@@ -15,6 +15,7 @@
       fit
       highlight-current-row
       @row-click="rowSelcted"
+      @row-dblclick="handledbClick"
     >
       <el-table-column type="index" width="50" />
 
@@ -118,7 +119,7 @@
         <el-row>
           <h4 class="text-center"> 基本信息（Basic Information）</h4>
           <el-col :span="8">
-            <el-form-item label="医院名称">{{ checkForm.examine }}</el-form-item>
+            <el-form-item label="医院名称">{{ checkForm.hospitalName }}</el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="医师姓名：">{{ checkForm.doctorName }}</el-form-item>
@@ -214,7 +215,14 @@
             <el-form-item >{{ checkForm.history }}</el-form-item>
           </el-col>
         </el-row>
-
+        <h4 class="text-center"> 图片列表(点击查看大图)</h4>
+        <div class="demo-image__preview">
+          <el-image
+            :src="url"
+            :preview-src-list="urlArr"
+            style="width: 100px; height: 100px"
+          />
+        </div>
       </el-form>
     </el-dialog>
   </div>
@@ -245,6 +253,7 @@ export default {
       thisSelectedRow: undefined,
       checkForm: {
         examine: '',
+        hospitalName: '',
         doctorName: '',
         phone: '',
         sampleAddr: '',
@@ -265,8 +274,17 @@ export default {
         sampleCondition: '',
         clinical: '',
         history: '',
-        sampleFeature: ''
+        sampleFeature: '',
+        expressUrl: ''
       }
+    }
+  },
+  computed: {
+    urlArr() {
+      return this.checkForm.expressUrl.split(',')
+    },
+    url() {
+      return this.checkForm.expressUrl.split(',')[0]
     }
   },
   created() {
@@ -296,6 +314,9 @@ export default {
       this.checkForm = this.thisSelectedRow
       console.log(this.thisSelectedRow)
       this.dialogVisible = true
+    },
+    handledbClick() {
+      this.handleOpen()
     }
   }
 }

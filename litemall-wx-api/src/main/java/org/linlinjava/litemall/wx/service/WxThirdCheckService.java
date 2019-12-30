@@ -62,6 +62,7 @@ public class WxThirdCheckService {
         String texture = JacksonUtil.parseString(body, "texture");
         String expressCarrier = JacksonUtil.parseString(body, "expressCarrier");
         String expressNo = JacksonUtil.parseString(body, "expressNo");
+        List<String> expressUrlList = JacksonUtil.parseStringList(body, "expressUrl");
 
 
 
@@ -115,10 +116,23 @@ public class WxThirdCheckService {
             thirdCheck.setSampleProject(sampleProject);
         }
 
+
         thirdCheck.setSampleSize(sampleSize);
         thirdCheck.setTexture(texture);
         thirdCheck.setExpressCarrier(expressCarrier);
         thirdCheck.setExpressNo(expressNo);
+
+        if(expressUrlList != null) {
+            StringBuilder sb = new StringBuilder();
+            int offset = expressUrlList.size() - 1;
+            for( int i = 0; i < offset; i++ )
+            {
+                sb.append(expressUrlList.get(i)).append(",");
+            }
+            sb.append(expressUrlList.get(offset));
+
+            thirdCheck.setExpressUrl(sb.toString());
+        }
 
 
         // 添加送检单

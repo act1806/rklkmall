@@ -277,6 +277,7 @@
         <view class="weui-uploader__files" id="uploaderFiles">
           <block wx:for="{{files}}" wx:key="*this">
             <view class="weui-uploader__file" bindtap="previewImage" id="{{item}}">
+              <icon class='ui_uploader_item_icon' catchtap='clearImg' data-index="{{index}}" type="clear" size="20" color="red" />
               <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
             </view>
           </block>

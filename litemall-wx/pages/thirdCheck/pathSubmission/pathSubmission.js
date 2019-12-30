@@ -73,8 +73,10 @@ Page({
 
   },
   formSubmit: function (e) {
-    console.log(e.detail.value);
     let data = e.detail.value;
+    data.expressUrl = this.data.picUrls;
+
+    console.log(data);
     let that = this;
 
     if (e.detail.value.hospitalName == "" || e.detail.value.phone == "" || e.detail.value.sampleAddr == "" || e.detail.value.sampleDate == "" || e.detail.value.email == "" || e.detail.value.cls == "" || e.detail.value.sampleArea == "" || e.detail.value.texture == "" || e.detail.value.sampleSize == "" || e.detail.value.isDiolame == "" || e.detail.value.isRupture == "" || e.detail.value.isStick == "" || e.detail.value.clinical == "" || e.detail.value.history == "") {
@@ -360,5 +362,27 @@ Page({
       })
       return false
     }
+  },
+  // 删除图片
+  clearImg: function (e) {
+    console.log(e)
+    var nowList = [];//新数据
+    var picUrls = this.data.picUrls;//原数据
+
+    var newfiles = [];//新数据
+    var files = this.data.files;//原数据
+
+    for (let i = 0; i < picUrls.length; i++) {
+      if (i == e.currentTarget.dataset.index) {
+        continue;
+      } else {
+        nowList.push(picUrls[i])
+        newfiles.push(files[i])
+      }
+    }
+    this.setData({
+      picUrls: nowList,
+      files: newfiles
+    })
   }
 })

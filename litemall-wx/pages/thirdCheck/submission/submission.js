@@ -40,7 +40,7 @@ Page({
     hasPicture: false,
     picUrls: [],
     files: [],
-    date: '2016-09-01',
+    date: '2016-09-01'
   },
 
 
@@ -58,13 +58,13 @@ Page({
 
   },
   formSubmit: function(e) {
-    console.log(e.detail.value);
     let data = e.detail.value;
+    data.expressUrl = this.data.picUrls;
+
+    console.log(data);
 
     let that = this;
 
-    console.log(this.data.picUrls)
-    console.log(this.data.files)
 
     if (e.detail.value.hospitalName == "" || e.detail.value.phone == "" || e.detail.value.sampleAddr == "" || e.detail.value.sampleDate == "" || e.detail.value.email == "" || e.detail.value.cls == "" || e.detail.value.sampleArea == "" || e.detail.value.exampleProject == "" || e.detail.value.sampleProject == "" || e.detail.value.sampleProject == "") {
       wx.showModal({
