@@ -178,7 +178,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/mall/order'),
         name: 'order',
         meta: {
-          perms: ['GET /admin/order/list', 'GET /admin/order/detail', 'POST /admin/order/ordership', 'POST /admin/order/orderrefund', 'POST /admin/order/orderreply'],
+          perms: ['POST /admin/order/ordership'],
           title: '订单管理',
           noCache: true
         }
@@ -188,8 +188,8 @@ export const asyncRouterMap = [
         component: () => import('@/views/mall/orderShip'),
         name: 'orderShip',
         meta: {
-          perms: ['GET /admin/order/list', 'GET /admin/order/detail', 'POST /admin/order/ordership', 'POST /admin/order/orderrefund', 'POST /admin/order/orderreply'],
-          title: '订单管理',
+          perms: ['POST /admin/order/ship'],
+          title: '库房管理',
           noCache: true
         }
       },
@@ -225,7 +225,10 @@ export const asyncRouterMap = [
       },
       {
         path: 'https://mpkf.weixin.qq.com/',
-        meta: { title: '小程序客服' }
+        meta: {
+          title: '小程序客服',
+          perms: ['GET /admin/thirdCheck/list']
+        }
       }
     ]
   },
