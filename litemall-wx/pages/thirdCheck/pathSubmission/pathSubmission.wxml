@@ -287,6 +287,7 @@
         </view>
       </view>
     </view>
+    <text>\n</text>
     <view class="weui-cells__group weui-cells__group_form">
       <view class="page__bd page__bd_spacing">
 

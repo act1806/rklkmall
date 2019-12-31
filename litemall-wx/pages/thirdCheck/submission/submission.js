@@ -256,9 +256,6 @@ Page({
       url: api.StorageUpload,
       filePath: res.tempFilePaths[0],
       name: 'file',
-      header: {
-        "Content-Type": "multipart/form-data"
-      },
       success: function (res) {
         var _res = JSON.parse(res.data);
         if (_res.errno === 0) {
