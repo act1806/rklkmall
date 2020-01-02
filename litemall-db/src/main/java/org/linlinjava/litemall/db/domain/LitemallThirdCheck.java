@@ -22,7 +22,7 @@ public class LitemallThirdCheck {
     /**
      * 状态
      */
-    private String status;
+    private String status = "0";
 
     /**
      * 用户微信id

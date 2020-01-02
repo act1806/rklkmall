@@ -2,6 +2,10 @@
   <div class="app-container">
     <!-- 查询和其他操作 -->
     <div class="filter-container">
+      <el-select v-model="listQuery.statusArray" multiple style="width: 200px" class="filter-item" placeholder="请选择检测状态">
+        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value"/>
+      </el-select>
+      <el-button v-permission="['GET /admin/thirdcheck/query']" class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleOpen">查看</el-button>
     </div>
 
@@ -18,6 +22,12 @@
       @row-dblclick="handledbClick"
     >
       <el-table-column type="index" width="50" />
+
+      <el-table-column align="center" width="140px" label="状态" prop="status">
+        <template slot-scope="scope">
+          <el-tag>{{ statusDic[scope.row.status] }}</el-tag>
+        </template>
+      </el-table-column>
 
       <el-table-column align="center" width="180px" label="检测单类型" prop="examine">
         <template slot-scope="scope">
@@ -100,6 +110,14 @@
       <el-table-column align="center" label="快递公司" prop="expressCarrier" />
 
       <el-table-column align="center" label="快递单号" prop="expressNo" />
+
+      <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.status==0" type="primary" size="small" @click="handleOperation(scope.row)">开始检测</el-button>
+          <el-button v-if="scope.row.status==1" type="primary" size="small" @click="handleOperation(scope.row)">检测完毕</el-button>
+          <el-button v-if="scope.row.status==2" type="primary" size="small" @click="handleOperation(scope.row)">发送回执邮件</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination
@@ -229,21 +247,31 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/thirdcheck'
+import { fetchList, operation } from '@/api/thirdcheck'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+
+const statusMap = {
+  '0': '已收到样本',
+  '1': '样本检测中',
+  '2': '样本检测完毕',
+  '3': '检测结果已发送至预留邮箱'
+}
 
 export default {
   name: 'Thirdcheck',
   components: { Pagination },
   data() {
     return {
+      listQuery: {
+        page: 1,
+        limit: 20,
+        statusArray: []
+      },
+      statusMap,
       list: null,
       total: 0,
       listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 20
-      },
+      statusDic: ['已收到样本', '样本检测中', '样本检测完毕', '检测结果已发送至预留邮箱'],
       examineDic: ['佰基检测送检单', '佰基病理学检测送检单'],
       genderDic: ['雄', '雌'],
       clsDic: ['犬', '猫', '', '', '', '', '', '', '', '其他'],
@@ -252,6 +280,7 @@ export default {
       dialogVisible: false,
       thisSelectedRow: undefined,
       checkForm: {
+        status: '',
         examine: '',
         hospitalName: '',
         doctorName: '',
@@ -295,7 +324,6 @@ export default {
       this.listLoading = true
       fetchList(this.listQuery)
         .then(response => {
-          // console.log(response)
           this.list = response.data.data.list.list
           this.total = response.data.data.total
           this.listLoading = false
@@ -307,7 +335,6 @@ export default {
         })
     },
     rowSelcted(val) {
-      // console.log(val)
       this.thisSelectedRow = val
     },
     handleOpen() {
@@ -317,6 +344,26 @@ export default {
     },
     handledbClick() {
       this.handleOpen()
+    },
+    handleFilter() {
+      this.listQuery.page = 1
+      this.getList()
+    },
+    handleOperation(data) {
+      operation(data)
+        .then(response => {
+          this.$notify.success({
+            title: '成功',
+            message: '操作成功'
+          })
+          this.getList()
+        })
+        .catch(response => {
+          this.$notify.error({
+            title: '失败',
+            message: response.data.errmsg
+          })
+        })
     }
   }
 }

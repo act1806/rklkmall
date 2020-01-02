@@ -122,7 +122,7 @@ public class WxThirdCheckService {
         thirdCheck.setExpressCarrier(expressCarrier);
         thirdCheck.setExpressNo(expressNo);
 
-        if(expressUrlList != null) {
+        if(expressUrlList.size() != 0) {
             StringBuilder sb = new StringBuilder();
             int offset = expressUrlList.size() - 1;
             for( int i = 0; i < offset; i++ )

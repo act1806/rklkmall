@@ -10,4 +10,8 @@ public interface LitemallThirdCheckMapper {
     int insert(LitemallThirdCheck record);
 
     List<LitemallThirdCheck> selectByExample(LitemallThirdCheck example);
+
+    int updateByPrimaryKeySelective(LitemallThirdCheck record);
+
+    List<LitemallThirdCheck> selectByStatusArray(List statusArray);
 }
