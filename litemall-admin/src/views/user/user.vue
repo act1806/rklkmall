@@ -52,6 +52,8 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="销售员" prop="sailer"/>
+
     </el-table>
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
@@ -74,6 +76,9 @@
         </el-form-item>
         <el-form-item label="付款状态 0-未付款 1-已付款">
           <el-input v-model="userItem.paid" />
+        </el-form-item>
+        <el-form-item label="销售员">
+          <el-input v-model="userItem.sailer" />
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -112,7 +117,8 @@ export default {
         id: undefined,
         username: '',
         amount: '',
-        level: ''
+        level: '',
+        sailer: ''
       }
     }
   },
