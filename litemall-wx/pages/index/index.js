@@ -19,7 +19,7 @@ Page({
     goodsCount: 0
   },
 
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
       title: 'litemall小程序商场',
       desc: '开源微信小程序商城',
@@ -34,9 +34,9 @@ Page({
     wx.stopPullDownRefresh() //停止下拉刷新
   },
 
-  getIndexData: function() {
+  getIndexData: function () {
     let that = this;
-    util.request(api.IndexUrl).then(function(res) {
+    util.request(api.IndexUrl).then(function (res) {
       if (res.errno === 0) {
         that.setData({
           newGoods: res.data.newGoodsList,
@@ -57,7 +57,7 @@ Page({
       });
     });
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
 
     // 页面初始化 options为页面跳转所带来的参数
     if (options.scene) {
@@ -111,16 +111,16 @@ Page({
 
     this.getIndexData();
   },
-  onReady: function() {
+  onReady: function () {
     // 页面渲染完成
   },
-  onShow: function() {
+  onShow: function () {
     // 页面显示
   },
-  onHide: function() {
+  onHide: function () {
     // 页面隐藏
   },
-  onUnload: function() {
+  onUnload: function () {
     // 页面关闭
   },
   getCoupon(e) {
@@ -139,9 +139,38 @@ Page({
           title: "领取成功"
         })
       }
-      else{
+      else {
         util.showErrorToast(res.errmsg);
       }
     })
   },
+  gotoCheck(e) {
+    wx.navigateTo({
+      url: "/pages/thirdCheck/thirdCheck"
+    });
+  },
+  gotoCoupon(e) {
+    if (this.data.hasLogin) {
+      wx.navigateTo({
+        url: "/pages/ucenter/couponList/couponList"
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    };
+
+  },
+  gotoOrder(e) {
+    if (this.data.hasLogin) {
+      wx.switchTab({
+        url: "/pages/catalog/catalog"
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    };
+
+  }
 })

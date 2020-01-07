@@ -39,6 +39,16 @@
   color: #333;
 }
 
+.entrance-section {
+  width: 750rpx;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  color: #333;
+  margin-top: 20rpx;
+  border-radius: 10rpx;
+}
+
 .a-section {
   width: 750rpx;
   height: auto;
@@ -566,4 +576,19 @@
   color: #666;
   padding-left: 10rpx;
   font-size: 30rpx;
+}
+
+
+.text-lg {
+	font-size: 32rpx;
+}
+.text-Abc {
+	text-transform: Capitalize;
+}
+.margin-top-sm {
+	margin-top: 20rpx;
+}
+
+.margin-top {
+	margin-top: 30rpx;
 }
