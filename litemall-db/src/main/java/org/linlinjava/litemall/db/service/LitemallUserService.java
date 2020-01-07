@@ -79,6 +79,10 @@ public class LitemallUserService {
         return userMapper.selectByExample(example);
     }
 
+    public List<String> querySailer() {
+        return userMapper.groupBySailer();
+    }
+
     public boolean checkByUsername(String username) {
         LitemallUserExample example = new LitemallUserExample();
         example.or().andUsernameEqualTo(username).andDeletedEqualTo(false);

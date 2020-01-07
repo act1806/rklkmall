@@ -26,6 +26,7 @@
     <result column="amount" jdbcType="VARCHAR" property="amount" />
     <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="paid" jdbcType="VARCHAR" property="paid" />
+    <result column="sailer" jdbcType="VARCHAR" property="sailer" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -100,7 +101,7 @@
     -->
     id, username, `password`, gender, birthday, last_login_time, last_login_ip, user_level, 
     nickname, mobile, avatar, weixin_openid, session_key, `status`, add_time, update_time, 
-    deleted, amount, level, paid
+    deleted, amount, level, paid, sailer
   </sql>
   <select id="selectByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallUserExample" resultMap="BaseResultMap">
     <!--
@@ -226,13 +227,13 @@
       user_level, nickname, mobile, 
       avatar, weixin_openid, session_key, 
       `status`, add_time, update_time, 
-      deleted, amount, level, paid)
+      deleted, amount, level, paid, sailer)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, 
       #{birthday,jdbcType=DATE}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{lastLoginIp,jdbcType=VARCHAR}, 
       #{userLevel,jdbcType=TINYINT}, #{nickname,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{weixinOpenid,jdbcType=VARCHAR}, #{sessionKey,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleted,jdbcType=BIT}, #{amount,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{paid,jdbcType=VARCHAR})
+      #{deleted,jdbcType=BIT}, #{amount,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{paid,jdbcType=VARCHAR}, #{sailer,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.linlinjava.litemall.db.domain.LitemallUser">
     <!--
@@ -504,9 +505,12 @@
       </if>
       <if test="level != null">
       level = #{level,jdbcType=BIT},
-    </if>
+      </if>
       <if test="paid != null">
         paid = #{paid,jdbcType=BIT},
+      </if>
+      <if test="sailer != null">
+        paid = #{sailer,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -535,7 +539,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       deleted = #{deleted,jdbcType=BIT},
       level = #{level,jdbcType=VARCHAR},
-      paid = #{paid,jdbcType=VARCHAR}
+      paid = #{paid,jdbcType=VARCHAR},
+      sailer = #{sailer,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectOneByExample" parameterType="org.linlinjava.litemall.db.domain.LitemallUserExample" resultMap="BaseResultMap">
@@ -597,4 +602,8 @@
     update litemall_user set deleted = 1
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="groupBySailer" resultType="java.lang.String">
+    select sailer from litemall_user group by sailer
+  </select>
 </mapper>

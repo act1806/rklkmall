@@ -500,7 +500,7 @@ export const asyncRouterMap = [
         name: 'statUser',
         meta: {
           perms: ['GET /admin/stat/user'],
-          title: '用户统计',
+          title: '用户统计图',
           noCache: true
         }
       },
@@ -510,7 +510,17 @@ export const asyncRouterMap = [
         name: 'statOrder',
         meta: {
           perms: ['GET /admin/stat/order'],
-          title: '订单统计',
+          title: '订单统计图',
+          noCache: true
+        }
+      },
+      {
+        path: 'orderList',
+        component: () => import('@/views/stat/orderList'),
+        name: 'statOrderList',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '订单统计表',
           noCache: true
         }
       },
@@ -520,7 +530,7 @@ export const asyncRouterMap = [
         name: 'statGoods',
         meta: {
           perms: ['GET /admin/stat/goods'],
-          title: '商品统计',
+          title: '商品统计图',
           noCache: true
         }
       }

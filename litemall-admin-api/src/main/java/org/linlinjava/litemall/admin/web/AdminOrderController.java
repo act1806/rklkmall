@@ -6,9 +6,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.linlinjava.litemall.admin.annotation.RequiresPermissionsDesc;
 import org.linlinjava.litemall.admin.dto.OrderDetail;
 import org.linlinjava.litemall.admin.service.AdminOrderService;
+import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
 import org.linlinjava.litemall.db.domain.LitemallOrder;
+import org.linlinjava.litemall.db.domain.LitemallUser;
+import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +27,9 @@ public class AdminOrderController {
 
     @Autowired
     private AdminOrderService adminOrderService;
+
+    @Autowired
+    private LitemallUserService userService;
 
     /**
      * 查询订单
@@ -111,6 +117,30 @@ public class AdminOrderController {
     @PostMapping("/save")
     public Object save(@RequestBody OrderDetail orderDetail) {
         return adminOrderService.save(orderDetail);
+    }
+
+    /**
+     * 获取全部可下单用户
+     *
+     * @param body 订单信息，{ orderId：xxx }
+     * @return 订单操作结果
+     */
+    @GetMapping("/user")
+    public Object user() {
+        List<LitemallUser> userList = userService.querySelective("", "", 0, 100, "", "");
+        return ResponseUtil.okList(userList);
+    }
+
+    /**
+     * 取全部销售员
+     *
+     * @param body 订单信息，{ orderId：xxx }
+     * @return 订单操作结果
+     */
+    @GetMapping("/sailer")
+    public Object sailer() {
+        List<String> sailerList = userService.querySailer();
+        return ResponseUtil.okList(sailerList);
     }
 
 }
