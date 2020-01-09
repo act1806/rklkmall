@@ -272,6 +272,14 @@
               <input type="text" name="expressNo" value='' />
             </view>
           </view>
+          <view class="weui-cell">
+            <view class="weui-cell__hd">
+              <label>*收货地址及联系人: </label>
+            </view>
+            <view class="weui-cell__bd">
+              <label><text>地址：  天津市津南区北闸口镇高营路8号天乐创新产业园7号楼健隆医药对面 李老师 \n电话:  15620669216</text></label>
+            </view>
+          </view>
         </view>
         <view class="weui-cells__title">图片上传(可将快递单号图片上传此处)</view>
         <view class="weui-uploader__files" id="uploaderFiles">
