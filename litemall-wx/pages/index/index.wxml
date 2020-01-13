@@ -16,25 +16,25 @@
   <view class="entrance-section a-coupon">
     <view class="grid col-2 padding-sm" >
       <view class="padding-sm min-height" bindtap="gotoOrder">
-        <view class="padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/06/Jbr1txyTAQ6D2ZN.jpg)">
+        <view class="padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/13/wNzGuBfajeMCKJs.jpg)">
           <view class="text-lg">现在下单</view>
           <view class="margin-top text-Abc">order now</view>
         </view>
       </view>
       <view class="padding-sm min-height" bindtap="gotoCoupon">
-        <view class="bg-gradual-orange padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/06/Jbr1txyTAQ6D2ZN.jpg)">
+        <view class="bg-gradual-orange padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/13/wNzGuBfajeMCKJs.jpg)">
           <view class="text-lg">我的活动</view>
           <view class="margin-top text-Abc">my coupon</view>
         </view>
       </view>
       <view class="padding-sm min-height" bindtap="gotoCheck">
-        <view class="bg-gradual-green padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/06/Jbr1txyTAQ6D2ZN.jpg)">
+        <view class="bg-gradual-green padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/13/wNzGuBfajeMCKJs.jpg)">
           <view class="text-lg">第三方检测</view>
           <view class="text-Abc">third party inspection</view>
         </view>
       </view>
       <view class="padding-sm min-height">
-        <view class="bg-gradual-blue padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/06/Jbr1txyTAQ6D2ZN.jpg)">
+        <view class="bg-gradual-blue padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/13/wNzGuBfajeMCKJs.jpg)">
           <view class="text-lg">萌宠百科</view>
           <view class="margin-top text-Abc">pet encyclopedia</view>
         </view>
