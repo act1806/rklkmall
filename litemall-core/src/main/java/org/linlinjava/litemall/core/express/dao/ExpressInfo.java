@@ -4,6 +4,7 @@
 package org.linlinjava.litemall.core.express.dao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.linlinjava.litemall.core.deppon.dao.TraceList;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ExpressInfo {
     @JsonProperty("ShipperCode")
     private String ShipperCode;
     @JsonProperty("Traces")
-    private List<Traces> Traces;
+    private List<TraceList> Traces;
     @JsonProperty("State")
     private String State;
     @JsonProperty("EBusinessID")
@@ -48,11 +49,11 @@ public class ExpressInfo {
         this.ShipperCode = ShipperCode;
     }
 
-    public List<Traces> getTraces() {
+    public List<TraceList> getTraces() {
         return Traces;
     }
 
-    public void setTraces(List<Traces> Traces) {
+    public void setTraces(List<TraceList> Traces) {
         this.Traces = Traces;
     }
 

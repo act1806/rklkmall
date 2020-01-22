@@ -46,7 +46,7 @@ public class AdminAdController {
         String content = ad.getContent();
         if (StringUtils.isEmpty(content)) {
             return ResponseUtil.badArgument();
-        }
+    }
         return null;
     }
 

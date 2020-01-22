@@ -3,9 +3,11 @@ package org.linlinjava.litemall.core.express;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.core.deppon.DepponService;
 import org.linlinjava.litemall.core.express.config.ExpressProperties;
 import org.linlinjava.litemall.core.express.dao.ExpressInfo;
 import org.linlinjava.litemall.core.util.HttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Base64Utils;
 
 import java.net.URLEncoder;
@@ -60,7 +62,7 @@ public class ExpressService {
             String result = getOrderTracesByJson(expCode, expNo);
             ObjectMapper objMap = new ObjectMapper();
             ExpressInfo ei = objMap.readValue(result, ExpressInfo.class);
-            ei.setShipperName(getVendorName(expCode));
+            ei.setShipperName(getVendorName("DBL"));
             return ei;
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -11,6 +11,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.core.deppon.DepponService;
 import org.linlinjava.litemall.core.express.ExpressService;
 import org.linlinjava.litemall.core.express.dao.ExpressInfo;
 import org.linlinjava.litemall.core.notify.NotifyService;
@@ -93,17 +94,11 @@ public class WxOrderService {
     @Autowired
     private LitemallGrouponService grouponService;
     @Autowired
-    private QCodeService qCodeService;
-    @Autowired
-    private ExpressService expressService;
+    private DepponService depponService;
     @Autowired
     private LitemallCommentService commentService;
     @Autowired
     private LitemallCouponService couponService;
-    @Autowired
-    private LitemallCouponUserService couponUserService;
-    @Autowired
-    private CouponVerifyService couponVerifyService;
 
     /**
      * 订单列表
@@ -208,7 +203,7 @@ public class WxOrderService {
         // 订单状态为已发货且物流信息不为空
         //"YTO", "800669400640887922"
         if (order.getOrderStatus().equals(OrderUtil.STATUS_SHIP)) {
-            ExpressInfo ei = expressService.getExpressInfo(order.getShipChannel(), order.getShipSn());
+            ExpressInfo ei = depponService.getDepponExpressInfo(order.getShipSn());
             result.put("expressInfo", ei);
         }
 
