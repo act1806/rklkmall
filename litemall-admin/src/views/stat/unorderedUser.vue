@@ -5,15 +5,6 @@
     <div class="filter-container">
       <el-date-picker v-model="listQuery.beginTime" type="datetime" placeholder="起止日期" value-format="yyyy-MM-ddTHH:mm:ss" style="width: 200px;"/> -
       <el-date-picker v-model="listQuery.endTime" type="datetime" placeholder="起止日期" value-format="yyyy-MM-ddTHH:mm:ss" style="width: 200px;"/>
-      <el-select v-model="listQuery.orderStatusArray" multiple style="width: 300px" placeholder="订单状态">
-        <el-option v-for="(key, value) in statusMap" :key="key" :label="key" :value="value"/>
-      </el-select>
-      <el-select v-model="listQuery.orderSailer" multiple style="width: 200px" placeholder="请选择业务员">
-        <el-option v-for="(item) in orderSailer" :key="item" :label="item" :value="item"/>
-      </el-select>
-      <el-select v-model="listQuery.orderUser" multiple style="width: 200px" placeholder="请选择客户">
-        <el-option v-for="(item) in orderUser" :key="item.id" :label="item.nickname" :value="item.nickname"/>
-      </el-select>
       <el-button v-permission="['GET /admin/order/list']" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
@@ -23,17 +14,17 @@
 
       <el-table-column align="center" label="客户名称" prop="userName"/>
 
-      <el-table-column align="center" label="销售经理" prop="sailer"/>
+      <el-table-column align="center" label="上次订购时间" prop="addTime"/>
 
-      <el-table-column align="center" label="销售数量" prop="number"/>
+      <el-table-column align="center" label="上次订购金额" prop="actualPrice"/>
 
-      <el-table-column align="center" label="销售金额" prop="price"/>
+      <el-table-column align="center" min-width="100" label="订单编号" prop="orderSn"/>
 
-      <el-table-column align="center" label="退货数量" prop="returnNumber"/>
-
-      <el-table-column align="center" label="退货金额" prop="returnPrice"/>
-
-      <el-table-column align="center" label="合计金额" prop="price"/>
+      <el-table-column align="center" label="详情" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="listDetail(scope.row)">查看</el-button>
+        </template>
+      </el-table-column>
 
     </el-table>
 
@@ -100,27 +91,13 @@
 
 <script>
 import { detailOrder } from '@/api/order'
-import { listOrder, listOrderUser, listOrderSailer } from '@/api/stat'
+import { unorderedUser } from '@/api/stat'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
-
-const statusMap = {
-  101: '待销售经理确认',
-  201: '待市场部确认',
-  301: '待发货',
-  302: '已发货',
-  401: '已收货',
-  402: '已收货(系统)'
-}
 
 export default {
   name: 'Order',
   components: { Pagination },
-  filters: {
-    orderStatusFilter(status) {
-      return statusMap[status]
-    }
-  },
   data() {
     return {
       list: [],
@@ -133,11 +110,9 @@ export default {
         limit: 20,
         id: undefined,
         name: undefined,
-        orderStatusArray: ['401', '402'],
         sort: 'add_time',
         order: 'desc'
       },
-      statusMap,
       orderDialogVisible: false,
       orderDetailVisible: false,
       orderDetail: {
@@ -161,7 +136,7 @@ export default {
     checkPermission,
     getList() {
       this.listLoading = true
-      listOrder(this.listQuery).then(response => {
+      unorderedUser(this.listQuery).then(response => {
         this.list = response.data.data.list
         this.total = response.data.data.total
         this.listLoading = false
@@ -169,22 +144,11 @@ export default {
         this.list = []
         this.total = 0
         this.listLoading = false
-      })
-      listOrderUser().then(response => {
-        this.orderUser = response.data.data.list
-      }).catch(() => {
-        this.orderUser = []
-      })
-      listOrderSailer().then(response => {
-        this.orderSailer = response.data.data.list
-        console.log(this.orderSailer)
-      }).catch(() => {
-        this.orderSailer = []
       })
     },
     handleFilter() {
       this.listQuery.page = 1
-      listOrder(this.listQuery).then(response => {
+      unorderedUser(this.listQuery).then(response => {
         this.list = response.data.data.list
         this.total = response.data.data.total
         this.listLoading = false
@@ -193,12 +157,6 @@ export default {
         this.total = 0
         this.listLoading = false
       })
-    },
-    handleDetail(row) {
-      detailOrder(row.id).then(response => {
-        this.orderDetail = response.data.data
-      })
-      this.orderDialogVisible = true
     },
     listDetail(row) {
       detailOrder(row.id).then(response => {

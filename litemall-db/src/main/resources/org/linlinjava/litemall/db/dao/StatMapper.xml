@@ -28,8 +28,9 @@
         from litemall_order_goods
         group by substr(add_time,1, 10)
     </select>
+
     <select id="userSalesSummary" resultType="map">
-        select b.user_name as userName, max(b.sailer) as sailer, sum(a.price) as price ,sum(a.number) as number from litemall_order_goods a
+        select b.user_name as userName, max(b.sailer) as sailer, sum(a.price*a.number) as price ,sum(a.number) as number from litemall_order_goods a
         left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
         <if test="beginTime != null and endTime != null">
             and b.add_time between #{beginTime} and #{endTime}
@@ -57,4 +58,52 @@
             and b.sailer = #{sailer}
         </if>
     </select>
+
+    <select id="goodsSalesSummary" resultType="map">
+        select a.goods_name as goodsName, sum(a.price*a.number) as price ,sum(a.number) as number from litemall_order_goods a
+        left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
+        <if test="beginTime != null and endTime != null">
+            and b.add_time between #{beginTime} and #{endTime}
+        </if>
+        <if test="goodsName != null">
+            and a.goods_name = #{goodsName}
+        </if>
+        group by a.goods_name
+    </select>
+
+    <select id="goodsSalesDetail" resultType="map">
+        select b.user_name as userName, b.sailer as sailer, a.price as price, a.number as number, a.goods_name as goodsName, order_id as orderId, b.add_time as addTime
+        from litemall_order_goods a
+        left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
+        <if test="beginTime != null and endTime != null">
+            and b.add_time between #{beginTime} and #{endTime}
+        </if>
+        <if test="goodsName != null">
+            and a.goods_name = #{goodsName}
+        </if>
+    </select>
+
+    <select id="sailerSalesDetail" resultType="map">
+        select b.sailer as sailer, sum(a.price*a.number) as price ,sum(a.number) as number from litemall_order_goods a
+        left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
+        <if test="beginTime != null and endTime != null">
+            and b.add_time between #{beginTime} and #{endTime}
+        </if>
+        <if test="sailer != null">
+            and b.sailer = #{sailer}
+        </if>
+        group by b.sailer
+    </select>
+
+    <select id="unorderedUser" resultType="java.lang.String">
+        select id from litemall_user where id not in
+        (select user_id from litemall_order
+        where order_status in ('401','402')
+        <if test="beginTime != null and endTime != null">
+            and add_time between #{beginTime} and #{endTime}
+        </if>
+        )
+        and level = "1"
+    </select>
+
 </mapper>

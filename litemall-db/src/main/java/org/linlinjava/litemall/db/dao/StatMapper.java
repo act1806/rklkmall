@@ -15,11 +15,11 @@ public interface StatMapper {
 
     List<Map> userSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer);
 
-    List<Map> goodsSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer);
+    List<Map> goodsSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String goodsName);
 
-    List<Map> goodsSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer);
+    List<Map> goodsSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String goodsName);
 
-    List<Map> sailerSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer);
+    List<Map> sailerSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String sailer);
 
-    List<Map> unorderedUser(LocalDateTime beginTime, LocalDateTime endTime);
+    List<String> unorderedUser(LocalDateTime beginTime, LocalDateTime endTime);
 }

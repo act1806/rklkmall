@@ -9,6 +9,7 @@ import org.linlinjava.litemall.admin.vo.StatVo;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.core.validator.Order;
 import org.linlinjava.litemall.core.validator.Sort;
+import org.linlinjava.litemall.db.domain.LitemallOrder;
 import org.linlinjava.litemall.db.domain.LitemallUser;
 import org.linlinjava.litemall.db.service.LitemallUserService;
 import org.linlinjava.litemall.db.service.StatService;
@@ -84,7 +85,7 @@ public class AdminStatController {
      */
     @GetMapping("/allUser")
     public Object user() {
-        List<LitemallUser> userList = userService.querySelective("", "", 0, 100, "", "");
+        List<LitemallUser> userList = userService.queryByLevel("1");
         return ResponseUtil.okList(userList);
     }
 
@@ -141,15 +142,14 @@ public class AdminStatController {
     @RequiresPermissions("admin:order:list")
     @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "查询")
     @GetMapping("/goodsSalesSummary")
-    public Object goodsSalesSummary(@RequestParam(required = false) String userName,
-                                  @RequestParam(required = false) String sailer,
+    public Object goodsSalesSummary(@RequestParam(required = false) String goodsName,
                                   @RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer limit,
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime beginTime,
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
                                   @Sort @RequestParam(defaultValue = "add_time") String sort,
                                   @Order @RequestParam(defaultValue = "desc") String order) {
-        List<Map> rows = statService.goodsSalesSummary(beginTime, endTime, userName, sailer);
+        List<Map> rows = statService.goodsSalesSummary(beginTime, endTime, goodsName);
         return ResponseUtil.okList(rows);
     }
 
@@ -159,15 +159,14 @@ public class AdminStatController {
     @RequiresPermissions("admin:order:list")
     @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "查询")
     @GetMapping("/goodsSalesDetail")
-    public Object goodsSalesDetail(@RequestParam(required = false) String userName,
-                                  @RequestParam(required = false) String sailer,
+    public Object goodsSalesDetail(@RequestParam(required = false) String goodsName,
                                   @RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer limit,
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime beginTime,
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
                                   @Sort @RequestParam(defaultValue = "add_time") String sort,
                                   @Order @RequestParam(defaultValue = "desc") String order) {
-        List<Map> rows = statService.goodsSalesDetail(beginTime, endTime, userName, sailer);
+        List<Map> rows = statService.goodsSalesDetail(beginTime, endTime, goodsName);
         return ResponseUtil.okList(rows);
     }
 
@@ -177,15 +176,14 @@ public class AdminStatController {
     @RequiresPermissions("admin:order:list")
     @RequiresPermissionsDesc(menu = {"商场管理", "订单管理"}, button = "查询")
     @GetMapping("/sailerSalesDetail")
-    public Object sailerSalesDetail(@RequestParam(required = false) String userName,
-                                  @RequestParam(required = false) String sailer,
+    public Object sailerSalesDetail(@RequestParam(required = false) String sailer,
                                   @RequestParam(defaultValue = "1") Integer page,
                                   @RequestParam(defaultValue = "10") Integer limit,
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime beginTime,
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
                                   @Sort @RequestParam(defaultValue = "add_time") String sort,
                                   @Order @RequestParam(defaultValue = "desc") String order) {
-        List<Map> rows = statService.sailerSalesDetail(beginTime, endTime, userName, sailer);
+        List<Map> rows = statService.sailerSalesDetail(beginTime, endTime, sailer);
         return ResponseUtil.okList(rows);
     }
 
@@ -201,7 +199,7 @@ public class AdminStatController {
                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
                                   @Sort @RequestParam(defaultValue = "add_time") String sort,
                                   @Order @RequestParam(defaultValue = "desc") String order) {
-        List<Map> rows = statService.unorderedUser(beginTime, endTime);
+        List<LitemallOrder> rows = statService.unorderedUser(beginTime, endTime);
         return ResponseUtil.okList(rows);
     }
 

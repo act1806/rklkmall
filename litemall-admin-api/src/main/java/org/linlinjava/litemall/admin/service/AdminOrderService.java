@@ -51,21 +51,6 @@ public class AdminOrderService {
                        Integer page, Integer limit, String sort, String order) {
         List<LitemallOrder> orderList = orderService.querySelective(userId, orderSn, orderStatusArray, page, limit,
                 sort, order);
-        for(LitemallOrder litemallOrder : orderList){
-            UserVo user = userService.findUserVoById(litemallOrder.getUserId());
-            litemallOrder.setUserName(user.getNickname());
-        }
-        return ResponseUtil.okList(orderList);
-    }
-
-    public Object list(Integer userId, String orderSn, List<Short> orderStatusArray,
-                       Integer page, Integer limit, LocalDateTime beginTime, LocalDateTime endTime, String sort, String order) {
-        List<LitemallOrder> orderList = orderService.querySelective(userId, orderSn, orderStatusArray, page, limit,
-                beginTime, endTime, sort, order);
-        for(LitemallOrder litemallOrder : orderList){
-            UserVo user = userService.findUserVoById(litemallOrder.getUserId());
-            litemallOrder.setUserName(user.getNickname());
-        }
         return ResponseUtil.okList(orderList);
     }
 
