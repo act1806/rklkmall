@@ -13,10 +13,7 @@ import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class LitemallOrderService {
@@ -102,6 +99,32 @@ public class LitemallOrderService {
         }
         if (orderStatusArray != null && orderStatusArray.size() != 0) {
             criteria.andOrderStatusIn(orderStatusArray);
+        }
+        criteria.andDeletedEqualTo(false);
+
+        if (!StringUtils.isEmpty(sort) && !StringUtils.isEmpty(order)) {
+            example.setOrderByClause(sort + " " + order);
+        }
+
+        PageHelper.startPage(page, limit);
+        return litemallOrderMapper.selectByExample(example);
+    }
+
+    public List<LitemallOrder> querySelective(Integer userId, String orderSn, List<Short> orderStatusArray, Integer page, Integer limit, LocalDateTime beginTime, LocalDateTime endTime, String sort, String order) {
+        LitemallOrderExample example = new LitemallOrderExample();
+        LitemallOrderExample.Criteria criteria = example.createCriteria();
+
+        if (userId != null) {
+            criteria.andUserIdEqualTo(userId);
+        }
+        if (!StringUtils.isEmpty(orderSn)) {
+            criteria.andOrderSnEqualTo(orderSn);
+        }
+        if (orderStatusArray != null && orderStatusArray.size() != 0) {
+            criteria.andOrderStatusIn(orderStatusArray);
+        }
+        if (beginTime != null && endTime != null) {
+            criteria.andAddTimeBetween(beginTime, endTime);
         }
         criteria.andDeletedEqualTo(false);
 

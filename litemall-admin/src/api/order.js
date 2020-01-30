@@ -52,18 +52,3 @@ export function replyComment(data) {
   })
 }
 
-export function listOrderUser() {
-  return request({
-    url: '/order/user',
-    method: 'get',
-    params: ''
-  })
-}
-
-export function listOrderSailer() {
-  return request({
-    url: '/order/sailer',
-    method: 'get',
-    params: ''
-  })
-}

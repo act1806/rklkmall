@@ -495,6 +495,66 @@ export const asyncRouterMap = [
     },
     children: [
       {
+        path: 'userSalesSummary',
+        component: () => import('@/views/stat/userSalesSummary'),
+        name: 'userSalesSummary',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '客户销售汇总表',
+          noCache: true
+        }
+      },
+      {
+        path: 'userSalesDetail',
+        component: () => import('@/views/stat/userSalesDetail'),
+        name: 'userSalesDetail',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '客户销售明细表',
+          noCache: true
+        }
+      },
+      {
+        path: 'goodsSalesSummary',
+        component: () => import('@/views/stat/goodsSalesSummary'),
+        name: 'goodsSalesSummary',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '商品销售汇总表',
+          noCache: true
+        }
+      },
+      {
+        path: 'goodsSalesDetail',
+        component: () => import('@/views/stat/goodsSalesDetail'),
+        name: 'goodsSalesDetail',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '商品销售明细表',
+          noCache: true
+        }
+      },
+      {
+        path: 'sailerSalesDetail',
+        component: () => import('@/views/stat/sailerSalesDetail'),
+        name: 'sailerSalesDetail',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '业务员销售明细表',
+          noCache: true
+        }
+      },
+      {
+        path: 'unorderedUser',
+        component: () => import('@/views/stat/unorderedUser'),
+        name: 'unorderedUser',
+        meta: {
+          perms: ['GET /admin/stat/order'],
+          title: '未下单客户统计',
+          noCache: true
+        }
+      },
+      {
         path: 'user',
         component: () => import('@/views/stat/user'),
         name: 'statUser',
@@ -511,16 +571,6 @@ export const asyncRouterMap = [
         meta: {
           perms: ['GET /admin/stat/order'],
           title: '订单统计图',
-          noCache: true
-        }
-      },
-      {
-        path: 'orderList',
-        component: () => import('@/views/stat/orderList'),
-        name: 'statOrderList',
-        meta: {
-          perms: ['GET /admin/stat/order'],
-          title: '订单统计表',
           noCache: true
         }
       },

@@ -32,7 +32,7 @@ public class DepponTest {
     @Test
     public void test1() {
         try {
-            depponService.newTraceQuery();
+            depponService.newTraceQuery("123456");
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

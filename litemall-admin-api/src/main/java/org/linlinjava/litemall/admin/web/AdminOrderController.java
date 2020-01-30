@@ -25,11 +25,9 @@ import java.util.List;
 public class AdminOrderController {
     private final Log logger = LogFactory.getLog(AdminOrderController.class);
 
-    @Autowired
-    private AdminOrderService adminOrderService;
 
     @Autowired
-    private LitemallUserService userService;
+    private AdminOrderService adminOrderService;
 
     /**
      * 查询订单
@@ -117,30 +115,6 @@ public class AdminOrderController {
     @PostMapping("/save")
     public Object save(@RequestBody OrderDetail orderDetail) {
         return adminOrderService.save(orderDetail);
-    }
-
-    /**
-     * 获取全部可下单用户
-     *
-     * @param body 订单信息，{ orderId：xxx }
-     * @return 订单操作结果
-     */
-    @GetMapping("/user")
-    public Object user() {
-        List<LitemallUser> userList = userService.querySelective("", "", 0, 100, "", "");
-        return ResponseUtil.okList(userList);
-    }
-
-    /**
-     * 取全部销售员
-     *
-     * @param body 订单信息，{ orderId：xxx }
-     * @return 订单操作结果
-     */
-    @GetMapping("/sailer")
-    public Object sailer() {
-        List<String> sailerList = userService.querySailer();
-        return ResponseUtil.okList(sailerList);
     }
 
 }
