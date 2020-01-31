@@ -80,17 +80,12 @@ public class WxOrderService {
     @Autowired
     private LitemallCartService cartService;
     @Autowired
-    private LitemallRegionService regionService;
-    @Autowired
     private LitemallGoodsProductService productService;
     @Autowired
     private WxPayService wxPayService;
     @Autowired
-    private NotifyService notifyService;
-    @Autowired
     private LitemallUserFormIdService formIdService;
-    @Autowired
-    private LitemallGrouponRulesService grouponRulesService;
+
     @Autowired
     private LitemallGrouponService grouponService;
     @Autowired
@@ -281,6 +276,9 @@ public class WxOrderService {
         // 订单
         order = new LitemallOrder();
         order.setUserId(userId);
+        LitemallUser litemallUser = userService.findById(userId);
+        order.setSailer(litemallUser.getSailer());
+        order.setUserName(litemallUser.getNickname());
         order.setOrderSn(orderService.generateOrderSn(userId));
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
         order.setConsignee(checkedAddress.getName());

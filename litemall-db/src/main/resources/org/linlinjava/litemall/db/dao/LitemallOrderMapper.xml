@@ -455,10 +455,10 @@
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.userName != null">
-        user_id = #{record.userName,jdbcType=VARCHAR},
+        user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
       <if test="record.sailer != null">
-        user_id = #{record.sailer,jdbcType=VARCHAR},
+        sailer = #{record.sailer,jdbcType=VARCHAR},
       </if>
       <if test="record.orderSn != null">
         order_sn = #{record.orderSn,jdbcType=VARCHAR},
@@ -586,10 +586,10 @@
         user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="userName != null">
-        user_id = #{userName,jdbcType=VARCHAR},
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="sailer != null">
-        user_id = #{sailer,jdbcType=VARCHAR},
+        sailer = #{sailer,jdbcType=VARCHAR},
       </if>
       <if test="orderSn != null">
         order_sn = #{orderSn,jdbcType=VARCHAR},

@@ -61,8 +61,10 @@
           <el-form-item label="订单状态">
             <el-tag>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-tag>
           </el-form-item>
-          <el-form-item label="订单用户">
-            <el-input v-model="orderDetail.order.userId" style="width: 200px;">{{ orderDetail.order.userId }}</el-input>
+          <el-form-item label="订单客户">
+            <el-select v-model="orderDetail.order.userId" style="width: 200px" placeholder="请选择客户" @change="selectUser">
+              <el-option v-for="(item) in orderUser" :key="item.id" :label="item.nickname" :value="item.id"/>
+            </el-select>
           </el-form-item>
           <el-form-item label="下单时间">
             <el-date-picker v-model="orderDetail.order.addTime" type="datetime" placeholder="下单时间" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
@@ -181,6 +183,7 @@
 
 <script>
 import { detailOrder, listOrder, confirmOrder, shipOrder, saveOrder } from '@/api/order'
+import { listOrderUser } from '@/api/stat'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
 
@@ -206,6 +209,7 @@ export default {
       list: [],
       total: 0,
       listLoading: true,
+      orderUser: [],
       listQuery: {
         page: 1,
         limit: 20,
@@ -247,6 +251,11 @@ export default {
         this.list = []
         this.total = 0
         this.listLoading = false
+      })
+      listOrderUser().then(response => {
+        this.orderUser = response.data.data.list
+      }).catch(() => {
+        this.orderUser = []
       })
     },
     handleFilter() {
@@ -336,6 +345,15 @@ export default {
     printOrder() {
       this.$print(this.$refs.print)
       this.orderDialogVisible = false
+    },
+    selectUser(item) {
+      for (var i = 0; i < this.orderUser.length; i++) {
+        console.log(this.orderUser[i].id)
+        if (item === this.orderUser[i].id) {
+          this.orderDetail.order.userName = this.orderUser[i].nickname
+          this.orderDetail.order.sailer = this.orderUser[i].sailer
+        }
+      }
     }
   }
 }
