@@ -33,7 +33,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="客户名称" prop="userName"/>
+      <el-table-column align="center" label="客户名称" prop="agentName"/>
 
       <el-table-column align="center" label="出货方式">
         <template slot-scope="scope">

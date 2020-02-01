@@ -14,7 +14,7 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row @row-click="openDetails">
       <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable/>
 
-      <el-table-column align="center" label="用户名" prop="username"/>
+      <el-table-column align="center" label="客户名称" prop="agentName"/>
 
       <el-table-column align="center" label="微信名" prop="nickname"/>
 
@@ -27,12 +27,6 @@
       </el-table-column>
 
       <el-table-column align="center" label="余额" prop="amount" />
-
-      <!-- <el-table-column align="center" label="用户等级" prop="userLevel">
-        <template slot-scope="scope">
-          <el-tag >{{ levelDic[scope.row.userLevel] }}</el-tag>
-        </template>
-      </el-table-column> -->
 
       <el-table-column align="center" label="状态" prop="status">
         <template slot-scope="scope">
@@ -58,16 +52,13 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :visible="dialogVisible" title="用户信息">
+    <el-dialog :visible.sync="dialogVisible" title="用户信息">
       <el-button class="filter-item" type="primary" @click="handleConfirm">确定</el-button>
       <el-button class="filter-item" type="primary" @click="dialogVisible = false">取消</el-button>
       <el-form >
-        <!-- <el-form-item label="用户id">
-          <el-input v-model="userItem.id" readonly= "true" />
+        <el-form-item label="客户名称">
+          <el-input v-model="userItem.agentName"/>
         </el-form-item>
-        <el-form-item label="用户名">
-          <el-input v-model="userItem.username" readonly= "true" />
-        </el-form-item> -->
         <el-form-item label="余额">
           <el-input v-model="userItem.amount" />
         </el-form-item>

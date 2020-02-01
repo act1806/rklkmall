@@ -30,29 +30,29 @@
     </select>
 
     <select id="userSalesSummary" resultType="map">
-        select b.user_name as userName, max(b.sailer) as sailer, sum(a.price*a.number) as price ,sum(a.number) as number from litemall_order_goods a
+        select b.agent_name as agentName, max(b.sailer) as sailer, sum(a.price*a.number) as price ,sum(a.number) as number from litemall_order_goods a
         left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
         <if test="beginTime != null and endTime != null">
             and b.add_time between #{beginTime} and #{endTime}
         </if>
-        <if test="userName != null">
-            and b.user_name = #{userName}
+        <if test="agentName != null">
+            and b.agent_name = #{agentName}
         </if>
         <if test="sailer != null">
             and b.sailer = #{sailer}
         </if>
-        group by b.user_name
+        group by b.agent_name
     </select>
 
     <select id="userSalesDetail" resultType="map">
-        select b.user_name as userName, b.sailer as sailer, a.price as price, a.number as number, a.goods_name as goodsName, order_id as orderId, b.add_time as addTime
+        select b.agent_name as agentName, b.sailer as sailer, a.price as price, a.number as number, a.goods_name as goodsName, order_id as orderId, b.add_time as addTime
         from litemall_order_goods a
         left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
         <if test="beginTime != null and endTime != null">
             and b.add_time between #{beginTime} and #{endTime}
         </if>
-        <if test="userName != null">
-            and b.user_name = #{userName}
+        <if test="agentName != null">
+            and b.agent_name = #{agentName}
         </if>
         <if test="sailer != null">
             and b.sailer = #{sailer}
@@ -72,7 +72,7 @@
     </select>
 
     <select id="goodsSalesDetail" resultType="map">
-        select b.user_name as userName, b.sailer as sailer, a.price as price, a.number as number, a.goods_name as goodsName, order_id as orderId, b.add_time as addTime
+        select b.agent_name as agentName, b.sailer as sailer, a.price as price, a.number as number, a.goods_name as goodsName, order_id as orderId, b.add_time as addTime
         from litemall_order_goods a
         left join litemall_order b on a.order_id = b.id where b.order_status in ('401','402')
         <if test="beginTime != null and endTime != null">

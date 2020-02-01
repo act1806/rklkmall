@@ -14,7 +14,7 @@
 
       <el-table-column align="center" min-width="100" label="订单编号" prop="orderSn"/>
 
-      <el-table-column align="center" label="用户" prop="userName"/>
+      <el-table-column align="center" label="客户" prop="agentName"/>
 
       <el-table-column align="center" label="订单状态" prop="orderStatus">
         <template slot-scope="scope">

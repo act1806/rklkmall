@@ -278,7 +278,7 @@ public class WxOrderService {
         order.setUserId(userId);
         LitemallUser litemallUser = userService.findById(userId);
         order.setSailer(litemallUser.getSailer());
-        order.setUserName(litemallUser.getNickname());
+        order.setAgentName(litemallUser.getAgentName());
         order.setOrderSn(orderService.generateOrderSn(userId));
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
         order.setConsignee(checkedAddress.getName());

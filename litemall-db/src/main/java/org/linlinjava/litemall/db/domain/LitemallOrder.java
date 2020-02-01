@@ -40,7 +40,7 @@ public class LitemallOrder {
      */
     private Integer userId;
 
-    private String userName;
+    private String agentName;
 
     private String sailer;
 
@@ -308,12 +308,12 @@ public class LitemallOrder {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getAgentName() {
+        return agentName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
     }
 
     public String getSailer() {

@@ -9,7 +9,7 @@
         <el-option v-for="(item) in orderSailer" :key="item" :label="item" :value="item"/>
       </el-select>
       <el-select v-model="listQuery.userName" multiple style="width: 200px" placeholder="请选择客户">
-        <el-option v-for="(item) in orderUser" :key="item.id" :label="item.nickname" :value="item.nickname"/>
+        <el-option v-for="(item) in orderUser" :key="item.id" :label="item.agentName" :value="item.agentName"/>
       </el-select>
       <el-button v-permission="['GET /admin/order/list']" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button :loading="downloadLoading" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
@@ -36,7 +36,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="客户名称" prop="userName"/>
+      <el-table-column align="center" label="客户名称" prop="agentName"/>
 
       <el-table-column align="center" label="出货方式">
         <template slot-scope="scope">
@@ -129,7 +129,6 @@ export default {
       })
       listOrderSailer().then(response => {
         this.orderSailer = response.data.data.list
-        console.log(this.orderSailer)
       }).catch(() => {
         this.orderSailer = []
       })

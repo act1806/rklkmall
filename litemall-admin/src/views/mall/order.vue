@@ -17,7 +17,7 @@
 
       <el-table-column align="center" min-width="100" label="订单编号" prop="orderSn"/>
 
-      <el-table-column align="center" label="用户" prop="userName"/>
+      <el-table-column align="center" label="用户" prop="agentName"/>
 
       <el-table-column align="center" label="订单状态" prop="orderStatus">
         <template slot-scope="scope">
@@ -63,7 +63,7 @@
           </el-form-item>
           <el-form-item label="订单客户">
             <el-select v-model="orderDetail.order.userId" style="width: 200px" placeholder="请选择客户" @change="selectUser">
-              <el-option v-for="(item) in orderUser" :key="item.id" :label="item.nickname" :value="item.id"/>
+              <el-option v-for="(item) in orderUser" :key="item.id" :label="item.agentName" :value="item.id"/>
             </el-select>
           </el-form-item>
           <el-form-item label="下单时间">
@@ -116,8 +116,8 @@
           <el-form-item label="订单状态">
             <el-tag>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-tag>
           </el-form-item>
-          <el-form-item label="订单用户">
-            <span>{{ orderDetail.user.nickname }}</span>
+          <el-form-item label="订单客户名称">
+            <span>{{ orderDetail.user.agentName }}</span>
           </el-form-item>
           <el-form-item label="用户留言">
             <span>{{ orderDetail.order.message }}</span>
@@ -348,9 +348,8 @@ export default {
     },
     selectUser(item) {
       for (var i = 0; i < this.orderUser.length; i++) {
-        console.log(this.orderUser[i].id)
         if (item === this.orderUser[i].id) {
-          this.orderDetail.order.userName = this.orderUser[i].nickname
+          this.orderDetail.order.agentName = this.orderUser[i].agentName
           this.orderDetail.order.sailer = this.orderUser[i].sailer
         }
       }

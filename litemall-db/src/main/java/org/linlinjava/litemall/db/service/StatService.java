@@ -34,12 +34,12 @@ public class StatService {
         return statMapper.statGoods();
     }
 
-    public List<Map> userSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer) {
-        return statMapper.userSalesSummary(beginTime, endTime, userName, sailer);
+    public List<Map> userSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String agentName, String sailer) {
+        return statMapper.userSalesSummary(beginTime, endTime, agentName, sailer);
     }
 
-    public List<Map> userSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer) {
-        return statMapper.userSalesDetail(beginTime, endTime, userName, sailer);
+    public List<Map> userSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String agentName, String sailer) {
+        return statMapper.userSalesDetail(beginTime, endTime, agentName, sailer);
     }
 
     public List<Map> goodsSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String goodsName) {

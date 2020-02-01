@@ -11,9 +11,9 @@ public interface StatMapper {
 
     List<Map> statGoods();
 
-    List<Map> userSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer);
+    List<Map> userSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String agentName, String sailer);
 
-    List<Map> userSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String userName, String sailer);
+    List<Map> userSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String agentName, String sailer);
 
     List<Map> goodsSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String goodsName);
 

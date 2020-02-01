@@ -38,7 +38,6 @@ public class AdminUserController {
 
     @PostMapping("/updateAmountLevel")
     public Object updateAmountLevel(@RequestBody LitemallUser user) {
-
         int result = userService.updateById(user);
         return ResponseUtil.ok(result);
     }

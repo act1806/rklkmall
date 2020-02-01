@@ -12,7 +12,7 @@
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
 
-      <el-table-column align="center" label="客户名称" prop="userName"/>
+      <el-table-column align="center" label="客户名称" prop="agentName"/>
 
       <el-table-column align="center" label="上次订购时间" prop="addTime"/>
 
