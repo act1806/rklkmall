@@ -438,7 +438,7 @@ public class WxCartController {
             //符合的活动
             cart.setPresentNum(new BigDecimal(0));
             cart.setRetailPrice(cart.getPrice());
-            if(couponId != null && couponId != -1) {
+            if(couponId != null && couponId != -1 && couponId != 0) {
                 LitemallCoupon coupon = couponService.findById(couponId);
                 couponName = coupon.getName();
                 total = coupon.getTotal();

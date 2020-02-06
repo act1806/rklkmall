@@ -374,7 +374,7 @@
         #{goodsType,jdbcType=INTEGER},
       </if>
       <if test="goodsValue != null">
-        #{goodsValue,jdbcType=VARCHAR,typeHandler=org.linlinjava.litemall.db.mybatis.JsonIntegerArrayTypeHandler},
+        #{goodsValue,jdbcType=VARCHAR},
       </if>
       <if test="code != null">
         #{code,jdbcType=VARCHAR},
