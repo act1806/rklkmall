@@ -29,16 +29,16 @@
 
           <el-table-column align="center" label="介绍" prop="desc" sortable/>
 
-          <el-table-column align="center" label="满足件数" prop="min">
-            <template slot-scope="scope">满{{ scope.row.min }}件可用</template>
+          <el-table-column align="center" label="赠品比例" prop="min">
+            <template slot-scope="scope">{{ scope.row.min }}</template>
           </el-table-column>
 
-          <el-table-column align="center" label="赠送件数" prop="discount">
-            <template slot-scope="scope">赠送{{ scope.row.discount }}件</template>
+          <el-table-column align="center" label="折扣" prop="discount">
+            <template slot-scope="scope">{{ scope.row.discount }}</template>
           </el-table-column>
 
           <el-table-column align="center" label="商品ID" prop="goodsType" sortable>
-            <template slot-scope="scope">{{ scope.row.total }}</template>
+            <template slot-scope="scope">{{ scope.row.total | goodsGroupFilter }}</template>
           </el-table-column>
 
         </el-table>
@@ -57,6 +57,19 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 export default {
   name: 'User',
   components: { Pagination },
+  filters: {
+    goodsGroupFilter(goodsType) {
+      if (goodsType === 111) {
+        return 'CPV CDV'
+      } else if (goodsType === 222) {
+        return '除CPV CDV之外'
+      } else if (goodsType === 333) {
+        return '大活动 除CPV CDV之外'
+      } else {
+        return '指定商品'
+      }
+    }
+  },
   data() {
     return {
       listUser: null,

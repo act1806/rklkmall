@@ -175,11 +175,11 @@ public class LitemallUser {
      */
     private Boolean deleted;
 
-    private String amount = "0";
+    private String amount;
 
-    private String level = "0";
+    private String level;
 
-    private String paid = "0";
+    private String paid;
 
     private String sailer;
 

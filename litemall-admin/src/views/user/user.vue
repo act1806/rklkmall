@@ -16,7 +16,7 @@
 
       <el-table-column align="center" label="客户名称" prop="agentName"/>
 
-      <el-table-column align="center" label="微信名" prop="nickname"/>
+      <el-table-column align="center" label="账号/微信名" prop="nickname"/>
 
       <el-table-column align="center" label="手机号码" prop="mobile"/>
 

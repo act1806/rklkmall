@@ -267,6 +267,15 @@
       <if test="userLevel != null">
         user_level,
       </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="paid != null">
+        paid,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
       <if test="nickname != null">
         nickname,
       </if>
@@ -316,6 +325,15 @@
       </if>
       <if test="userLevel != null">
         #{userLevel,jdbcType=TINYINT},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="paid != null">
+        #{paid,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=VARCHAR},
       </if>
       <if test="nickname != null">
         #{nickname,jdbcType=VARCHAR},

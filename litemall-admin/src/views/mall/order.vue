@@ -17,7 +17,7 @@
 
       <el-table-column align="center" min-width="100" label="订单编号" prop="orderSn"/>
 
-      <el-table-column align="center" label="用户" prop="agentName"/>
+      <el-table-column align="center" label="客户名称" prop="agentName"/>
 
       <el-table-column align="center" label="订单状态" prop="orderStatus">
         <template slot-scope="scope">
@@ -73,9 +73,9 @@
             <span>{{ orderDetail.order.message }}</span>
           </el-form-item>
           <el-form-item label="收货信息">
-            <span>（收货人）{{ orderDetail.order.consignee }}</span>
-            <span>（手机号）{{ orderDetail.order.mobile }}</span>
-            <span>（地址）{{ orderDetail.order.address }}</span>
+            <el-input v-model="orderDetail.order.consignee">{{ orderDetail.order.consignee }}</el-input>
+            <el-input v-model="orderDetail.order.mobile">{{ orderDetail.order.mobile }}</el-input>
+            <el-input v-model="orderDetail.order.address">{{ orderDetail.order.address }}</el-input>
           </el-form-item>
           <el-form-item label="商品信息">
             <br>
@@ -189,6 +189,7 @@ import checkPermission from '@/utils/permission' // 权限判断函数
 
 const statusMap = {
   101: '待销售经理确认',
+  102: '订单取消',
   201: '待市场部确认',
   301: '待发货',
   302: '已发货',

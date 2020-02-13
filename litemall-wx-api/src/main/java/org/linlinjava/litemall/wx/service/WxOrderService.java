@@ -230,11 +230,9 @@ public class WxOrderService {
         Integer cartId = JacksonUtil.parseInteger(body, "cartId");
         Integer addressId = JacksonUtil.parseInteger(body, "addressId");
         Integer couponId = JacksonUtil.parseInteger(body, "couponId");
-        Integer userCouponId = JacksonUtil.parseInteger(body, "userCouponId");
         String message = JacksonUtil.parseString(body, "message");
-        Integer grouponRulesId = JacksonUtil.parseInteger(body, "grouponRulesId");
-        Integer grouponLinkId = JacksonUtil.parseInteger(body, "grouponLinkId");
         Integer couponPrice = JacksonUtil.parseInteger(body, "couponPrice");
+        BigDecimal actualPrice = new BigDecimal(JacksonUtil.parseString(body, "actualPrice"));
 
         if (cartId == null || addressId == null || couponId == null) {
             return ResponseUtil.badArgument();
@@ -258,18 +256,19 @@ public class WxOrderService {
         if (checkedGoodsList.size() == 0) {
             return ResponseUtil.badArgumentValue();
         }
+        //订单商品原价
         BigDecimal checkedGoodsPrice = new BigDecimal(0.00);
         for (LitemallCart checkGoods : checkedGoodsList) {
             checkedGoodsPrice = checkedGoodsPrice.add(checkGoods.getPrice().multiply(new BigDecimal(checkGoods.getNumber())));
         }
 
         // 可以使用的其他钱，例如用户积分
-        BigDecimal integralPrice = new BigDecimal(0.00);
+//        BigDecimal integralPrice = new BigDecimal(0.00);
 
         // 订单费用
-        BigDecimal orderTotalPrice = checkedGoodsPrice;
+//        BigDecimal orderTotalPrice = checkedGoodsPrice;
         // 最终支付费用
-        BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
+//        BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
 
         Integer orderId = null;
         LitemallOrder order = null;
@@ -287,10 +286,9 @@ public class WxOrderService {
         String detailedAddress = checkedAddress.getProvince() + checkedAddress.getCity() + checkedAddress.getCounty() + " " + checkedAddress.getAddressDetail();
         order.setAddress(detailedAddress);
         order.setGoodsPrice(checkedGoodsPrice);
-        order.setIntegralPrice(integralPrice);
-        order.setOrderPrice(orderTotalPrice);
         order.setActualPrice(actualPrice);
         order.setFreightPrice(new BigDecimal(0));
+        order.setIntegralPrice(new BigDecimal(0));
         order.setCouponPrice(new BigDecimal(0));
         order.setGrouponPrice(new BigDecimal(0));
 
@@ -330,7 +328,7 @@ public class WxOrderService {
         LitemallUser lu = userService.findById(userId);
         BigDecimal amountBig = new BigDecimal(lu.getAmount());
         if(amountBig.compareTo(new BigDecimal(0)) == 1) {
-            amountBig = amountBig.subtract(orderTotalPrice);
+            amountBig = amountBig.subtract(actualPrice);
             lu.setAmount(amountBig.toString());
             userService.updateById(lu);
         }

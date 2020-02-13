@@ -136,7 +136,7 @@ Page({
       return false;
     }
 
-    if (this.data.mobile.length == 0 || this.data.code.length == 0) {
+    if (this.data.mobile.length == 0) {
       wx.showModal({
         title: '错误信息',
         content: '手机号和验证码不能为空',

@@ -151,7 +151,8 @@ Page({
       userCouponId: this.data.userCouponId,
       message: this.data.message,
       grouponRulesId: this.data.grouponRulesId,
-      grouponLinkId: this.data.grouponLinkId
+      grouponLinkId: this.data.grouponLinkId,
+      actualPrice: this.data.actualPrice
     }, 'POST').then(res => {
       if (res.errno === 0) {
         
