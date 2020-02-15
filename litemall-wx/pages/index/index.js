@@ -150,27 +150,27 @@ Page({
     });
   },
   gotoCoupon(e) {
-    if (this.data.hasLogin) {
+   // if (this.data.hasLogin) {
       wx.navigateTo({
         url: "/pages/ucenter/couponList/couponList"
       });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
+   // } else {
+   //   wx.navigateTo({
+   //     url: "/pages/auth/login/login"
+   //   });
+   // };
 
   },
   gotoOrder(e) {
-    if (this.data.hasLogin) {
+   // if (this.data.hasLogin) {
       wx.switchTab({
         url: "/pages/catalog/catalog"
       });
-    } else {
-      wx.navigateTo({
-        url: "/pages/auth/login/login"
-      });
-    };
+   // } else {
+   //   wx.navigateTo({
+   //     url: "/pages/auth/login/login"
+   //   });
+   // };
 
   }
 })
