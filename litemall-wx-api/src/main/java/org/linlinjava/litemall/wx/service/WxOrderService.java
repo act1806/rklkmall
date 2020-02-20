@@ -278,7 +278,8 @@ public class WxOrderService {
         LitemallUser litemallUser = userService.findById(userId);
         order.setSailer(litemallUser.getSailer());
         order.setAgentName(litemallUser.getAgentName());
-        order.setOrderSn(orderService.generateOrderSn(userId));
+        order.setOrderSn(orderService.generateOrderSn(litemallUser.getSailer()));
+        order.setOrderOriSn(orderService.generateOrderOriSn(litemallUser.getAgentName()));
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
         order.setConsignee(checkedAddress.getName());
         order.setMobile(checkedAddress.getTel());
@@ -311,15 +312,18 @@ public class WxOrderService {
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setAddTime(LocalDateTime.now());
             //赠品数量
-            LitemallCoupon coupon = couponService.checkCoupon(userId, cartGoods.getGoodsId());
+            LitemallCoupon coupon = couponService.findById(couponId);
             BigDecimal presentNum = new BigDecimal(0);
-            String couponName = "未符合活动";
+            BigDecimal discount = new BigDecimal(1);
+            String couponName = "未符合或未选择活动";
             if(coupon != null) {
                presentNum = new BigDecimal(cartGoods.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP);
                couponName = coupon.getName();
+               discount = coupon.getDiscount();
             }
             orderGoods.setPresentNumber(presentNum);
             orderGoods.setCouponName(couponName);
+            orderGoods.setDiscount(discount);
 
             orderGoodsService.add(orderGoods);
         }

@@ -59,15 +59,18 @@ public class LitemallOrderService {
         return (int) litemallOrderMapper.countByExample(example);
     }
 
-    // TODO 这里应该产生一个唯一的订单，但是实际上这里仍然存在两个订单相同的可能性
-    public String generateOrderSn(Integer userId) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyyMMdd");
+    // XS-2020-01-14-001 (销售-2020 年 01 月 14 日-第一单)
+    public String generateOrderSn(String sailer) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String now = df.format(LocalDate.now());
-        String orderSn = now + getRandomNum(6);
-        while (countByOrderSn(userId, orderSn) != 0) {
-            orderSn = now + getRandomNum(6);
-        }
-        return orderSn;
+        return sailer + "-" + now + "-" + getRandomNum(3);
+    }
+
+    // 原始单号：NMG-20-001 (内蒙古代理-2020-第一单)
+    public String generateOrderOriSn(String agentName) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy");
+        String now = df.format(LocalDate.now());
+        return agentName + "-" + now + "-" + getRandomNum(3);
     }
 
     public List<LitemallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer page, Integer limit, String sort, String order) {
