@@ -33,9 +33,10 @@
 
       <el-table-column align="center" label="物流渠道" prop="shipChannel"/>
 
-      <el-table-column align="center" label="详情" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="详情" width="160" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="listDetail(scope.row)">查看</el-button>
+          <el-button type="primary" size="mini" @click="printDetail(scope.row)">打印</el-button>
         </template>
       </el-table-column>
 
@@ -158,13 +159,16 @@
       </section>
       <span slot="footer" class="dialog-footer">
         <el-button @click="orderDetailVisible = false">取 消</el-button>
-        <el-button type="primary" @click="printOrder">打 印</el-button>
+        <!-- <el-button type="primary" @click="printOrder">打 印</el-button> -->
       </span>
     </el-dialog>
 
     <!-- 发货对话框 -->
     <el-dialog :visible.sync="shipDialogVisible" title="发货">
       <el-form ref="shipForm" :model="shipForm" status-icon label-position="left" label-width="100px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="出库仓" prop="outStock">
+          <el-input v-model="shipForm.outStock"/>
+        </el-form-item>
         <el-form-item label="快递公司" prop="shipChannel">
           <el-input v-model="shipForm.shipChannel"/>
         </el-form-item>
@@ -176,6 +180,69 @@
         <el-button @click="shipDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="confirmShip">确定</el-button>
       </div>
+    </el-dialog>
+
+    <!-- 订单打印对话框 -->
+    <el-dialog :visible.sync="orderPrintDialogVisible" title="订单打印" width="80%">
+      <section>
+        <div ref="printBox" class="print-box">
+          <div class="print-box-title">北京荣科利康科技有限公司</div>
+          <div class="print-box-sub-title">销售出货单</div>
+          <div class="print-box-form">
+            <el-row>
+              <el-col :span="8"><div class="text-md">单号: </div></el-col>
+              <el-col :span="8"><div class="text-md">原始单号:</div></el-col>
+              <el-col :span="8"><div class="text-md">客户: {{ orderDetail.user.agentName }}</div></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8"><div class="text-md">制单日期: {{ orderDetail.order.addTime | formatDate }}</div></el-col>
+              <el-col :span="16"><div class="text-md">出库仓: {{ orderDetail.order.outStock }}</div></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24"><div class="text-md">备注: </div></el-col>
+            </el-row>
+          </div>
+          <div class="print-box-table">
+            <el-table :data="orderDetail.orderGoods" border fit>
+              <el-table-column align="center" label="序号" type="index" />
+              <el-table-column align="center" label="货品简称" prop="goodsName">
+                <template slot-scope="scope">
+                  {{ scope.row.goodsName | extractEn }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="货品名称" prop="goodsName" width="200">
+                <template slot-scope="scope">
+                  {{ scope.row.goodsName | extractCh }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="货品规格" prop="specifications" />
+              <el-table-column align="center" label="数量" prop="number" />
+              <el-table-column align="center" label="单价" prop="price" />
+              <el-table-column align="center" label="折扣" />
+              <el-table-column align="center" label="金额" />
+              <el-table-column align="center" label="备注"/>
+            </el-table>
+          </div>
+          <div class="print-box-amount">
+            <el-row>
+              <el-col :span="12"><div class="text-md">大写金额: {{ orderDetail.order.actualPrice | numToCh }}</div></el-col>
+              <el-col :span="12"><div class="text-md">合   计: {{ orderDetail.order.actualPrice }}</div></el-col>
+            </el-row>
+          </div>
+          <div class="print-box-foot">
+            <el-row>
+              <el-col :span="6"><div class="text-md">制单人: </div></el-col>
+              <el-col :span="6"><div class="text-md">经办人: {{ orderDetail.order.sailer }}</div></el-col>
+              <el-col :span="6"><div class="text-md">打印日期: {{ currentDate | formatDateTime }}</div></el-col>
+              <el-col :span="6"><div class="text-md">第 1 页 共 1 页</div></el-col>
+            </el-row>
+          </div>
+        </div>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="orderPrintDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="printOrder">打印</el-button>
+      </span>
     </el-dialog>
 
   </div>
@@ -203,6 +270,51 @@ export default {
   filters: {
     orderStatusFilter(status) {
       return statusMap[status]
+    },
+    formatDateTime(value) {
+      const date = new Date(value)
+      const y = date.getFullYear()
+      let MM = date.getMonth() + 1
+      MM = MM < 10 ? '0' + MM : MM
+      let d = date.getDate()
+      d = d < 10 ? '0' + d : d
+      let h = date.getHours()
+      h = h < 10 ? '0' + h : h
+      let m = date.getMinutes()
+      m = m < 10 ? '0' + m : m
+      let s = date.getSeconds()
+      s = s < 10 ? '0' + s : s
+      return y + '/' + MM + '/' + d + ' ' + h + ':' + m + ':' + s
+    },
+    formatDate(value) {
+      const date = new Date(value)
+      const y = date.getFullYear()
+      let MM = date.getMonth() + 1
+      MM = MM < 10 ? '0' + MM : MM
+      let d = date.getDate()
+      d = d < 10 ? '0' + d : d
+      return y + '/' + MM + '/' + d
+    },
+    extractEn(value) {
+      return value.replace(/[^a-zA-Z]/g, '')
+    },
+    extractCh(value) {
+      return value.replace(/[^\u4E00-\u9FA5]/g, '')
+    },
+    numToCh(str) {
+      let num = parseFloat(str)
+      let strOutput = ''
+      let strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分'
+      num += '00'
+      var intPos = num.indexOf('.')
+      if (intPos >= 0) {
+        num = num.substring(0, intPos) + num.substr(intPos + 1, 2)
+      }
+      strUnit = strUnit.substr(strUnit.length - num.length)
+      for (let i = 0; i < num.length; i++) {
+        strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i, 1), 1) + strUnit.substr(i, 1)
+      }
+      return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, '零元')
     }
   },
   data() {
@@ -223,6 +335,7 @@ export default {
       statusMap,
       orderDialogVisible: false,
       orderDetailVisible: false,
+      orderPrintDialogVisible: false,
       orderDetail: {
         order: {},
         user: {},
@@ -234,7 +347,9 @@ export default {
         shipSn: undefined
       },
       shipDialogVisible: false,
-      downloadLoading: false
+      downloadLoading: false,
+      // 以下用于打印
+      currentDate: undefined
     }
   },
   created() {
@@ -274,6 +389,13 @@ export default {
         this.orderDetail = response.data.data
       })
       this.orderDetailVisible = true
+    },
+    printDetail(row) {
+      detailOrder(row.id).then(response => {
+        this.orderDetail = response.data.data
+      })
+      this.orderPrintDialogVisible = true
+      this.currentDate = new Date()
     },
     handleShip(row) {
       this.shipForm.orderId = row.id
@@ -344,7 +466,7 @@ export default {
       })
     },
     printOrder() {
-      this.$print(this.$refs.print)
+      this.$print(this.$refs.printBox)
       this.orderDialogVisible = false
     },
     selectUser(item) {
@@ -358,3 +480,91 @@ export default {
   }
 }
 </script>
+<style madia="print">
+/* 打印区域样式 */
+.print-box {
+  font-family: '宋体';
+  font-size: 5.5mm;
+  width: 98%;
+  background: #fff;
+}
+.print-label {
+  font-size: 5.5mm;
+  text-align: center;
+}
+.print-space {
+  display: inline-block;
+}
+.print-reason {
+  width: 25mm;
+}
+.print-bank {
+  width: 10mm;
+}
+.print-money {
+  width: 12mm;
+}
+.print-pay {
+  width: 5mm;
+}
+.print-content {
+  font-family: 'Avenir', sans-serif;
+  font-size: 4mm;
+  text-align: left;
+}
+.print-box-title {
+  font-size: 8mm;
+  letter-spacing: 0.5mm;
+  text-align: center;
+  color: darkblue;
+}
+.print-box-sub-title {
+  font-size: 8mm;
+  letter-spacing: 0.5mm;
+  text-align: center;
+  color: darkblue;
+}
+.print-box-company {
+  margin: 5mm 0 3mm;
+  text-align: left;
+  letter-spacing: 0.5mm;
+}
+.print-box-date {
+  float: right;
+}
+.print-box-date span {
+  display: inline-block;
+  width: 15mm;
+}
+.print-box table {
+  width: 100%;
+  border: 0.5mm solid black;
+  border-collapse: collapse;
+}
+.print-box table tr {
+  height: 6mm;
+}
+.print-box table td {
+  height: 6mm;
+  border: 0.3mm solid black;
+  padding: 1mm;
+}
+.print-box .td-label-l {
+  width: 38mm;
+}
+.print-box .td-label-c {
+  width: 31mm;
+}
+.print-box .print-box-foot {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  z-index: 9999;
+}
+.print-box .print-box-foot .foot-label {
+  float: left;
+  width: 25%;
+  text-align: left;
+}
+</style>

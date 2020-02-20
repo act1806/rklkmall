@@ -102,7 +102,8 @@ public class AdminOrderService {
         Integer orderId = JacksonUtil.parseInteger(body, "orderId");
         String shipSn = JacksonUtil.parseString(body, "shipSn");
         String shipChannel = JacksonUtil.parseString(body, "shipChannel");
-        if (orderId == null || shipSn == null || shipChannel == null) {
+        String outStock = JacksonUtil.parseString(body, "outStock");
+        if (orderId == null || shipSn == null || shipChannel == null || outStock == null) {
             return ResponseUtil.badArgument();
         }
 
@@ -119,6 +120,7 @@ public class AdminOrderService {
         order.setOrderStatus(OrderUtil.STATUS_SHIP);
         order.setShipSn(shipSn);
         order.setShipChannel(shipChannel);
+        order.setOutStock(outStock);
         order.setShipTime(LocalDateTime.now());
         if (orderService.updateWithOptimisticLocker(order) == 0) {
             return ResponseUtil.updatedDateExpired();

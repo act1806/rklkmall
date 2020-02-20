@@ -82,6 +82,9 @@
             <if test="order.deleted != null">
                 deleted = #{order.deleted,jdbcType=BIT},
             </if>
+            <if test="order.outStock != null">
+                out_stock = #{order.outStock,jdbcType=VARCHAR},
+            </if>
         </set>
         where id = #{order.id,jdbcType=INTEGER} and update_time = #{lastUpdateTime,jdbcType=INTEGER}
     </update>
