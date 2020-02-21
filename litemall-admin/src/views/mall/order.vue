@@ -196,8 +196,8 @@
           <div class="print-box-sub-title">销售出货单</div>
           <div class="print-box-form">
             <el-row>
-              <el-col :span="8"><div class="text-md">单号: </div></el-col>
-              <el-col :span="8"><div class="text-md">原始单号:</div></el-col>
+              <el-col :span="8"><div class="text-md">单号: {{ orderDetail.order.orderSn }}</div></el-col>
+              <el-col :span="8"><div class="text-md">原始单号: {{ orderDetail.order.orderOriSn }}</div></el-col>
               <el-col :span="8"><div class="text-md">客户: {{ orderDetail.user.agentName }}</div></el-col>
             </el-row>
             <el-row>
@@ -205,13 +205,13 @@
               <el-col :span="16"><div class="text-md">出库仓: {{ orderDetail.order.outStock }}</div></el-col>
             </el-row>
             <el-row>
-              <el-col :span="24"><div class="text-md">备注: </div></el-col>
+              <el-col :span="24"><div class="text-md">备注: {{ orderDetail.order.message }}</div></el-col>
             </el-row>
           </div>
           <div class="print-box-table">
             <el-table :data="orderDetail.orderGoods" border fit>
               <el-table-column align="center" label="序号" type="index" />
-              <el-table-column align="center" label="货品简称" prop="goodsName">
+              <el-table-column align="center" label="货品简称" prop="goodsName" width="120">
                 <template slot-scope="scope">
                   {{ scope.row.goodsName | extractEn }}
                 </template>
@@ -221,23 +221,27 @@
                   {{ scope.row.goodsName | extractCh }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="货品规格" prop="specifications" />
+              <el-table-column align="center" label="货品规格" prop="specifications" width="120"/>
               <el-table-column align="center" label="数量" prop="number" />
               <el-table-column align="center" label="单价" prop="price" />
-              <el-table-column align="center" label="折扣" />
-              <el-table-column align="center" label="金额" />
-              <el-table-column align="center" label="备注"/>
+              <el-table-column align="center" label="折扣" prop="discount" />
+              <el-table-column align="center" label="金额">
+                <template slot-scope="scope">
+                  {{ scope.row.number * scope.row.price * scope.row.discount }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="备注" prop="couponName" width="200"/>
             </el-table>
           </div>
           <div class="print-box-amount">
             <el-row>
-              <el-col :span="12"><div class="text-md">大写金额: {{ orderDetail.order.actualPrice | numToCh }}</div></el-col>
-              <el-col :span="12"><div class="text-md">合   计: {{ orderDetail.order.actualPrice }}</div></el-col>
+              <el-col :span="12"><div class="text-md">大写金额: 人民币{{ orderDetail.order.actualPrice | numToCh }}</div></el-col>
+              <el-col :span="12"><div class="text-md">合      计:  {{ orderDetail.order.actualPrice | number }}</div></el-col>
             </el-row>
           </div>
           <div class="print-box-foot">
             <el-row>
-              <el-col :span="6"><div class="text-md">制单人: </div></el-col>
+              <el-col :span="6"><div class="text-md">制单人: {{ name }}</div></el-col>
               <el-col :span="6"><div class="text-md">经办人: {{ orderDetail.order.sailer }}</div></el-col>
               <el-col :span="6"><div class="text-md">打印日期: {{ currentDate | formatDateTime }}</div></el-col>
               <el-col :span="6"><div class="text-md">第 1 页 共 1 页</div></el-col>
@@ -259,6 +263,7 @@ import { detailOrder, listOrder, confirmOrder, shipOrder, saveOrder } from '@/ap
 import { listOrderUser } from '@/api/stat'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
+import { mapGetters } from 'vuex'
 
 const statusMap = {
   101: '待销售经理确认',
@@ -321,6 +326,11 @@ export default {
         strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i, 1), 1) + strUnit.substr(i, 1)
       }
       return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, '零元')
+    },
+    number(value) {
+      var toFixedNum = Number(value).toFixed(3)
+      var realVal = toFixedNum.substring(0, toFixedNum.toString().length - 1)
+      return realVal
     }
   },
   data() {
@@ -357,6 +367,11 @@ export default {
       // 以下用于打印
       currentDate: undefined
     }
+  },
+  computed: {
+    ...mapGetters([
+      'name'
+    ])
   },
   created() {
     this.getList()
@@ -542,10 +557,10 @@ export default {
   display: inline-block;
   width: 15mm;
 }
-.print-box table {
+.print-box-table {
   width: 100%;
   border: 0.5mm solid black;
-  border-collapse: collapse;
+  margin-top: 30px;
 }
 .print-box table tr {
   height: 6mm;
