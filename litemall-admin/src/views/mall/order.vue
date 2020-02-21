@@ -70,8 +70,11 @@
           <el-form-item label="下单时间">
             <el-date-picker v-model="orderDetail.order.addTime" type="datetime" placeholder="下单时间" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%;"/>
           </el-form-item>
+          <el-form-item label="活动详情">
+            <el-input v-model="orderDetail.order.couponName">{{ orderDetail.order.couponName }}</el-input>
+          </el-form-item>
           <el-form-item label="用户留言">
-            <span>{{ orderDetail.order.message }}</span>
+            <el-input v-model="orderDetail.order.message">{{ orderDetail.order.message }}</el-input>
           </el-form-item>
           <el-form-item label="收货信息">
             <el-input v-model="orderDetail.order.consignee">{{ orderDetail.order.consignee }}</el-input>
@@ -82,14 +85,13 @@
             <br>
             <div v-for="(goods,i) in orderDetail.orderGoods" :key="i">
               <span style="width:300px">{{ i+1 }}.{{ goods.goodsName }}</span>
-              <el-input v-model="goods.number" style="width: 100px; margin-left:10px;">{{ goods.number }}</el-input>
-              <el-input v-model="goods.presentNumber" style="width: 100px; margin-left:10px;">{{ goods.presentNumber }}</el-input>
-              <el-input v-model="goods.price" style="width: 100px; margin-left:10px;">{{ goods.price }}</el-input>
-              {{ goods.number*goods.price }}
+              <span>:数量</span><el-input v-model="goods.number" style="width: 60px; margin-left:10px;">{{ goods.number }}</el-input>
+              <span>;赠送</span><el-input v-model="goods.presentNumber" style="width: 60px; margin-left:10px;">{{ goods.presentNumber }}</el-input>
+              <span>;单价</span><el-input v-model="goods.price" style="width: 100px; margin-left:10px;">{{ goods.price }}</el-input>
             </div>
           </el-form-item>
           <el-form-item label="订单金额">
-            <el-input v-model="orderDetail.order.orderPrice" style="width: 200px;">{{ orderDetail.order.orderPrice }}</el-input>
+            <el-input v-model="orderDetail.order.actualPrice" style="width: 200px;">{{ orderDetail.order.actualPrice }}</el-input>
           </el-form-item>
           <el-form-item label="快递信息">
             <span>（快递公司）{{ orderDetail.order.shipChannel }}</span>
@@ -118,7 +120,7 @@
             <el-tag>{{ orderDetail.order.orderStatus | orderStatusFilter }}</el-tag>
           </el-form-item>
           <el-form-item label="订单客户名称">
-            <span>{{ orderDetail.user.agentName }}</span>
+            <span>{{ orderDetail.order.agentName }}</span>
           </el-form-item>
           <el-form-item label="用户留言">
             <span>{{ orderDetail.order.message }}</span>
@@ -127,6 +129,9 @@
             <span>（收货人）{{ orderDetail.order.consignee }}</span>
             <span>（手机号）{{ orderDetail.order.mobile }}</span>
             <span>（地址）{{ orderDetail.order.address }}</span>
+          </el-form-item>
+          <el-form-item label="活动详情">
+            <span>{{ orderDetail.order.couponName }}</span>
           </el-form-item>
           <el-form-item label="商品信息">
             <el-table :data="orderDetail.orderGoods" border fit highlight-current-row>
@@ -140,11 +145,12 @@
                   <img :src="scope.row.picUrl" width="40">
                 </template>
               </el-table-column>
+              <el-table-column align="center" label="赠送数量" prop="presentNumber" />
             </el-table>
           </el-form-item>
           <el-form-item label="费用信息">
             <span>
-              (实际费用){{ orderDetail.order.orderPrice }}元
+              (实际费用){{ orderDetail.order.actualPrice }}元
             </span>
           </el-form-item>
           <el-form-item label="快递信息">

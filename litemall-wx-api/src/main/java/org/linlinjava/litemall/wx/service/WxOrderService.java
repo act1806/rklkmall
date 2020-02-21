@@ -85,7 +85,6 @@ public class WxOrderService {
     private WxPayService wxPayService;
     @Autowired
     private LitemallUserFormIdService formIdService;
-
     @Autowired
     private LitemallGrouponService grouponService;
     @Autowired
@@ -94,6 +93,8 @@ public class WxOrderService {
     private LitemallCommentService commentService;
     @Autowired
     private LitemallCouponService couponService;
+    @Autowired
+    private CouponVerifyService couponVerifyService;
 
     /**
      * 订单列表
@@ -188,6 +189,8 @@ public class WxOrderService {
         orderVo.put("handleOption", OrderUtil.build(order));
         orderVo.put("expCode", order.getShipChannel());
         orderVo.put("expNo", order.getShipSn());
+        orderVo.put("message", order.getMessage());
+        orderVo.put("couponName", order.getCouponName());
 
         List<LitemallOrderGoods> orderGoodsList = orderGoodsService.queryByOid(order.getId());
 
@@ -262,14 +265,6 @@ public class WxOrderService {
             checkedGoodsPrice = checkedGoodsPrice.add(checkGoods.getPrice().multiply(new BigDecimal(checkGoods.getNumber())));
         }
 
-        // 可以使用的其他钱，例如用户积分
-//        BigDecimal integralPrice = new BigDecimal(0.00);
-
-        // 订单费用
-//        BigDecimal orderTotalPrice = checkedGoodsPrice;
-        // 最终支付费用
-//        BigDecimal actualPrice = orderTotalPrice.subtract(integralPrice);
-
         Integer orderId = null;
         LitemallOrder order = null;
         // 订单
@@ -278,8 +273,8 @@ public class WxOrderService {
         LitemallUser litemallUser = userService.findById(userId);
         order.setSailer(litemallUser.getSailer());
         order.setAgentName(litemallUser.getAgentName());
-        order.setOrderSn(orderService.generateOrderSn(litemallUser.getSailer()));
-        order.setOrderOriSn(orderService.generateOrderOriSn(litemallUser.getAgentName()));
+        order.setOrderSn(orderService.generateOrderSn());
+        order.setOrderOriSn(orderService.generateOrderOriSn(litemallUser.getAgentName(), litemallUser.getAgentEnName()));
         order.setOrderStatus(OrderUtil.STATUS_CREATE);
         order.setConsignee(checkedAddress.getName());
         order.setMobile(checkedAddress.getTel());
@@ -292,6 +287,20 @@ public class WxOrderService {
         order.setIntegralPrice(new BigDecimal(0));
         order.setCouponPrice(new BigDecimal(0));
         order.setGrouponPrice(new BigDecimal(0));
+
+        //订单选择的活动
+        LitemallCoupon coupon = couponService.findById(couponId);
+        String couponName = "未符合或未选择活动";
+        if(coupon != null) {
+            couponName = coupon.getName();
+            if(coupon.getTotal() == 333) {
+                int yidinggou = coupon.getGoodsType();
+                int haicha = coupon.getLimit() - yidinggou - actualPrice.intValue();
+                int leiji = yidinggou + actualPrice.intValue();
+                couponName = couponName + "已订购" + yidinggou + "元，本次订购" + actualPrice + "元，累计订购" + leiji + "元，还差" + haicha + "元未订购";
+            }
+        }
+        order.setCouponName(couponName);
 
         // 添加订单表项
         orderService.add(order);
@@ -311,19 +320,18 @@ public class WxOrderService {
             orderGoods.setNumber(cartGoods.getNumber());
             orderGoods.setSpecifications(cartGoods.getSpecifications());
             orderGoods.setAddTime(LocalDateTime.now());
-            //赠品数量
-            LitemallCoupon coupon = couponService.findById(couponId);
+            //产品符合的活动
             BigDecimal presentNum = new BigDecimal(0);
             BigDecimal discount = new BigDecimal(1);
-            String couponName = "未符合或未选择活动";
-            if(coupon != null) {
-               presentNum = new BigDecimal(cartGoods.getNumber()).multiply(coupon.getDiscount()).divide(coupon.getMin(), 1, BigDecimal.ROUND_HALF_UP);
-               couponName = coupon.getName();
+            couponName = "未符合或未选择活动";
+            if(coupon != null && couponVerifyService.checkGoodAndCoupon(coupon.getTotal(), cartGoods.getGoodsId())) {
+               presentNum = new BigDecimal(cartGoods.getNumber()).multiply(coupon.getMin());
                discount = coupon.getDiscount();
+               couponName = coupon.getName();
             }
             orderGoods.setPresentNumber(presentNum);
-            orderGoods.setCouponName(couponName);
             orderGoods.setDiscount(discount);
+            orderGoods.setCouponName(couponName);
 
             orderGoodsService.add(orderGoods);
         }

@@ -53,24 +53,24 @@ public class LitemallOrderService {
         return sb.toString();
     }
 
-    public int countByOrderSn(Integer userId, String orderSn) {
-        LitemallOrderExample example = new LitemallOrderExample();
-        example.or().andUserIdEqualTo(userId).andOrderSnEqualTo(orderSn).andDeletedEqualTo(false);
-        return (int) litemallOrderMapper.countByExample(example);
+    public int countByYearAndAgentName(int year, String agentName) {
+        return litemallOrderMapper.countByYearAndAgentName(year, agentName);
     }
 
     // XS-2020-01-14-001 (销售-2020 年 01 月 14 日-第一单)
-    public String generateOrderSn(String sailer) {
+    public String generateOrderSn() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String now = df.format(LocalDate.now());
-        return sailer + "-" + now + "-" + getRandomNum(3);
+        String num = String.format("%03d", countByYearAndAgentName(LocalDateTime.now().getYear(), null) + 1);
+        return  "XS-" + now + "-" + num;
     }
 
     // 原始单号：NMG-20-001 (内蒙古代理-2020-第一单)
-    public String generateOrderOriSn(String agentName) {
+    public String generateOrderOriSn(String agentName, String agentEnName) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy");
         String now = df.format(LocalDate.now());
-        return agentName + "-" + now + "-" + getRandomNum(3);
+        String num = String.format("%03d",countByYearAndAgentName(LocalDateTime.now().getYear(), agentName) + 1);
+        return agentEnName + "-" + now + "-" + num;
     }
 
     public List<LitemallOrder> queryByOrderStatus(Integer userId, List<Short> orderStatus, Integer page, Integer limit, String sort, String order) {

@@ -18,6 +18,13 @@
 
   <view class="order-goods">
     <view class="h">
+      <view class="label">用户留言</view>
+    </view>
+    <view class="message"> {{orderInfo.message}} </view>
+  </view>
+
+  <view class="order-goods">
+    <view class="h">
       <view class="label">商品信息</view>
       <view class="status">{{orderInfo.orderStatusText}}</view>
     </view>
@@ -33,6 +40,7 @@
           </view>
           <view class="attr">{{item.specifications}}</view>
           <view class="price">￥{{item.price}}</view>
+          <view class="s" wx:if="{{item.presentNumber > 0}}">【活动】送{{item.presentNumber}}盒，共计{{item.presentNumber+item.number}}盒</view>
           <view class="btn active" wx:if="{{handleOption.comment && (item.comment == 0)}}">
             <navigator url="../../commentPost/commentPost?orderId={{item.orderId}}&&valueId={{item.goodsId}}&type=0">去评价</navigator>
           </view>
@@ -56,14 +64,12 @@
           <text class="label">商品合计：</text>
           <text class="txt">￥{{orderInfo.goodsPrice}}</text>
         </view>
+      </view>
+      <view class="coupon">
         <view class="t">
-          <text class="label">运费：</text>
-          <text class="txt">￥{{orderInfo.freightPrice}}</text>
+          <text class="name">活动详情</text>
         </view>
-        <view class="t">
-          <text class="label">优惠：</text>
-          <text class="txt">￥-{{orderInfo.couponPrice}}</text>
-        </view>
+        <view class="b">{{orderInfo.couponName}}</view>
       </view>
       <view class="pay-fee">
         <text class="label">实付：</text>

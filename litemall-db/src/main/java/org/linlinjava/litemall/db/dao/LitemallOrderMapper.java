@@ -151,4 +151,6 @@ public interface LitemallOrderMapper {
      * @mbg.generated
      */
     int logicalDeleteByPrimaryKey(Integer id);
+
+    int countByYearAndAgentName(int year, String agentName);
 }

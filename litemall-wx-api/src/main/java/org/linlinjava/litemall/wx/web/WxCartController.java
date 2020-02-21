@@ -40,11 +40,7 @@ public class WxCartController {
     @Autowired
     private LitemallAddressService addressService;
     @Autowired
-    private LitemallGrouponRulesService grouponRulesService;
-    @Autowired
     private LitemallCouponService couponService;
-    @Autowired
-    private LitemallCouponUserService couponUserService;
     @Autowired
     private LitemallUserService userService;
     @Autowired

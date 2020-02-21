@@ -53,6 +53,24 @@ page {
   float: right;
 }
 
+.message-box {
+  margin-top: 20rpx;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+}
+
+.message-box .message-item {
+  height: 52.078rpx;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  margin-left: 31.25rpx;
+  padding-right: 31.25rpx;
+  padding-top: 26rpx;
+}
+
 .item-c .cost {
   color: #b4282d;
 }
@@ -82,6 +100,10 @@ page {
   margin-left: 31.25rpx;
   border-bottom: 1px solid #f4f4f4;
   padding-right: 31.25rpx;
+}
+
+.order-goods .message {
+  margin-left: 31.25rpx;
 }
 
 .order-goods .h .label {
@@ -185,6 +207,15 @@ page {
   color: #fff;
 }
 
+.order-goods .s {
+  height: 41rpx;
+  overflow: hidden;
+  line-height: 41rpx;
+  font-size: 27rpx;
+  padding-left: 0;
+  color: rgb(248, 115, 7);
+}
+
 .order-bottom {
   margin-top: 20rpx;
   padding-left: 31.25rpx;
@@ -199,13 +230,33 @@ page {
   border-bottom: 1px solid #f4f4f4;
 }
 
+.order-bottom .coupon {
+  height: 180rpx;
+  padding-top: 25rpx;
+  border-bottom: 1px solid #f4f4f4;
+}
+
 .order-bottom .address .t {
   height: 35rpx;
   line-height: 35rpx;
   margin-bottom: 7.5rpx;
 }
 
+.order-bottom .coupon .t {
+  height: 35rpx;
+  line-height: 35rpx;
+  margin-bottom: 7.5rpx;
+}
+
 .order-bottom .address .name {
+  display: inline-block;
+  height: 35rpx;
+  width: 140rpx;
+  line-height: 35rpx;
+  font-size: 30rpx;
+}
+
+.order-bottom .coupon .name {
   display: inline-block;
   height: 35rpx;
   width: 140rpx;
@@ -221,6 +272,12 @@ page {
 }
 
 .order-bottom .address .b {
+  height: 35rpx;
+  line-height: 35rpx;
+  font-size: 30rpx;
+}
+
+.order-bottom .coupon .b {
   height: 35rpx;
   line-height: 35rpx;
   font-size: 30rpx;

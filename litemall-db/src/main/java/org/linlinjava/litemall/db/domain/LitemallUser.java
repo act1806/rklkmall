@@ -185,6 +185,8 @@ public class LitemallUser {
 
     private String agentName;
 
+    private String agentEnName;
+
     public String getSailer() {
         return sailer;
     }
@@ -199,6 +201,14 @@ public class LitemallUser {
 
     public void setAgentName(String agentName) {
         this.agentName = agentName;
+    }
+
+    public String getAgentEnName() {
+        return agentEnName;
+    }
+
+    public void setAgentEnName(String agentEnName) {
+        this.agentEnName = agentEnName;
     }
 
     /**
