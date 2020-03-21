@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -53,15 +54,21 @@ public class LitemallOrderService {
         return sb.toString();
     }
 
+    public long countByDay(LocalDate localDate) {
+        LitemallOrderExample example = new LitemallOrderExample();
+        example.createCriteria().andAddTimeBetween(LocalDateTime.of(localDate, LocalTime.MIN), LocalDateTime.of(localDate, LocalTime.MAX));
+        return litemallOrderMapper.countByExample(example);
+    }
+
     public int countByYearAndAgentName(int year, String agentName) {
         return litemallOrderMapper.countByYearAndAgentName(year, agentName);
     }
 
-    // XS-2020-01-14-001 (销售-2020 年 01 月 14 日-第一单)
+    // XS-2020-01-14-001 (2020 年 01 月 14 日-第一单) 当天所有人
     public String generateOrderSn() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String now = df.format(LocalDate.now());
-        String num = String.format("%03d", countByYearAndAgentName(LocalDateTime.now().getYear(), null) + 1);
+        String num = String.format("%03d", countByDay(LocalDateTime.now().toLocalDate()) + 1);
         return  "XS-" + now + "-" + num;
     }
 

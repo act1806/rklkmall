@@ -201,7 +201,8 @@ public class WxCartController {
             cart.setGoodsSn(goods.getGoodsSn());
             cart.setGoodsName((goods.getName()));
             cart.setPicUrl(goods.getPicUrl());
-            cart.setPrice(product.getPrice());
+            cart.setPrice(goods.getCounterPrice());
+            cart.setRetailPrice(goods.getRetailPrice());
             cart.setSpecifications(product.getSpecifications());
             cart.setUserId(userId);
             cart.setChecked(true);

@@ -153,4 +153,5 @@ public interface LitemallOrderMapper {
     int logicalDeleteByPrimaryKey(Integer id);
 
     int countByYearAndAgentName(int year, String agentName);
+
 }
