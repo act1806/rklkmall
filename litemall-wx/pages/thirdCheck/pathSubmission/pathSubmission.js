@@ -97,8 +97,12 @@ Page({
         if (res.errno === 0) {
           wx.showToast({
             title: '提交成功',
+            duration: 2000,
             complete: function () {
-              wx.navigateBack();
+              setTimeout(function () {
+                //要延时执行的代码
+                wx.navigateBack();
+              }, 2000) //延迟时间
             }
           })
         }
