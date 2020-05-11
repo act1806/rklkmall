@@ -16,20 +16,25 @@ public class ThirdCheckUtil {
         String status = check.getStatus();
 
         if ("0".equals(status)) {
-            return "已收到样本";
+            return "已提交";
         }
 
         if ("1".equals(status)) {
-            return "样本检测中，，";
+            return "已收到样本";
         }
 
         if ("2".equals(status)) {
-            return "样本检测完毕";
+            return "样本检测中";
         }
 
         if ("3".equals(status)) {
+            return "样本检测完毕";
+        }
+
+        if ("4".equals(status)) {
             return "检测结果已发送至预留邮箱";
         }
+
 
 
         throw new IllegalStateException("status不支持");

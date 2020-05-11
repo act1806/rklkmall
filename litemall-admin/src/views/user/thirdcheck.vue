@@ -251,10 +251,11 @@ import { fetchList, operation } from '@/api/thirdcheck'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 const statusMap = {
-  '0': '已收到样本',
-  '1': '样本检测中',
-  '2': '样本检测完毕',
-  '3': '检测结果已发送至预留邮箱'
+  '0': '已提交',
+  '1': '已收到样本',
+  '2': '样本检测中',
+  '3': '样本检测完毕',
+  '4': '检测结果已发送至预留邮箱'
 }
 
 export default {
@@ -271,7 +272,7 @@ export default {
       list: null,
       total: 0,
       listLoading: true,
-      statusDic: ['已收到样本', '样本检测中', '样本检测完毕', '检测结果已发送至预留邮箱'],
+      statusDic: ['已提交', '已收到样本', '样本检测中', '样本检测完毕', '检测结果已发送至预留邮箱'],
       examineDic: ['佰基检测送检单', '佰基病理学检测送检单'],
       genderDic: ['雄', '雌'],
       clsDic: ['犬', '猫', '', '', '', '', '', '', '', '其他'],

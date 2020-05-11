@@ -40,7 +40,7 @@ Page({
     hasPicture: false,
     picUrls: [],
     files: [],
-    date: '2016-09-01'
+    date: util.formatTime(new Date())
   },
 
 
