@@ -20,6 +20,14 @@ export function detailOrder(id) {
   })
 }
 
+export function deleteOrder(id) {
+  return request({
+    url: '/order/delete',
+    method: 'get',
+    params: { id }
+  })
+}
+
 export function shipOrder(data) {
   return request({
     url: '/order/ship',

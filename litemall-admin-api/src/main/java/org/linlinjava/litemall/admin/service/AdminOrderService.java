@@ -75,6 +75,10 @@ public class AdminOrderService {
         return ResponseUtil.ok();
     }
 
+    public void deleteById(Integer id) {
+        orderService.deleteById(id);
+    }
+
     public Object save(OrderDetail orderDetail) {
         LitemallOrder litemallOrder = orderDetail.getOrder();
         List<LitemallOrderGoods> orderGoods = orderDetail.getOrderGoods();

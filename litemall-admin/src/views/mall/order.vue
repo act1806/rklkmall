@@ -40,9 +40,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDetail(scope.row)">编辑</el-button>
+          <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="handleDelete(scope.row.id)">删除</el-button>
           <el-button v-if="scope.row.orderStatus==101" type="primary" size="mini" @click="confirmOrder(scope.row)">确认</el-button>
           <el-button v-if="scope.row.orderStatus==201" type="primary" size="mini" @click="confirmOrder(scope.row)">确认</el-button>
           <el-button v-if="scope.row.orderStatus==301" type="primary" size="mini" @click="handleShip(scope.row)">发货</el-button>
@@ -259,7 +260,7 @@
 </template>
 
 <script>
-import { detailOrder, listOrder, confirmOrder, shipOrder, saveOrder } from '@/api/order'
+import { detailOrder, deleteOrder, listOrder, confirmOrder, shipOrder, saveOrder } from '@/api/order'
 import { listOrderUser } from '@/api/stat'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import checkPermission from '@/utils/permission' // 权限判断函数
@@ -404,6 +405,11 @@ export default {
         this.orderDetail = response.data.data
       })
       this.orderDialogVisible = true
+    },
+    handleDelete(id) {
+      deleteOrder(id).then(response => {
+        this.getList()
+      })
     },
     listDetail(row) {
       detailOrder(row.id).then(response => {

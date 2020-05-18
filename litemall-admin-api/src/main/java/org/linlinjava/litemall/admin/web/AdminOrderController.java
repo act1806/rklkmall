@@ -96,7 +96,7 @@ public class AdminOrderController {
     /**
      * 订单状态确认
      *
-     * @param body 订单信息，{ orderId：xxx }
+     * @param litemallOrder 订单信息，{ orderId：xxx }
      * @return 订单操作结果
      */
     @RequiresPermissions("admin:order:confirm")
@@ -108,13 +108,26 @@ public class AdminOrderController {
     /**
      * 订单保存
      *
-     * @param body 订单信息，{ orderId：xxx }
+     * @param orderDetail 订单信息，{ orderId：xxx }
      * @return 订单操作结果
      */
     @RequiresPermissions("admin:order:save")
     @PostMapping("/save")
     public Object save(@RequestBody OrderDetail orderDetail) {
         return adminOrderService.save(orderDetail);
+    }
+
+    /**
+     * 订单删除
+     *
+     * @param id 订单信息，{ orderId：xxx }
+     * @return 订单操作结果
+     */
+    @RequiresPermissions("admin:order:save")
+    @GetMapping("/delete")
+    public Object delete(Integer id) {
+        adminOrderService.deleteById(id);
+        return ResponseUtil.ok();
     }
 
 }

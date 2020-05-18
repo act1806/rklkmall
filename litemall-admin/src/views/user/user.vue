@@ -16,6 +16,8 @@
 
       <el-table-column align="center" label="客户名称" prop="agentName"/>
 
+      <el-table-column align="center" label="客户英文名称" prop="agentEnName"/>
+
       <el-table-column align="center" label="账号/微信名" prop="nickname"/>
 
       <el-table-column align="center" label="手机号码" prop="mobile"/>
@@ -58,6 +60,9 @@
       <el-form >
         <el-form-item label="客户名称">
           <el-input v-model="userItem.agentName"/>
+        </el-form-item>
+        <el-form-item label="客户英文名称(原始单号)">
+          <el-input v-model="userItem.agentEnName"/>
         </el-form-item>
         <el-form-item label="余额">
           <el-input v-model="userItem.amount" />
