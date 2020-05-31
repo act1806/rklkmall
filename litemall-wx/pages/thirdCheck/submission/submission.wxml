@@ -19,7 +19,7 @@
             <label>*医院名称: </label>
           </view>
           <view class="weui-cell__bd">
-            <input type="text" name="hospitalName" value='' />
+            <input type="text" name="hospitalName" value='{{form.hospitalName}}' />
           </view>
         </view>
         <view class="weui-cell">

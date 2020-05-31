@@ -1,6 +1,7 @@
 // pages/thirdCheck/submission/submission.js
 var api = require('../../../config/api.js');
 const util = require('../../../utils/util.js');
+import WxValidate from '../../../utils/WxValidate.js';
 
 var app = getApp();
 
@@ -11,6 +12,19 @@ Page({
    * 页面的初始数据
    */
   data: {
+    form: {
+      hospitalName: '',
+      phone: '',
+      sampleAddr:'',
+      sampleDate: '',
+      email: '',
+      cls:'',
+      sampleArea: '',
+      exampleProject: '',
+      sampleProject:'',
+      expressCarrier: '',
+      expressNo: ''
+    },
     clsRadioItems: [
       { name: '犬', value: '0' },
       { name: '猫', value: '1' },
@@ -48,9 +62,89 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.initValidate();
   },
-
+  //报错
+  showModal(error) {
+    wx.showModal({
+      content: error.msg,
+      showCancel: false,
+    })
+  },
+  //验证函数
+  initValidate() {
+    const rules = {
+      hospitalName: {
+        required: true
+      },
+      phone: {
+        required: true
+      },
+      sampleAddr:{
+        required: true
+      },
+      sampleDate: {
+        required: true
+      },
+      email: {
+        required: true
+      },
+      cls:{
+        required: true
+      },
+      sampleArea: {
+        required: true
+      },
+      exampleProject: {
+        required: true
+      },
+      sampleProject:{
+        required: true
+      },
+      expressCarrier: {
+        required: true
+      },
+      expressNo: {
+        required: true
+      }
+    }
+    const messages = {
+      hospitalName: {
+        required: '请填写医院名称'
+      },
+      phone: {
+        required: '请填写联系电话'
+      },
+      sampleAddr:{
+        required: '请填写取样地址'
+      },
+      sampleDate: {
+        required: '请填写采样日期'
+      },
+      email: {
+        required: '请填写报告接收邮箱'
+      },
+      cls:{
+        required: '请选择类别'
+      },
+      sampleArea: {
+        required: '请填写采样部位'
+      },
+      exampleProject: {
+        required: '请填写检测项目'
+      },
+      sampleProject:{
+        required: '请选择样本项目'
+      },
+      expressCarrier: {
+        required: '请填写快递公司'
+      },
+      expressNo: {
+        required: '请填写快递单号'
+      }
+    }
+    this.WxValidate = new WxValidate(rules, messages)
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -61,9 +155,16 @@ Page({
     let data = e.detail.value;
     data.expressUrl = this.data.picUrls;
 
-    console.log(data);
+    //console.log(data);
 
     let that = this;
+
+    //校验表单
+    if (!this.WxValidate.checkForm(data)) {
+      const error = this.WxValidate.errorList[0]
+      this.showModal(error)
+      return false
+    }
 
 
     if (e.detail.value.hospitalName == "" || e.detail.value.phone == "" || e.detail.value.sampleAddr == "" || e.detail.value.sampleDate == "" || e.detail.value.email == "" || e.detail.value.cls == "" || e.detail.value.sampleArea == "" || e.detail.value.exampleProject == "" || e.detail.value.sampleProject == "" || e.detail.value.sampleProject == "") {
