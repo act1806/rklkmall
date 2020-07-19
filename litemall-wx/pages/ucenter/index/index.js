@@ -15,10 +15,12 @@ Page({
       unrecv: 0,
       uncomment: 0
     },
-    hasLogin: false
+    hasLogin: false,
+    banner: []
   },
   onLoad: function(options) {
     // 页面初始化 options为页面跳转所带来的参数
+    this.getIndexData();
   },
   onReady: function() {
 
@@ -218,9 +220,15 @@ Page({
     });
   },  
   goThirdCheck: function () {
-    wx.navigateTo({
-      url: '/pages/thirdCheck/thirdCheck'
-    });
+    if (this.data.hasLogin) {
+      wx.navigateTo({
+        url: '/pages/thirdCheck/thirdCheck'
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/auth/login/login"
+      });
+    };
   },  
   exitLogin: function() {
     wx.showModal({
@@ -242,5 +250,28 @@ Page({
       }
     })
 
+  },
+  getIndexData: function () {
+    let that = this;
+    util.request(api.IndexUrl).then(function (res) {
+      if (res.errno === 0) {
+        that.setData({
+          newGoods: res.data.newGoodsList,
+          hotGoods: res.data.hotGoodsList,
+          topics: res.data.topicList,
+          brands: res.data.brandList,
+          floorGoods: res.data.floorGoodsList,
+          banner: res.data.banner,
+          groupons: res.data.grouponList,
+          channel: res.data.channel,
+          coupon: res.data.couponList
+        });
+      }
+    });
+    util.request(api.GoodsCount).then(function (res) {
+      that.setData({
+        goodsCount: res.data
+      });
+    });
   }
 })

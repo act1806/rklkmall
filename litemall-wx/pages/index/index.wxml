@@ -13,7 +13,7 @@
       <!-- </navigator> -->
     </swiper-item>
   </swiper>
-  <view class="entrance-section a-coupon">
+  <view class="entrance-section a-coupon" wx:if="{{banner[0].id != '6'}}">
     <view class="grid col-2 padding-sm" >
       <view class="padding-sm min-height" bindtap="gotoOrder">
         <view class="padding radius text-center shadow-blur" style="background-image:url(https://i.loli.net/2020/01/19/l2mj3q1zXMoOGet.jpg)">

@@ -96,7 +96,7 @@
       <image class='user_column_item_image' src='/static/images/ic_menu_topic_nor.png'></image>
       <view class='user_column_item_text'>帮助中心</view>
     </view> -->
-    <view class='user_column_item' bindtap='goThirdCheck'>
+    <view class='user_column_item' bindtap='goThirdCheck' wx:if="{{banner[0].id != '6'}}">
       <image class='user_column_item_image' src='/static/images/check.png'></image>
       <view class='user_column_item_text'>第三方检测</view>
     </view>
