@@ -8,6 +8,14 @@ export function fetchList(query) {
   })
 }
 
+export function listPaidUser(query) {
+  return request({
+    url: '/user/listPaid',
+    method: 'get',
+    params: query
+  })
+}
+
 export function listAddress(query) {
   return request({
     url: '/address/list',

@@ -10,11 +10,13 @@
     <el-row>
       <el-col :span="8">
         <el-table v-loading="listLoading" :data="listUser" element-loading-text="正在查询中。。。" border fit highlight-current-row @row-click="clickUser">
-          <el-table-column align="center" width="100px" label="用户ID" prop="id" sortable/>
-
-          <el-table-column align="center" label="用户名" prop="username"/>
+          <el-table-column align="center" width="50px" label="用户ID" prop="id" sortable/>
 
           <el-table-column align="center" label="微信号" prop="nickname"/>
+
+          <el-table-column align="center" label="业务员" prop="sailer"/>
+
+          <el-table-column align="center" label="客户名称" prop="agentName"/>
 
         </el-table>
       </el-col>
@@ -50,7 +52,7 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/user'
+import { listPaidUser } from '@/api/user'
 import { listCoupon, listCouponUser, saveCouponUser } from '@/api/coupon'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -105,7 +107,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      fetchList().then(response => {
+      listPaidUser().then(response => {
         this.listUser = response.data.data.list
         this.listLoading = false
       }).catch(() => {

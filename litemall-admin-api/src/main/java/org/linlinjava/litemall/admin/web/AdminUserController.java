@@ -36,6 +36,16 @@ public class AdminUserController {
         return ResponseUtil.okList(userList);
     }
 
+    @RequiresPermissions("admin:user:list")
+    @RequiresPermissionsDesc(menu = {"用户管理", "会员管理"}, button = "查询")
+    @GetMapping("/listPaid")
+    public Object list(String username, String mobile,
+                       @Sort @RequestParam(defaultValue = "add_time") String sort,
+                       @Order @RequestParam(defaultValue = "desc") String order) {
+        List<LitemallUser> userList = userService.querySelective(username, mobile, sort, order);
+        return ResponseUtil.okList(userList);
+    }
+
     @PostMapping("/updateAmountLevel")
     public Object updateAmountLevel(@RequestBody LitemallUser user) {
         int result = userService.updateById(user);

@@ -311,10 +311,14 @@ export default {
   },
   computed: {
     urlArr() {
-      return this.checkForm.expressUrl.split(',')
+      if (!JSON.stringify(this.checkForm.expressUrl) === '{}') {
+        return this.checkForm.expressUrl.split(',')
+      }
     },
     url() {
-      return this.checkForm.expressUrl.split(',')[0]
+      if (!JSON.stringify(this.checkForm.expressUrl) === '{}') {
+        return this.checkForm.expressUrl.split(',')[0]
+      }
     }
   },
   created() {
