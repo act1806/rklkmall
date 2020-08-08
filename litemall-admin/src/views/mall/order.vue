@@ -206,7 +206,7 @@
               <el-col :span="16"><div class="text-md">出库仓: {{ orderDetail.order.outStock }}</div></el-col>
             </el-row>
             <el-row>
-              <el-col :span="24"><div class="text-md">备注: {{ orderDetail.order.message }}</div></el-col>
+              <el-col :span="24"><div class="text-md">备注: {{ orderDetail.order.couponName }};{{ orderDetail.order.message }}</div></el-col>
             </el-row>
           </div>
           <div class="print-box-table">
@@ -231,7 +231,11 @@
                   {{ scope.row.number * scope.row.price * scope.row.discount }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="备注" prop="couponName" width="200"/>
+              <el-table-column align="center" label="备注" width="200">
+                <template slot-scope="scope">
+                  {{ scope.row.couponName.substr(scope.row.couponName.indexOf("十送"), 3) }},送{{ scope.row.presentNumber }}盒,共{{ scope.row.presentNumber+scope.row.number }}盒
+                </template>
+              </el-table-column>
             </el-table>
           </div>
           <div class="print-box-amount">
