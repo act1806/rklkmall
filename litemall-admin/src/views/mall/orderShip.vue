@@ -30,8 +30,9 @@
 
       <el-table-column align="center" label="物流渠道" prop="shipChannel"/>
 
-      <el-table-column align="center" label="详情" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="详情" width="160" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <el-button type="primary" size="mini" @click="printDetail(scope.row)">打印</el-button>
           <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="listDetail(scope.row)">查看</el-button>
         </template>
       </el-table-column>
@@ -117,6 +118,77 @@
       </div>
     </el-dialog>
 
+    <!-- 订单打印对话框 -->
+    <el-dialog :visible.sync="orderPrintDialogVisible" title="订单打印" width="80%">
+      <section>
+        <div ref="printBox" class="print-box">
+          <div class="print-box-title">北京荣科利康科技有限公司</div>
+          <div class="print-box-sub-title">销售出货单</div>
+          <div class="print-box-form">
+            <el-row>
+              <el-col :span="8"><div class="text-md">单号: {{ orderDetail.order.orderSn }}</div></el-col>
+              <el-col :span="8"><div class="text-md">原始单号: {{ orderDetail.order.orderOriSn }}</div></el-col>
+              <el-col :span="8"><div class="text-md">客户: {{ orderDetail.user.agentName }}</div></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8"><div class="text-md">制单日期: {{ orderDetail.order.addTime | formatDate }}</div></el-col>
+              <el-col :span="16"><div class="text-md">出库仓: {{ orderDetail.order.outStock }}</div></el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="24"><div class="text-md">备注: {{ orderDetail.order.couponName }};{{ orderDetail.order.message }}</div></el-col>
+            </el-row>
+          </div>
+          <div class="print-box-table">
+            <el-table :data="orderDetail.orderGoods" border fit>
+              <el-table-column align="center" label="序号" type="index" />
+              <el-table-column align="center" label="货品简称" prop="goodsName" width="120">
+                <template slot-scope="scope">
+                  {{ scope.row.goodsName | extractEn }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="货品名称" prop="goodsName" width="200">
+                <template slot-scope="scope">
+                  {{ scope.row.goodsName | extractCh }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="货品规格" prop="specifications" width="120"/>
+              <el-table-column align="center" label="数量" prop="number" width="120"/>
+              <el-table-column align="center" label="单价" prop="price" width="120"/>
+              <el-table-column align="center" label="折扣" prop="discount" width="120"/>
+              <el-table-column align="center" label="金额" width="120">
+                <template slot-scope="scope">
+                  {{ scope.row.number * scope.row.price * scope.row.discount }}
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="备注" width="200">
+                <template slot-scope="scope">
+                  {{ scope.row.couponName.substr(scope.row.couponName.indexOf("十送"), 3) }},送{{ scope.row.presentNumber }}盒,共{{ scope.row.presentNumber+scope.row.number }}盒
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <div class="print-box-amount">
+            <el-row>
+              <el-col :span="12"><div class="text-md">大写金额: 人民币{{ orderDetail.order.actualPrice | numToCh }}</div></el-col>
+              <el-col :span="12"><div class="text-md">合      计:  {{ orderDetail.order.actualPrice | number }}</div></el-col>
+            </el-row>
+          </div>
+          <div class="print-box-foot">
+            <el-row>
+              <el-col :span="6"><div class="text-md">制单人: {{ name }}</div></el-col>
+              <el-col :span="6"><div class="text-md">经办人: {{ orderDetail.order.sailer }}</div></el-col>
+              <el-col :span="6"><div class="text-md">打印日期: {{ currentDate | formatDateTime }}</div></el-col>
+              <el-col :span="6"><div class="text-md">第 1 页 共 1 页</div></el-col>
+            </el-row>
+          </div>
+        </div>
+      </section>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="orderPrintDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="printOrder">打印</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -147,6 +219,7 @@ export default {
       list: [],
       total: 0,
       listLoading: true,
+      orderPrintDialogVisible: false,
       listQuery: {
         page: 1,
         limit: 20,
@@ -205,6 +278,13 @@ export default {
         this.orderDetail = response.data.data
       })
       this.orderDetailVisible = true
+    },
+    printDetail(row) {
+      detailOrder(row.id).then(response => {
+        this.orderDetail = response.data.data
+      })
+      this.orderPrintDialogVisible = true
+      this.currentDate = new Date()
     },
     handleShip(row) {
       this.shipForm.orderId = row.id
