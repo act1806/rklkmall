@@ -223,15 +223,15 @@
                 </template>
               </el-table-column>
               <el-table-column align="center" label="货品规格" prop="specifications" width="120"/>
-              <el-table-column align="center" label="数量" prop="number" />
-              <el-table-column align="center" label="单价" prop="price" />
-              <el-table-column align="center" label="折扣" prop="discount" />
-              <el-table-column align="center" label="金额">
+              <el-table-column align="center" label="数量" prop="number" width="120"/>
+              <el-table-column align="center" label="单价" prop="price" width="120"/>
+              <el-table-column align="center" label="折扣" prop="discount" width="120"/>
+              <el-table-column align="center" label="金额" width="120">
                 <template slot-scope="scope">
                   {{ scope.row.number * scope.row.price * scope.row.discount }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="备注" prop="couponName" width="200"/>
+              <el-table-column align="center" label="备注" prop="couponName"/>
             </el-table>
           </div>
           <div class="print-box-amount">
@@ -512,7 +512,7 @@ export default {
 .print-box {
   font-family: '宋体';
   font-size: 5.5mm;
-  width: 98%;
+  width: 88%;
   background: #fff;
 }
 .print-label {
@@ -550,6 +550,10 @@ export default {
   letter-spacing: 0.5mm;
   text-align: center;
   color: darkblue;
+  margin-top: 10px;
+}
+.print-box-form {
+  margin-top: 10px;
 }
 .print-box-company {
   margin: 5mm 0 3mm;
