@@ -311,12 +311,12 @@ export default {
   },
   computed: {
     urlArr() {
-      if (!JSON.stringify(this.checkForm.expressUrl) === '{}') {
+      if (this.checkForm.expressUrl !== '') {
         return this.checkForm.expressUrl.split(',')
       }
     },
     url() {
-      if (!JSON.stringify(this.checkForm.expressUrl) === '{}') {
+      if (this.checkForm.expressUrl !== '') {
         return this.checkForm.expressUrl.split(',')[0]
       }
     }
