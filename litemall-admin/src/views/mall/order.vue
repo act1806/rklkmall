@@ -36,8 +36,7 @@
       <el-table-column align="center" label="详情" width="160" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-permission="['GET /admin/order/detail']" type="primary" size="mini" @click="listDetail(scope.row)">查看</el-button>
-          <el-button type="primary" size="mini" @click="printDetail(scope.row)">打印</el-button>
-        </template>
+        <el-button type="primary" size="mini" @click="printDetail(scope.row)">打印</el-button></template>
       </el-table-column>
 
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
@@ -201,16 +200,22 @@
               <el-col :span="8"><div class="text-md">原始单号: {{ orderDetail.order.orderOriSn }}</div></el-col>
               <el-col :span="8"><div class="text-md">客户: {{ orderDetail.user.agentName }}</div></el-col>
             </el-row>
-            <el-row>
+            <el-row class="margin-divider">
               <el-col :span="8"><div class="text-md">制单日期: {{ orderDetail.order.addTime | formatDate }}</div></el-col>
               <el-col :span="16"><div class="text-md">出库仓: {{ orderDetail.order.outStock }}</div></el-col>
             </el-row>
-            <el-row>
+            <el-row class="margin-divider">
               <el-col :span="24"><div class="text-md">备注: {{ orderDetail.order.couponName }};{{ orderDetail.order.message }}</div></el-col>
             </el-row>
           </div>
           <div class="print-box-table">
-            <el-table :data="orderDetail.orderGoods" border fit>
+            <el-table
+              :data="orderDetail.orderGoods"
+              :header-cell-style="{
+                'border-right': '1px black solid'
+              }"
+              border
+              fit>
               <el-table-column align="center" label="序号" type="index" />
               <el-table-column align="center" label="货品简称" prop="goodsName" width="120">
                 <template slot-scope="scope">
@@ -231,7 +236,7 @@
                   {{ scope.row.number * scope.row.price * scope.row.discount }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="备注" width="200">
+              <el-table-column align="center" label="备注">
                 <template slot-scope="scope">
                   {{ scope.row.couponName.substr(scope.row.couponName.indexOf("十送"), 3) }},送{{ scope.row.presentNumber }}盒,共{{ scope.row.presentNumber+scope.row.number }}盒
                 </template>
@@ -602,4 +607,19 @@ export default {
   width: 25%;
   text-align: left;
 }
+.margin-divider{
+  margin-top: 10px;
+}
+.print-table td,.print-table th.is-leaf {
+  border-bottom: 1px solid black;
+}
+
+.print-table--border th,.print-table--border th.gutter:last-of-type {
+  border-bottom: 1px solid black;
+}
+
+.print-table--border td,.print-table-border th {
+  border-right: 1px solid black;
+}
+
 </style>

@@ -130,16 +130,22 @@
               <el-col :span="8"><div class="text-md">原始单号: {{ orderDetail.order.orderOriSn }}</div></el-col>
               <el-col :span="8"><div class="text-md">客户: {{ orderDetail.user.agentName }}</div></el-col>
             </el-row>
-            <el-row>
+            <el-row class="margin-divider">
               <el-col :span="8"><div class="text-md">制单日期: {{ orderDetail.order.addTime | formatDate }}</div></el-col>
               <el-col :span="16"><div class="text-md">出库仓: {{ orderDetail.order.outStock }}</div></el-col>
             </el-row>
-            <el-row>
+            <el-row class="margin-divider">
               <el-col :span="24"><div class="text-md">备注: {{ orderDetail.order.couponName }};{{ orderDetail.order.message }}</div></el-col>
             </el-row>
           </div>
           <div class="print-box-table">
-            <el-table :data="orderDetail.orderGoods" border fit>
+            <el-table
+              :data="orderDetail.orderGoods"
+              :header-cell-style="{
+                'border-right': '1px black solid'
+              }"
+              border
+              fit>
               <el-table-column align="center" label="序号" type="index" />
               <el-table-column align="center" label="货品简称" prop="goodsName" width="120">
                 <template slot-scope="scope">
@@ -160,7 +166,7 @@
                   {{ scope.row.number * scope.row.price * scope.row.discount }}
                 </template>
               </el-table-column>
-              <el-table-column align="center" label="备注" width="200">
+              <el-table-column align="center" label="备注">
                 <template slot-scope="scope">
                   {{ scope.row.couponName.substr(scope.row.couponName.indexOf("十送"), 3) }},送{{ scope.row.presentNumber }}盒,共{{ scope.row.presentNumber+scope.row.number }}盒
                 </template>
@@ -212,6 +218,56 @@ export default {
   filters: {
     orderStatusFilter(status) {
       return statusMap[status]
+    },
+    formatDateTime(value) {
+      const date = new Date(value)
+      const y = date.getFullYear()
+      let MM = date.getMonth() + 1
+      MM = MM < 10 ? '0' + MM : MM
+      let d = date.getDate()
+      d = d < 10 ? '0' + d : d
+      let h = date.getHours()
+      h = h < 10 ? '0' + h : h
+      let m = date.getMinutes()
+      m = m < 10 ? '0' + m : m
+      let s = date.getSeconds()
+      s = s < 10 ? '0' + s : s
+      return y + '/' + MM + '/' + d + ' ' + h + ':' + m + ':' + s
+    },
+    formatDate(value) {
+      const date = new Date(value)
+      const y = date.getFullYear()
+      let MM = date.getMonth() + 1
+      MM = MM < 10 ? '0' + MM : MM
+      let d = date.getDate()
+      d = d < 10 ? '0' + d : d
+      return y + '/' + MM + '/' + d
+    },
+    extractEn(value) {
+      return value.replace(/[^a-zA-Z]/g, '')
+    },
+    extractCh(value) {
+      return value.replace(/[^\u4E00-\u9FA5]/g, '')
+    },
+    numToCh(str) {
+      let num = parseFloat(str)
+      let strOutput = ''
+      let strUnit = '仟佰拾亿仟佰拾万仟佰拾元角分'
+      num += '00'
+      var intPos = num.indexOf('.')
+      if (intPos >= 0) {
+        num = num.substring(0, intPos) + num.substr(intPos + 1, 2)
+      }
+      strUnit = strUnit.substr(strUnit.length - num.length)
+      for (let i = 0; i < num.length; i++) {
+        strOutput += '零壹贰叁肆伍陆柒捌玖'.substr(num.substr(i, 1), 1) + strUnit.substr(i, 1)
+      }
+      return strOutput.replace(/零角零分$/, '整').replace(/零[仟佰拾]/g, '零').replace(/零{2,}/g, '零').replace(/零([亿|万])/g, '$1').replace(/零+元/, '元').replace(/亿零{0,3}万/, '亿').replace(/^元/, '零元')
+    },
+    number(value) {
+      var toFixedNum = Number(value).toFixed(3)
+      var realVal = toFixedNum.substring(0, toFixedNum.toString().length - 1)
+      return realVal
     }
   },
   data() {
