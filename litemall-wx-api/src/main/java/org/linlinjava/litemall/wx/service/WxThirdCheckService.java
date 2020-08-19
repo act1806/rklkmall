@@ -2,6 +2,7 @@ package org.linlinjava.litemall.wx.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.linlinjava.litemall.core.notify.NotifyService;
 import org.linlinjava.litemall.core.util.JacksonUtil;
 import org.linlinjava.litemall.core.util.ResponseUtil;
 import org.linlinjava.litemall.db.domain.LitemallThirdCheck;
@@ -25,6 +26,8 @@ public class WxThirdCheckService {
 
     @Autowired
     private LitemallThirdCheckService thirdCheckService;
+    @Autowired
+    private NotifyService notifyService;
 
 
     /**
@@ -138,8 +141,12 @@ public class WxThirdCheckService {
         // 添加送检单
         thirdCheckService.add(thirdCheck);
 
-
-
+        // 下单成功以后，发送邮件给管理员
+        try {
+            notifyService.notifyMail("新第三方检测通知", thirdCheck.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Map<String, Object> data = new HashMap<>();
         data.put("id", "");

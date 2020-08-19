@@ -1,5 +1,7 @@
 package org.linlinjava.litemall.db.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -11,15 +13,15 @@ public interface StatMapper {
 
     List<Map> statGoods();
 
-    List<Map> userSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String agentName, String sailer);
+    List<Map> userSalesSummary(@Param("beginTime") LocalDateTime beginTime, @Param("endTime") LocalDateTime endTime, @Param("agentName") String agentName, @Param("sailer") String sailer);
 
-    List<Map> userSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String agentName, String sailer);
+    List<Map> userSalesDetail(@Param("beginTime") LocalDateTime beginTime, @Param("endTime") LocalDateTime endTime, @Param("agentName") String agentName, @Param("sailer") String sailer);
 
-    List<Map> goodsSalesSummary(LocalDateTime beginTime, LocalDateTime endTime, String goodsName);
+    List<Map> goodsSalesSummary(@Param("beginTime") LocalDateTime beginTime, @Param("endTime") LocalDateTime endTime, @Param("goodsName") String goodsName);
 
-    List<Map> goodsSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String goodsName);
+    List<Map> goodsSalesDetail(@Param("beginTime") LocalDateTime beginTime, @Param("endTime") LocalDateTime endTime, @Param("goodsName") String goodsName);
 
-    List<Map> sailerSalesDetail(LocalDateTime beginTime, LocalDateTime endTime, String sailer);
+    List<Map> sailerSalesDetail(@Param("beginTime") LocalDateTime beginTime, @Param("endTime") LocalDateTime endTime, @Param("sailer") String sailer);
 
-    List<String> unorderedUser(LocalDateTime beginTime, LocalDateTime endTime);
+    List<String> unorderedUser(@Param("beginTime") LocalDateTime beginTime, @Param("endTime") LocalDateTime endTime);
 }
