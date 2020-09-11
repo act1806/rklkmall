@@ -27,7 +27,7 @@ public class LitemallThirdCheck {
     /**
      * 用户微信id
      */
-    private  String userweid;
+    private String userweid;
 
     /**
      * 负责人
@@ -191,6 +191,11 @@ public class LitemallThirdCheck {
     private LocalDateTime backUpTime1;
 
     private Integer backUpInt1;
+
+    /**
+     * @ 记录用户手机号
+     */
+    private String userId;
 
     public static Boolean getIsDeleted() {
         return IS_DELETED;
@@ -496,6 +501,14 @@ public class LitemallThirdCheck {
         this.expressUrl = expressUrl;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -534,12 +547,13 @@ public class LitemallThirdCheck {
                 Objects.equals(backUpString2, that.backUpString2) &&
                 Objects.equals(backUpString3, that.backUpString3) &&
                 Objects.equals(backUpTime1, that.backUpTime1) &&
-                Objects.equals(backUpInt1, that.backUpInt1);
+                Objects.equals(backUpInt1, that.backUpInt1)&&
+                Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, createTime, updateTime, status, userweid, inChargePerson, clinical, cls, doctorName, email, examine, exampleProject, gender, history, hospitalName, isStered, isDiolame, isRupture, isStick, petName, phone, sampleAddr, sampleArea, sampleCondition, sampleDate, sampleFeature, sampleProject, sampleSize, texture, backUpString1, backUpString2, backUpString3, backUpTime1, backUpInt1);
+        return Objects.hash(id, createTime, updateTime, status, userweid, inChargePerson, clinical, cls, doctorName, email, examine, exampleProject, gender, history, hospitalName, isStered, isDiolame, isRupture, isStick, petName, phone, sampleAddr, sampleArea, sampleCondition, sampleDate, sampleFeature, sampleProject, sampleSize, texture, backUpString1, backUpString2, backUpString3, backUpTime1, backUpInt1, userId);
     }
 
     @Override
@@ -569,11 +583,12 @@ public class LitemallThirdCheck {
                 ", sampleAddr='" + sampleAddr + '\'' +
                 ", sampleArea='" + sampleArea + '\'' +
                 ", sampleCondition='" + sampleCondition + '\'' +
-                ", sampleDate=" + sampleDate +
-                ", sampleFeature=" + sampleFeature +
-                ", sampleProject=" + sampleProject +
+                ", sampleDate=" + sampleDate + '\'' +
+                ", sampleFeature=" + sampleFeature + '\'' +
+                ", sampleProject=" + sampleProject + '\'' +
                 ", sampleSize='" + sampleSize + '\'' +
-                ", texture='" + texture +
+                ", texture='" + texture + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

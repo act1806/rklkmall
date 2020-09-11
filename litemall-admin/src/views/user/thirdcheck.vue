@@ -111,6 +111,8 @@
 
       <el-table-column align="center" label="快递单号" prop="expressNo" />
 
+      <el-table-column align="center" label="用户微信id" prop="userweid" />
+
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-if="scope.row.status==0" type="primary" size="small" @click="handleOperation(scope.row)">开始检测</el-button>

@@ -34,13 +34,14 @@
         <result column="express_carrier" jdbcType="VARCHAR" property="expressCarrier" />
         <result column="express_no" jdbcType="VARCHAR" property="expressNo" />
         <result column="express_url" jdbcType="VARCHAR" property="expressUrl" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
 
     </resultMap>
     <sql id="Base_Column_List">
         id,create_time, update_time, status, userweid, in_charge_person, cls, clinical
         , doctor_name, email, examine, example_project, gender, history, hospital_name, is_stered, is_diolame, is_rupture, is_stick
         , pet_name, phone, sample_addr, sample_area, sample_condition, sample_date, sample_feature, sample_project,
-        sample_size, texture, express_carrier, express_no, express_url
+        sample_size, texture, express_carrier, express_no, express_url, user_id
     </sql>
     <insert id="insert" parameterType="org.linlinjava.litemall.db.domain.LitemallThirdCheck">
         <!--
@@ -53,7 +54,7 @@
         insert into litemall_thirdcheck (create_time, update_time, status, userweid, in_charge_person, cls, clinical
         , doctor_name, email, examine, example_project, gender, history, hospital_name, is_stered, is_diolame, is_rupture, is_stick
         , pet_name, phone, sample_addr, sample_area, sample_condition, sample_date, sample_feature, sample_project,
-        sample_size, texture, express_carrier, express_no, express_url)
+        sample_size, texture, express_carrier, express_no, express_url, user_id)
         values (#{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{userweid,jdbcType=VARCHAR}
         , #{inChargePerson,jdbcType=VARCHAR}, #{cls,jdbcType=VARCHAR}, #{clinical,jdbcType=VARCHAR}, #{doctorName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}
         , #{examine,jdbcType=VARCHAR}, #{exampleProject,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, #{history,jdbcType=VARCHAR}
@@ -61,8 +62,9 @@
         , #{isStick,jdbcType=VARCHAR}, #{petName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{sampleAddr,jdbcType=VARCHAR}
         , #{sampleArea,jdbcType=VARCHAR}, #{sampleCondition,jdbcType=VARCHAR}, #{sampleDate,jdbcType=VARCHAR}, #{sampleFeature,jdbcType=VARCHAR},
         #{sampleProject,jdbcType=VARCHAR}, #{sampleSize,jdbcType=VARCHAR}, #{texture,jdbcType=VARCHAR} ,
-        #{expressCarrier,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, #{expressUrl,jdbcType=VARCHAR})
+        #{expressCarrier,jdbcType=VARCHAR}, #{expressNo,jdbcType=VARCHAR}, #{expressUrl,jdbcType=VARCHAR}), #{userId,jdbcType=VARCHAR})
     </insert>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         <!--
           WARNING - @mbg.generated

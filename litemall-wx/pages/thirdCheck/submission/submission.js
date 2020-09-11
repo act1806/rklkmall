@@ -23,7 +23,9 @@ Page({
       exampleProject: '',
       sampleProject:'',
       expressCarrier: '',
-      expressNo: ''
+      expressNo: '',
+      userweid:'',
+      userId: ''
     },
     clsRadioItems: [
       { name: '犬', value: '0' },
@@ -151,9 +153,17 @@ Page({
   onReady: function () {
 
   },
+  getPhoneNumber (e) {
+    console.log(e.detail.errMsg)
+    console.log(e.detail.iv)
+    console.log(e.detail.encryptedData)
+  },
   formSubmit: function(e) {
     let data = e.detail.value;
     data.expressUrl = this.data.picUrls;
+
+    let userInfo = wx.getStorageSync('userInfo');
+    data.userweid = userInfo.nickName;
 
     //console.log(data);
 

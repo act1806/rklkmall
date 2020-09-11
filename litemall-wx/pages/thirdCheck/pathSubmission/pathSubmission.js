@@ -205,6 +205,9 @@ Page({
     let data = e.detail.value;
     data.expressUrl = this.data.picUrls;
 
+    let userInfo = wx.getStorageSync('userInfo');
+    data.userweid = userInfo.nickName;
+
     console.log(data);
     let that = this;
 
