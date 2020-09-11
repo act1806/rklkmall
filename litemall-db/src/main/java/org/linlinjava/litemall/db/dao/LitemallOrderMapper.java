@@ -152,6 +152,6 @@ public interface LitemallOrderMapper {
      */
     int logicalDeleteByPrimaryKey(Integer id);
 
-    int countByYearAndAgentName(int year, @Param("agentName") String agentName);
+    int countByYearAndAgentName(@Param("year") int year, @Param("agentName") String agentName);
 
 }
