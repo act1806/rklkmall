@@ -15,11 +15,11 @@ litemall:
     mail:
       # 邮件通知配置,邮箱一般用于接收业务通知例如收到新的订单，sendto 定义邮件接收者，通常为商城运营人员
       enable: true
-      host: smtp.163.com
-      username: 15510827552@163.com
-      password: PNVWDBUQNLPZGNVL
+      host: smtp.qq.com
+      username: 449334976@qq.com
+      password: PAPER15900nana
       sendfrom: 15510827552@163.com
-      sendto: 512963445@qq.com
+      sendto: 449334976@qq.com
 
     # 短消息模版通知配置
     # 短信息用于通知客户，例如发货短信通知，注意配置格式；template-name，template-templateId 请参考 NotifyType 枚举值
